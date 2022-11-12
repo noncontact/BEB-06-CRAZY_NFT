@@ -22,7 +22,8 @@
     "morgan": "^1.10.0",
     "path": "^0.12.7",
     "postgres": "^3.3.1",
-    "sequelize": "^6.25.5"
+    "sequelize": "^6.25.5",
+    "web3": "^1.8.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20",
