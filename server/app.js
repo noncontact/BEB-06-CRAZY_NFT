@@ -11,7 +11,7 @@ const { sequelize } = require("@src/models/index.js");
 // const routes require "./src/routes/index.js";
 // const { swaggerUi, specs } require './src/swagger/swagger.js';
 
-app.set("port", process.env.PORT || 3005);
+app.set("port", process.env.PORT || 4000);
 
 app.use(logger("dev"));
 app.use(express.json());
