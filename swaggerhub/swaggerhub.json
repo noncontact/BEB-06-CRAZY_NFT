@@ -1,109 +1,294 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Simple Inventory API",
-    "description": "This is a simple API",
-    "contact": {
-      "email": "you@your-company.com"
-    },
-    "license": {
-      "name": "Code_States"
-    },
-    "version": "1.0.0"
+  "openapi" : "3.0.0",
+  "info" : {
+    "description" : "백엔드 API 문서 정리",
+    "version" : "1.0.0"
   },
-  "servers": [
-    {
-      "url": "https://virtserver.swaggerhub.com/hd3946/Crazy_NFT/1.0.0",
-      "description": "SwaggerHub API Auto Mocking"
-    }
-  ],
-  "tags": [
-    {
-      "name": "User",
-      "description": "로그인/로그아웃, 유저추가,수정,삭제,조회"
+  "servers" : [ {
+    "url" : "https://localhost:3005",
+    "description" : "Crazy_NFT 서버"
+  } ],
+  "tags" : [ {
+    "name" : "User",
+    "description" : "로그인/로그아웃, 유저추가,수정,삭제,조회"
+  }, {
+    "name" : "Post",
+    "description" : "게시글 조회,추가,수정,삭제"
+  }, {
+    "name" : "Comment",
+    "description" : "댓글 조회,추가,수정,삭제"
+  }, {
+    "name" : "Contract",
+    "description" : "블록체인 컨트랙트, 토큰 전송,NFT 조회, NFT  민트"
+  } ],
+  "paths" : {
+    "/user" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "유저 정보",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
     },
-    {
-      "name": "Post",
-      "description": "게시글 조회,추가,수정,삭제"
-    },
-    {
-      "name": "Comment",
-      "description": "댓글 조회,추가,수정,삭제"
-    },
-    {
-      "name": "Contract",
-      "description": "블록체인 컨트랙트, 토큰 전송,NFT 조회, NFT  민트"
-    }
-  ],
-  "paths": {
-    "/inventory": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "adds an inventory item",
-        "description": "Adds an item to the system",
-        "operationId": "addInventory",
-        "requestBody": {
-          "description": "Inventory item to add",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InventoryItem"
+    "/user/login" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "로그인 API",
+        "description" : "로그인",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              },
+              "example" : {
+                "email" : "test@naver.com",
+                "password" : 1234
               }
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": "item created"
+        "responses" : {
+          "200" : {
+            "description" : "로그인 성공"
           },
-          "400": {
-            "description": "invalid input, object invalid"
+          "400" : {
+            "description" : "invalid input, object invalid"
           },
-          "409": {
-            "description": "an existing item already exists"
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    },
+    "/user/logout" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "로그아웃",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/user/signup" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "회원 가입",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/user/edit" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "유저 데이터 수정",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post" : {
+      "get" : {
+        "tags" : [ "Post" ],
+        "summary" : "게시글 가져오기",
+        "description" : "hi",
+        "parameters" : [ {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "게시글 가져올 id 시작점",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "게시글 최대 return 최대개수",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Post" ],
+        "summary" : "게시글 생성",
+        "description" : "hi",
+        "responses" : {
+          "201" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post/:id" : {
+      "get" : {
+        "tags" : [ "Post" ],
+        "summary" : "게시글 상세페이지",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post/edit" : {
+      "post" : {
+        "tags" : [ "Post" ],
+        "summary" : "포스트",
+        "description" : "hi",
+        "responses" : {
+          "201" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post/delete" : {
+      "post" : {
+        "tags" : [ "Post" ],
+        "summary" : "포스트",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post/:id/like" : {
+      "post" : {
+        "tags" : [ "Post" ],
+        "summary" : "포스트",
+        "description" : "hi",
+        "responses" : {
+          "201" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/comment/:id" : {
+      "get" : {
+        "tags" : [ "Comment" ],
+        "summary" : "댓글 정보",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Comment" ],
+        "summary" : "댓글 작성",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/comment/edit" : {
+      "post" : {
+        "tags" : [ "Comment" ],
+        "summary" : "댓글 수정",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/comment/delete" : {
+      "post" : {
+        "tags" : [ "Comment" ],
+        "summary" : "댓글 삭제",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/contract" : {
+      "get" : {
+        "tags" : [ "Contract" ],
+        "summary" : "내 지갑주소 자산 조회",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/contract/mint" : {
+      "post" : {
+        "tags" : [ "Contract" ],
+        "summary" : "민팅",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/contract/transfer" : {
+      "post" : {
+        "tags" : [ "Contract" ],
+        "summary" : "토큰 전송",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
           }
         }
       }
     }
   },
-  "components": {
-    "schemas": {
-      "InventoryItem": {
-        "required": [
-          "id",
-          "manufacturer",
-          "name",
-          "releaseDate"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
           },
-          "name": {
-            "type": "string",
-            "example": "Widget Adapter"
+          "email" : {
+            "type" : "string"
           },
-          "releaseDate": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2016-08-29T09:12:33.001Z"
-          },
-          "manufacturer": {
-            "$ref": "#/components/schemas/Manufacturer"
-          }
-        }
-      },
-      "Schema": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
+          "password" : {
+            "type" : "string"
           }
         }
       }
