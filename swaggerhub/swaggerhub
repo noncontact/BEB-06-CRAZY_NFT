@@ -1,7 +1,13 @@
 {
   "openapi" : "3.0.0",
   "info" : {
+    "title" : "Crazy_NFT - TEAM",
     "description" : "백엔드 API 문서 정리",
+    "contact" : {
+      "name" : "Crazy_NFT",
+      "url" : "https://github.com/codestates-beb/BEB-06-CRAZY_NFT",
+      "email" : "hd3946@naver.com"
+    },
     "version" : "1.0.0"
   },
   "servers" : [ {
