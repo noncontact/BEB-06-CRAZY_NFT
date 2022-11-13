@@ -7,9 +7,10 @@ const logger = require("morgan");
 const dotenv = require("dotenv");
 dotenv.config();
 require("better-module-alias")(__dirname);
-const { sequelize } = require("@src/models/index.js");
-// const routes require "./src/routes/index.js";
-// const { swaggerUi, specs } require './src/swagger/swagger.js';
+const { sequelize } = require("#src/models/index.js");
+// const routes require "@@routes/index.js";
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("#server/swaggerhub/swaggerhub.json");
 
 app.set("port", process.env.PORT || 3005);
 
@@ -36,6 +37,9 @@ app.use(cors(corsOption));
 //     console.error(err);
 //   });
 
+app.use("/index", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//app.use("/", routes);
+
 // error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -47,7 +51,7 @@ app.use((req, res, next) => {
 });
 
 app.listen(app.get("port"), () => {
-  console.log(`✅ Server running on http://localhost:${app.get("port")}`);
+  console.log(`✅ Server running on http://localhost:${app.get("port")}/index`);
 });
 
 module.exports = app;
