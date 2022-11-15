@@ -1,0 +1,303 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Crazy_NFT - TEAM",
+    "description" : "백엔드 API 문서 정리",
+    "contact" : {
+      "name" : "Crazy_NFT",
+      "url" : "https://github.com/codestates-beb/BEB-06-CRAZY_NFT",
+      "email" : "hd3946@naver.com"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://localhost:3005",
+    "description" : "Crazy_NFT 서버"
+  } ],
+  "tags" : [ {
+    "name" : "User",
+    "description" : "로그인/로그아웃, 유저추가,수정,삭제,조회"
+  }, {
+    "name" : "Post",
+    "description" : "게시글 조회,추가,수정,삭제"
+  }, {
+    "name" : "Comment",
+    "description" : "댓글 조회,추가,수정,삭제"
+  }, {
+    "name" : "Contract",
+    "description" : "블록체인 컨트랙트, 토큰 전송,NFT 조회, NFT  민트"
+  } ],
+  "paths" : {
+    "/user" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "유저 정보",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/user/login" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "로그인 API",
+        "description" : "로그인",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              },
+              "example" : {
+                "email" : "test@naver.com",
+                "password" : 1234
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "로그인 성공"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    },
+    "/user/logout" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "로그아웃",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/user/signup" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "회원 가입",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/user/edit" : {
+      "post" : {
+        "tags" : [ "User" ],
+        "summary" : "유저 데이터 수정",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post" : {
+      "get" : {
+        "tags" : [ "Post" ],
+        "summary" : "게시글 가져오기",
+        "description" : "hi",
+        "parameters" : [ {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "게시글 가져올 id 시작점",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "게시글 최대 return 최대개수",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Post" ],
+        "summary" : "게시글 생성",
+        "description" : "hi",
+        "responses" : {
+          "201" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post/:id" : {
+      "get" : {
+        "tags" : [ "Post" ],
+        "summary" : "게시글 상세페이지",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post/edit" : {
+      "post" : {
+        "tags" : [ "Post" ],
+        "summary" : "포스트",
+        "description" : "hi",
+        "responses" : {
+          "201" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post/delete" : {
+      "post" : {
+        "tags" : [ "Post" ],
+        "summary" : "포스트",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/post/:id/like" : {
+      "post" : {
+        "tags" : [ "Post" ],
+        "summary" : "포스트",
+        "description" : "hi",
+        "responses" : {
+          "201" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/comment/:id" : {
+      "get" : {
+        "tags" : [ "Comment" ],
+        "summary" : "댓글 정보",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Comment" ],
+        "summary" : "댓글 작성",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/comment/edit" : {
+      "post" : {
+        "tags" : [ "Comment" ],
+        "summary" : "댓글 수정",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/comment/delete" : {
+      "post" : {
+        "tags" : [ "Comment" ],
+        "summary" : "댓글 삭제",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/contract" : {
+      "get" : {
+        "tags" : [ "Contract" ],
+        "summary" : "내 지갑주소 자산 조회",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/contract/mint" : {
+      "post" : {
+        "tags" : [ "Contract" ],
+        "summary" : "민팅",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/contract/transfer" : {
+      "post" : {
+        "tags" : [ "Contract" ],
+        "summary" : "토큰 전송",
+        "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
