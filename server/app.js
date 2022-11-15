@@ -4,10 +4,9 @@ const path = require("path");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const dotenv = require("dotenv");
-dotenv.config();
+const dotenv = require("dotenv").config(); 
 require("better-module-alias")(__dirname);
-const { sequelize } = require("#src/models/index.js");
+const { sequelize } = require("#src/models");
 // const routes require "@@routes/index.js";
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("#server/swaggerhub/swaggerhub.json");
@@ -28,14 +27,14 @@ const corsOption = {
 
 app.use(cors(corsOption));
 
-// sequelize
-//   .sync({ alter: false }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
-//   .then(() => {
-//     console.log("데이터베이스 연결 성공");
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//   });
+sequelize
+  .sync({ alter: true }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 app.use("/index", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //app.use("/", routes);
