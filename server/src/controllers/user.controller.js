@@ -1,71 +1,81 @@
-const { db } = require("../models/index.js");
-const { User } = db;
-const jwt = require("jsonwebtoken");
-const {
-  getUserData,
-  createUser,
-  getUserPost,
-  updateUser,
-  followUser,
-} = require("#src/services/user.service.js");
+//const jwt = require("jsonwebtoken");
+const express = require("express");
+const app = express();
 
-//POST 로그인 /signin
-const signin = async (req, res, next) => {
-  const { email, password } = req.body;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-  if (!(email && password))
-    return res.status(401).json("입력정보가 부족합니다");
+const service = require("../services/user.service");
+
+//user 로그인 /signin
+exports.post_signin = async (req, res, next) => {
+  const { address, password } = req.body;
+  console.log(address, password);
+  if (!(address && password))
+    return res.status(404).json("입력정보가 부족합니다");
   try {
-    const userData = await (await getUserData(email, password)).toJSON();
-    delete userData.password; //비밀번호 삭제
-    delete userData.deletedAt;
-    const loginData = jwt.sign(userData, process.env.ACCESS_SECRET);
-    res.cookie("loginData", loginData, {
-      maxAge: 3 * 60 * 60 * 1000, //3시간유효
-      httpOnly: false,
-    });
-    console.log("로그인 성공");
-    return res.status(200).json({
-      status: true,
-      message: `${userData.nickname} is login Success`,
-    });
+    // 로그인 처리 함수 구현 필요
+    const userData = await service.getUserData(address, password);
+    // // delete userData.password; //비밀번호 삭제
+    // // delete userData.deletedAt;
+    // //const loginData = jwt.sign(userData, process.env.ACCESS_SECRET);
+    // // res.cookie("loginData", loginData, {
+    // //   maxAge: 3 * 60 * 60 * 1000, //3시간유효
+    // //   httpOnly: false,
+    // // });
+///////////////test code/////////////
+    let rtn_obj = new Object();
+    rtn_obj.nickname = "kkkk";
+    rtn_obj.imageURI = "IPFS://jbfjrejbjervberruew43jb4j25";
+    console.log(rtn_obj);
+/////////////////////////////////////
+    if(rtn_obj === "error") {
+      console.log("로그인 성공");
+      return res.status(200).json({
+        "data": userData
+      });   
+    }
+    else 
+    {
+      console.log("로그인 실패");
+      return res.status(404).json({
+        "data": "아이디 또는 비밀번호가 잘못되었습니다."
+      });   
+    }
+
   } catch (err) {
     console.log("로그인 실패");
-    return res.status(401).json("아이디 또는 비밀번호가 잘못되었습니다."); //deletedAt에 날짜 입력되면 에러처리됨
+    return res.status(404).json({
+      "data": "fail"
+    });
   }
 };
 
-// POST 로그아웃 /signout
-const signout = (req, res, next) => {
-  res.cookie("loginData", null, { maxAge: 0, httpOnly: true }); //쿠키삭제
-  console.log("로그아웃되었습니다");
-  return res.status(200).json({
-    status: true,
-    message: "logout ok",
-  });
-};
+// user 회원 가입 /signup
+exports.post_signup = async function (req, res, next) {
+  const { address, password, nickname, profileurl } = req.body;
+  console.log("signup 데이터 체크", profileurl, password, nickname, address);
 
-// POST 회원 가입 /signup
-const signup = async function (req, res, next) {
-  const { email, password, nickname, address } = req.body;
-  console.log("signup 실행 데이터 체크", email, password, nickname, address);
-
-  if (!(email && password && nickname && address))
-    return res.status(401).json("입력정보가 부족합니다");
+  if (!(profileurl && password && nickname && address))
+    return res.status(404).json({
+      "data": "입력정보 부족"
+    }); 
 
   try {
-    //const hash = await bcrypt.hash(password, 10);
-    const makeUser = await createUser(email, password, nickname, address);
+    // 회원가입 처리 함수 구현 필요
+    const makeUser = await service.createUser(profileurl, password, nickname, address);
 
     return res.status(200).json({
-      status: true,
-      message: `user: ${nickname} is Signup Success`,
+      data: "success",
     });
   } catch (err) {
-    next(err);
+    return res.status(404).json({
+      "data": "fail"
+    });
   }
 };
 
+/*
 //get 유저정보 조회 /info
 const info = async (req, res, next) => {
   const loginData = req.cookies.loginData;
@@ -119,5 +129,4 @@ const edit = async (req, res, next) => {
     next(err);
   }
 };
-
-export { signin, signout, signup, info, edit, follow };
+*/
