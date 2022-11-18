@@ -12,7 +12,7 @@ const routes = require("./src/routes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swaggerhub.json");
 
-app.set("port", process.env.PORT || 3005);
+app.set("port", process.env.PORT || 4000);
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser());
 
 const corsOption = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:4000",
   methods: "POST,PUT,DELETE,GET",
   credentials: true, // true로 하면 설정한 내용을 response 헤더에 추가 해줍니다.
   optionsSuccessStatus: 200,
