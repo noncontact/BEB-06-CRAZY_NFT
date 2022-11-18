@@ -1,5 +1,3 @@
-const dotenv = require("dotenv").config;
-if (dotenv.error) throw dotenv.error;
 const env = process.env;
 
 const development = {
@@ -11,6 +9,8 @@ const development = {
   port: env.MYSQL_PORT,
   timezone: "+09:00",
 };
+
+console.log(development.username, development.database)
 
 const production = {
   username: env.MYSQL_USERNAME,

@@ -1,6 +1,4 @@
 const Sequelize = require("sequelize");
-const dotenv = require("dotenv").config;
-if (dotenv.error) throw dotenv.error
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('#src/config/config')[env];
@@ -18,9 +16,9 @@ const sequelize = new Sequelize(
     config.database, config.username, config.password, config,
 );
 
-db.sequelize = sequelize;
-db.User = User;
-User.init(sequelize);
-User.associate(db);
+// db.sequelize = sequelize;
+// db.User = User;
+// User.init(sequelize);
+// User.associate(db);
 
-module.exports = db;
+module.exports = sequelize;
