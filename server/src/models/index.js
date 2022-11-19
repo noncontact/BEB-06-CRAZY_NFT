@@ -14,7 +14,6 @@ const AuthForum = require("./authForum");
 const Club = require("./club");
 const Forum = require("./forum");
 const NFT = require("./nft");
-const Token = require("./token");
 
 const db = {};
 
@@ -37,7 +36,6 @@ db.AuthForum = AuthForum;
 db.Club = Club;
 db.Forum = Forum;
 db.NFT = NFT;
-db.Token = Token;
 
 User.init(sequelize);
 Post.init(sequelize);
@@ -48,7 +46,6 @@ AuthForum.init(sequelize);
 Club.init(sequelize);
 Forum.init(sequelize);
 NFT.init(sequelize);
-Token.init(sequelize);
 
 User.associate(db);
 Post.associate(db);
@@ -59,6 +56,5 @@ Auth.associate(db);
 Club.associate(db);
 Forum.associate(db);
 NFT.associate(db);
-Token.associate(db);
 
 module.exports = db;

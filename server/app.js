@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 const corsOption = {
   origin: "http://localhost:3000",
-  methods: "POST,PUT,DELETE,GET",
+  methods: "POST,GET",
   credentials: true, // true로 하면 설정한 내용을 response 헤더에 추가 해줍니다.
   optionsSuccessStatus: 200,
 };
@@ -31,7 +31,7 @@ sequelize
   .sync({ alter: true }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
   .then(() => {
     console.log("데이터베이스 연결 성공");
-    console.log(`✅ Server running on http://localhost:${app.get("port")}/index`);
+    console.log(`✅ Server running on http://localhost:${app.get('port')}/index`);
   })
   .catch((err) => {
     console.error(err);
@@ -50,8 +50,8 @@ app.use((req, res, next) => {
   return res.status(404).send("invalid path");
 });
 
-app.listen(app.get("port"), () => {
-  console.log(`✅ Server running on http://localhost:${app.get("port")}/index`);
+app.listen(app.get('port'), () => {
+  //console.log(`✅ Server running on http://localhost:${app.get('port')}/index`);
 });
 
 module.exports = app;

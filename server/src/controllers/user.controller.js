@@ -1,12 +1,9 @@
-const { db } = require("../models/index.js");
-const { User } = db;
 const jwt = require("jsonwebtoken");
 const {
   getUserData,
   createUser,
   getUserPost,
   updateUser,
-  followUser,
 } = require("#src/services/user.service.js");
 
 //POST 로그인 /signin
