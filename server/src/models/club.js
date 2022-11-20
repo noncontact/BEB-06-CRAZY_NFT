@@ -31,5 +31,10 @@ module.exports = class Club extends Sequelize.Model {
     db.Club.hasMany(db.User, { foreignKey: "ClubId", targetKey: "id" });
     db.Club.hasMany(db.Forum, { foreignKey: "ClubId", targetKey: "id" });
     db.Club.hasMany(db.NFT, { foreignKey: "ClubId", targetKey: "id" });
+    db.Club.belongsToMany(db.User, {
+      foreignKey: "UserId",
+      as: "ApplyUser",
+      through: "Apply"
+    });
   }
 };

@@ -24,6 +24,7 @@ module.exports = class NFT extends Sequelize.Model {
   }
 
   static associate(db) {
+    db.NFT.belongsTo(db.User, { foreignKey: "UserId" });
     db.NFT.belongsTo(db.Club, { foreignKey: "ClubId" });
     db.NFT.belongsToMany(db.Auth, {
       foreignKey: "AuthId",

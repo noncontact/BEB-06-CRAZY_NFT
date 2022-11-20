@@ -4,15 +4,6 @@ module.exports = class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        email: {
-          type: Sequelize.STRING(40),
-          allowNull: false,
-          unique: true,
-          validate: {
-            notEmpty: { msg: "Email must not be empty" },
-            isEmail: { msg: "Must be a valid email address" },
-          },
-        },
         nickname: {
           type: Sequelize.STRING(15),
           allowNull: false,
@@ -50,14 +41,26 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.User.hasMany(db.Post, { foreignKey: "UserId", sourceKey: "id" });
+    db.User.hasMany(db.Post, { foreignKey: "UserId" });
     db.User.hasMany(db.Comment, { foreignKey: "Commenter", sourceKey: "id" });
-    db.User.hasOne(db.PostLike, { foreignKey: "LikeUserId", sourceKey: "id" });
+    db.User.hasMany(db.NFT, { foreignKey: "UserId" });
     db.User.belongsTo(db.Club, { foreignKey: "ClubId", targetKey: "id" });
     db.User.belongsToMany(db.Auth, {
       foreignKey: "AuthId",
       as: "Auth", //함수불러올때 이름을 정의해주는것
       through: "AuthorizationUsers", //중간테이블
     });
+    //클럽 신청 승인
+    db.User.belongsToMany(db.Club, {
+      foreignKey: "ClubId",
+      as: "ApplyClub",
+      through: "Apply"
+    });
+    db.User.belongsToMany(db.Post, {
+      foreignKey: "PostId",
+      as: "LikePost",
+      through: "PostLike",
+    });
+    //db.User.hasMany(db.PostLike, { foreignKey: "LikeUserId", sourceKey: "id" });
   }
 };

@@ -15,14 +15,7 @@ exports.post_signin = async (req, res, next) => {
     return res.status(404).json("입력정보가 부족합니다");
   try {
     // 로그인 처리 함수 구현 필요
-    const userData = await service.getUserData(address, password);
-    // // delete userData.password; //비밀번호 삭제
-    // // delete userData.deletedAt;
-    // //const loginData = jwt.sign(userData, process.env.ACCESS_SECRET);
-    // // res.cookie("loginData", loginData, {
-    // //   maxAge: 3 * 60 * 60 * 1000, //3시간유효
-    // //   httpOnly: false,
-    // // });
+    const userData = await service.getUserData(address, password); 
 ///////////////test code/////////////
     let rtn_obj = new Object();
     rtn_obj.nickname = "kkkk";
@@ -75,58 +68,3 @@ exports.post_signup = async function (req, res, next) {
   }
 };
 
-/*
-//get 유저정보 조회 /info
-const info = async (req, res, next) => {
-  const loginData = req.cookies.loginData;
-  const { id, address } = loginData;
-  try {
-    const postList = await getUserPost(id);
-    const ethBalance = await getEthBalance(address);
-    const tokenBalance = await getTokenBalance(address);
-    const nftBalance = await getNftBalance(address);
-    return res.status(200).json({
-      status: true,
-      message: "유저정보 검색",
-      loginData,
-      ethBalance,
-      tokenBalance,
-      nftBalance,
-      postList, //나의 게시글목록
-    });
-  } catch (err) {
-    console.error(err);
-    return res.status(400).json({
-      status: false,
-      message: "유저정보 검색이 실패하였습니다",
-    });
-  }
-};
-
-//POST 회원정보 수정 /edit
-const edit = async (req, res, next) => {
-  try {
-    console.log("프로필 이미지 업로드", req.file);
-    const profileUrl = await imgUpload(req.file ? req.file.buffer : req.file);
-    const loginData = req.cookies.loginData;
-    const { id } = loginData;
-    const result = await updateUser(profileUrl, id);
-
-    console.log("결과", result);
-
-    if (result) {
-      return res.status(200).json({
-        status: true,
-        message: "My-profile",
-      });
-    } else {
-      return res.status(400).json({
-        status: false,
-      });
-    }
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-};
-*/

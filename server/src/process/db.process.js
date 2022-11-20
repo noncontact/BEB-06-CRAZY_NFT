@@ -1,8 +1,7 @@
-
 //const db = require("../models/index");
 //const { User } = db;
 
-// const { db } = require("@src/models/index.js");
+// const { db } = require("#src/models/index.js");
 // const { User, Post, PostLike, Comment, CommentLike } = db;
 
 exports.query_signin = async(account, password, nickname, address)=> {

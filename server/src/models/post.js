@@ -9,7 +9,7 @@ module.exports = class Post extends Sequelize.Model {
           allowNull: false,
         },
         content: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.TEXT,
           allowNull: true,
         },
         img: {
@@ -38,6 +38,11 @@ module.exports = class Post extends Sequelize.Model {
       foreignKey: "ForumId",
     });
     db.Post.hasMany(db.Comment, { foreignKey: "PostId", sourceKey: "id" });
-    db.Post.hasMany(db.PostLike, { foreignKey: "LikePostId", sourceKey: "id" });
+    db.Post.belongsToMany(db.User, {
+      foreignKey: "UserId",
+      as: "LikeUser",
+      through: "PostLike",
+    });
+    //db.Post.hasMany(db.PostLike, { foreignKey: "LikePostId", sourceKey: "id" });
   }
 };

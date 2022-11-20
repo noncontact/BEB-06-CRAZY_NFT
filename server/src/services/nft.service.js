@@ -1,4 +1,4 @@
-const db_proc = require("../process/db.process");
+//const db_proc = require("../process/db.process");
 const contract_proc = require("../process/contract.process");
 
 exports.setNFTDeploy = async(club_id, meta_cid, deploy_count) => {

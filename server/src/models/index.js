@@ -7,7 +7,7 @@ const config = require("#src/config/config")[env];
 
 const User = require("./user");
 const Post = require("./post");
-const PostLike = require("./postLike");
+//const PostLike = require("./postLike");
 const Comment = require("./comment");
 const Auth = require("./auth");
 const AuthForum = require("./authForum");
@@ -29,7 +29,7 @@ const sequelize = new Sequelize(
 db.sequelize = sequelize;
 db.User = User;
 db.Post = Post;
-db.PostLike = PostLike;
+//db.PostLike = PostLike;
 db.Comment = Comment;
 db.Auth = Auth;
 db.AuthForum = AuthForum;
@@ -39,7 +39,7 @@ db.NFT = NFT;
 
 User.init(sequelize);
 Post.init(sequelize);
-PostLike.init(sequelize);
+//PostLike.init(sequelize);
 Comment.init(sequelize);
 Auth.init(sequelize);
 AuthForum.init(sequelize);
