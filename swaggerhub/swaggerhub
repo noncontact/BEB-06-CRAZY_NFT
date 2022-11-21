@@ -11,7 +11,7 @@
     "version" : "1.0.0"
   },
   "servers" : [ {
-    "url" : "https://localhost:3005",
+    "url" : "http://localhost:4000",
     "description" : "Crazy_NFT 서버"
   } ],
   "tags" : [ {
@@ -87,49 +87,16 @@
       "post" : {
         "tags" : [ "User" ],
         "summary" : "회원 가입",
-        "description" : "회원가입 API",
-        "parameters" : [ {
-          "name" : "address",
-          "in" : "query",
-          "description" : "회원 지갑 주소",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
+        "description" : "회원가입 을 위한 API 입니다. 사용자 지갑주소, 암호, 닉네임, 프로필 사진등 을 입력하세요",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/user_signup_body"
+              }
+            }
           }
-        }, {
-          "name" : "password",
-          "in" : "query",
-          "description" : "패스워드",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "format" : "password"
-          }
-        }, {
-          "name" : "nickname",
-          "in" : "query",
-          "description" : "유저 닉네임",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "profileurl",
-          "in" : "query",
-          "description" : "유저 프로필이미지",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
+        },
         "responses" : {
           "200" : {
             "description" : "회원가입 성공",
@@ -560,6 +527,34 @@
             "type" : "string"
           },
           "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "usersignup_data" : {
+        "type" : "object",
+        "properties" : {
+          "password" : {
+            "type" : "string",
+            "format" : "password",
+            "example" : "1234"
+          },
+          "nickname" : {
+            "type" : "string",
+            "example" : "twice"
+          }
+        }
+      },
+      "user_signup_body" : {
+        "type" : "object",
+        "properties" : {
+          "address" : {
+            "type" : "string"
+          },
+          "data" : {
+            "$ref" : "#/components/schemas/usersignup_data"
+          },
+          "profileImage" : {
             "type" : "string"
           }
         }
