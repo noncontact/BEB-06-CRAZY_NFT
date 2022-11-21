@@ -32,7 +32,7 @@ exports.post_signin = async (req, res, next) => {
 // user 회원 가입 /signup
 exports.post_signup = async function (req, res, next) {
   const { address, password, nickname, profileurl } = req.body;
-  console.log("signup 데이터 체크", profileurl, password, nickname, address);
+  console.log("signup 데이터 체크", address, password, nickname, profileurl);
 
   if (!(profileurl && password && nickname && address))
     return res.status(404).json({

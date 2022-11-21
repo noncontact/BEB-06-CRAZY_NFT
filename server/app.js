@@ -33,7 +33,7 @@ sequelize
   .then(() => {
     console.log("데이터베이스 연결 성공");
     console.log(
-      `✅ Server running on http://localhost:${app.get("port")}/index`
+      `✅ Server running on http://localhost:${app.get("port")}/api-docs`
     );
   })
   .catch((err) => {
