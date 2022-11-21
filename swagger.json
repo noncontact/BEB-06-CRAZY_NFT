@@ -78,31 +78,18 @@
         "summary" : "회원 가입",
         "description" : "회원가입 을 위한 API 입니다. 사용자 지갑주소, 암호, 닉네임, 프로필 사진등 을 입력하세요",
         "requestBody" : {
+          "description" : "A JSON object containing pet information",
           "content" : {
-            "multipart/form-data" : {
+            "application/json" : {
               "schema" : {
-                "type" : "object",
-                "properties" : {
-                  "address" : {
-                    "type" : "string"
-                  },
-                  "data" : {
-                    "type" : "object",
-                    "properties" : {
-                      "password" : {
-                        "type" : "string",
-                        "example" : 1234,
-                        "format" : "password"
-                      },
-                      "nickname" : {
-                        "type" : "string",
-                        "example" : "twice"
-                      }
-                    }
-                  },
-                  "profileImage" : {
-                    "type" : "string"
-                  }
+                "oneOf" : [ {
+                  "$ref" : "#/components/schemas/User"
+                } ],
+                "example" : {
+                  "address" : 12,
+                  "password" : 1234,
+                  "nickname" : "dog",
+                  "profileurl" : "http://"
                 }
               }
             }
