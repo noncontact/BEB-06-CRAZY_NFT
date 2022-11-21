@@ -11,17 +11,17 @@
     "name" : "Club",
     "description" : "클럽 조회, 추가 , 수정, 삭제"
   }, {
+    "description" : "내 정보",
+    "name" : "my"
+  }, {
     "description" : "블록체인 컨트랙트, 토큰 전송, NFT 조회, NFT민트",
-    "name" : "Contract"
+    "name" : "NFT"
   }, {
     "name" : "Post",
     "description" : "게시글 조회, 추가, 수정, 삭제"
   }, {
     "description" : "댓글 조회, 추가, 수정, 삭제",
     "name" : "Comment"
-  }, {
-    "description" : "내 정보",
-    "name" : "my"
   } ],
   "paths" : {
     "/user" : {
