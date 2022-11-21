@@ -20,7 +20,8 @@
     "description" : "댓글 조회, 추가, 수정, 삭제",
     "name" : "Comment"
   }, {
-    "description" : "내 정보"
+    "description" : "내 정보",
+    "name" : "my"
   } ],
   "paths" : {
     "/user" : {
