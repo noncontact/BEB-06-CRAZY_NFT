@@ -284,6 +284,110 @@
         "tags" : [ "Club" ]
       }
     },
+    "/club/index/:club_id/:category_id/" : {
+      "get" : {
+        "summary" : "클럽 게시글 목록",
+        "description" : "해당 클럽 게시글 목록 가져오기",
+        "responses" : {
+          "200" : {
+            "description" : "성공",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "title" : {
+                            "type" : "string",
+                            "example" : "Crazy_NFT"
+                          },
+                          "club_id" : {
+                            "type" : "integer"
+                          },
+                          "create_at" : {
+                            "type" : "string",
+                            "format" : "date"
+                          },
+                          "club_img_url" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "실패",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "string",
+                      "description" : "The status.",
+                      "example" : "fail"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Club" ]
+      }
+    },
+    "/club/detail/:post_id/" : {
+      "get" : {
+        "summary" : "게시글 상세보기",
+        "description" : "게시글 상세 보기~!",
+        "responses" : {
+          "200" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
+    "/club/write" : {
+      "post" : {
+        "summary" : "게시글 작성",
+        "description" : "게시글 작성하기",
+        "responses" : {
+          "200" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
+    "/club/comment/write" : {
+      "post" : {
+        "summary" : "댓글 작성",
+        "description" : "댓글 작성하기",
+        "responses" : {
+          "200" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
+    "/club/like/:post_id/:address/" : {
+      "post" : {
+        "summary" : "게시글 좋아요",
+        "description" : "게시글 좋아요 누르기",
+        "responses" : {
+          "200" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
     "/post" : {
       "get" : {
         "summary" : "게시글 가져오기",
@@ -424,7 +528,7 @@
             "description" : "good"
           }
         },
-        "tags" : [ "Contract" ]
+        "tags" : [ "NFT" ]
       }
     },
     "/contract/mint" : {
@@ -436,7 +540,7 @@
             "description" : "good"
           }
         },
-        "tags" : [ "Contract" ]
+        "tags" : [ "NFT" ]
       }
     },
     "/contract/transfer" : {
@@ -448,7 +552,7 @@
             "description" : "good"
           }
         },
-        "tags" : [ "Contract" ]
+        "tags" : [ "NFT" ]
       }
     }
   },
