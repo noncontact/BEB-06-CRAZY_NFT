@@ -12,7 +12,7 @@
     "description" : "클럽 조회, 추가 , 수정, 삭제"
   }, {
     "description" : "내 정보",
-    "name" : "my"
+    "name" : "My"
   }, {
     "description" : "블록체인 컨트랙트, 토큰 전송, NFT 조회, NFT민트",
     "name" : "NFT"
@@ -384,6 +384,78 @@
           }
         },
         "tags" : [ "Club" ]
+      }
+    },
+    "/My/detail/:address" : {
+      "get" : {
+        "summary" : "나의 상세 정보",
+        "description" : "일반 회원 MyPage에서 나의 정보 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        },
+        "tags" : [ "My" ]
+      }
+    },
+    "/My/club/:address" : {
+      "get" : {
+        "summary" : "가입 club 조회",
+        "description" : "일반 회원 MyPage에서 가입 club 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        },
+        "tags" : [ "My" ]
+      }
+    },
+    "/My/nft/:address" : {
+      "get" : {
+        "summary" : "나의 정보 조회(보유 NFT)",
+        "description" : "일반 회원 MyPage에서 보유 NFT 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        },
+        "tags" : [ "My" ]
+      }
+    },
+    "/My/content/:address" : {
+      "get" : {
+        "summary" : "나의 정보 조회(작성 게시글)",
+        "description" : "일반 회원 MyPage에서 작성글 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        },
+        "tags" : [ "My" ]
+      }
+    },
+    "/My/admin/info/:address" : {
+      "get" : {
+        "summary" : "정보 조회",
+        "description" : "운영자 Mypage에서 정보 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        },
+        "tags" : [ "My" ]
+      }
+    },
+    "/My/admin/allow/:address/:club_id" : {
+      "get" : {
+        "summary" : "가입 허용",
+        "description" : "운영자 MyPage에서 가입 허용",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        },
+        "tags" : [ "My" ]
       }
     },
     "/post" : {
