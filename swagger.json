@@ -9,7 +9,10 @@
     "description" : "로그인/로그아웃, 유저 조회, 추가, 수정, 삭제"
   }, {
     "name" : "Club",
-    "description" : "클럽조회, 추가 , 수정, 삭제"
+    "description" : "클럽 조회, 추가 , 수정, 삭제"
+  }, {
+    "description" : "블록체인 컨트랙트, 토큰 전송, NFT 조회, NFT민트",
+    "name" : "Contract"
   }, {
     "name" : "Post",
     "description" : "게시글 조회, 추가, 수정, 삭제"
@@ -17,8 +20,7 @@
     "description" : "댓글 조회, 추가, 수정, 삭제",
     "name" : "Comment"
   }, {
-    "description" : "블록체인 컨트랙트, 토큰 전송, NFT 조회, NFT민트",
-    "name" : "Contract"
+    "description" : "내 정보"
   } ],
   "paths" : {
     "/user" : {
