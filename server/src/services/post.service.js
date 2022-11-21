@@ -1,21 +1,11 @@
 const { db } = require("#src/models/index.js");
-const { Forum, Post } = db;
-const contract_proc = require("#src/process/contract.process");
+const { Post } = db;
 
-// 카테고리에 따라 모든 작성글 목록 정보 가져오기
-exports.getPostIndex = async (club_id, category_id) => {
-  return await Forum.findAll({
-    where: {
-      id: club_id,
-    },
-    include: [
-      {
-        model: Post,
-        where: { id: category_id },
-        order: [["createdAt", "DESC"]],
-        required: false, // left outer join이 되게 한다.
-      },
-    ],
+// 나의 작성글 목록 가져오기
+exports.getMyContents = async (user_id, address) => {
+  // 각 클럽별로 글 나의 작성글 구현 필요
+  return await Post.findAll({
+    where: { UserId: user_id },
   });
 };
 
@@ -23,7 +13,7 @@ exports.getPostIndex = async (club_id, category_id) => {
 exports.getPostDetail = async (post_id) => {
   return await Post.findOne({
     where: {
-        id: post_id
+      id: post_id,
     },
     order: [["createdAt", "DESC"]],
   });
@@ -56,25 +46,3 @@ exports.setPostWrite = async (
   return result;
 };
 
-// 좋아요 반응을 추가
-exports.setPostLike = async (address, user_id, post_id) => {
-  const user = await User.findOne({ 
-    where: { id: user_id }
-  });
-  if (user) { 
-    const checkFollow = await user.hasLikePost(parseInt(post_id, 10)); 
-    // 존재할경우 삭제
-    if(checkFollow){
-      await user.removeLikePost(parseInt(post_id, 10));
-    }else{
-      await user.addLikePost(parseInt(post_id, 10));
-    }
-  }
-
-  if (result !== "error") {
-    // 회원에게 보상토큰을 전송하는 함수 구현 필요
-    //const contract_result = contract_proc.transmit_Token(address);
-  }
-  
-  return result;
-};

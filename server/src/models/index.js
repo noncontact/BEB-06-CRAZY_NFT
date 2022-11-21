@@ -49,7 +49,7 @@ NFT.init(sequelize);
 
 User.associate(db);
 Post.associate(db);
-PostLike.associate(db);
+//PostLike.associate(db);
 Comment.associate(db);
 Auth.associate(db);
 //AuthForum.associate(db);
