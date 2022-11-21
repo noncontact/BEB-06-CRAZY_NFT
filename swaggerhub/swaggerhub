@@ -16,16 +16,16 @@
   } ],
   "tags" : [ {
     "name" : "User",
-    "description" : "로그인/로그아웃, 유저추가,수정,삭제,조회"
+    "description" : "로그인/로그아웃, 유저 조회, 추가, 수정, 삭제"
   }, {
-    "name" : "Post",
-    "description" : "게시글 조회,추가,수정,삭제"
+    "name" : "Club",
+    "description" : "클럽 조회, 추가 , 수정, 삭제"
   }, {
-    "name" : "Comment",
-    "description" : "댓글 조회,추가,수정,삭제"
+    "name" : "My",
+    "description" : "내 정보"
   }, {
-    "name" : "Contract",
-    "description" : "블록체인 컨트랙트, 토큰 전송,NFT 조회, NFT  민트"
+    "name" : "NFT",
+    "description" : "블록체인 컨트랙트, 토큰 전송, NFT 조회, NFT민트"
   } ],
   "paths" : {
     "/user" : {
@@ -87,10 +87,69 @@
       "post" : {
         "tags" : [ "User" ],
         "summary" : "회원 가입",
-        "description" : "hi",
+        "description" : "회원가입 API",
+        "parameters" : [ {
+          "name" : "address",
+          "in" : "query",
+          "description" : "회원 지갑 주소",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "description" : "패스워드",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "password"
+          }
+        }, {
+          "name" : "nickname",
+          "in" : "query",
+          "description" : "유저 닉네임",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "profileurl",
+          "in" : "query",
+          "description" : "유저 프로필이미지",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "good"
+            "description" : "회원가입 성공",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "회원가입 실패",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404"
+                }
+              }
+            }
           }
         }
       }
@@ -100,6 +159,213 @@
         "tags" : [ "User" ],
         "summary" : "유저 데이터 수정",
         "description" : "hi",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/club/allclub" : {
+      "get" : {
+        "tags" : [ "Club" ],
+        "summary" : "클럽 조회",
+        "description" : "모든 클럽 정보 가져오기",
+        "responses" : {
+          "200" : {
+            "description" : "성공",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "실패",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/club" : {
+      "post" : {
+        "tags" : [ "Club" ],
+        "summary" : "클럽 추가",
+        "description" : "새로운 클럽 창설",
+        "responses" : {
+          "200" : {
+            "description" : "성공",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "실패",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/club/index/:club_id/:category_id/" : {
+      "get" : {
+        "tags" : [ "Club" ],
+        "summary" : "클럽 게시글 목록",
+        "description" : "해당 클럽 게시글 목록 가져오기",
+        "responses" : {
+          "200" : {
+            "description" : "성공",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "실패",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_404"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/club/detail/:post_id/" : {
+      "get" : {
+        "tags" : [ "Club" ],
+        "summary" : "게시글 상세보기",
+        "description" : "게시글 상세 보기~!",
+        "responses" : {
+          "200" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
+    "/club/write" : {
+      "post" : {
+        "tags" : [ "Club" ],
+        "summary" : "게시글 작성",
+        "description" : "게시글 작성하기",
+        "responses" : {
+          "200" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
+    "/club/comment/write" : {
+      "post" : {
+        "tags" : [ "Club" ],
+        "summary" : "댓글 작성",
+        "description" : "댓글 작성하기",
+        "responses" : {
+          "200" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
+    "/club/like/:post_id/:address/" : {
+      "post" : {
+        "tags" : [ "Club" ],
+        "summary" : "게시글 좋아요",
+        "description" : "게시글 좋아요 누르기",
+        "responses" : {
+          "200" : {
+            "description" : "성공"
+          }
+        }
+      }
+    },
+    "/My/detail/:address" : {
+      "get" : {
+        "tags" : [ "My" ],
+        "summary" : "나의 상세 정보",
+        "description" : "일반 회원 MyPage에서 나의 정보 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/My/club/:address" : {
+      "get" : {
+        "tags" : [ "My" ],
+        "summary" : "가입 club 조회",
+        "description" : "일반 회원 MyPage에서 가입 club 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/My/nft/:address" : {
+      "get" : {
+        "tags" : [ "My" ],
+        "summary" : "나의 정보 조회(보유 NFT)",
+        "description" : "일반 회원 MyPage에서 보유 NFT 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/My/content/:address" : {
+      "get" : {
+        "tags" : [ "My" ],
+        "summary" : "나의 정보 조회(작성 게시글)",
+        "description" : "일반 회원 MyPage에서 작성글 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/My/admin/info/:address" : {
+      "get" : {
+        "tags" : [ "My" ],
+        "summary" : "정보 조회",
+        "description" : "운영자 Mypage에서 정보 조회",
+        "responses" : {
+          "200" : {
+            "description" : "good"
+          }
+        }
+      }
+    },
+    "/My/admin/allow/:address/:club_id" : {
+      "get" : {
+        "tags" : [ "My" ],
+        "summary" : "가입 허용",
+        "description" : "운영자 MyPage에서 가입 허용",
         "responses" : {
           "200" : {
             "description" : "good"
@@ -246,7 +512,7 @@
     },
     "/contract" : {
       "get" : {
-        "tags" : [ "Contract" ],
+        "tags" : [ "NFT" ],
         "summary" : "내 지갑주소 자산 조회",
         "description" : "hi",
         "responses" : {
@@ -258,7 +524,7 @@
     },
     "/contract/mint" : {
       "post" : {
-        "tags" : [ "Contract" ],
+        "tags" : [ "NFT" ],
         "summary" : "민팅",
         "description" : "hi",
         "responses" : {
@@ -270,7 +536,7 @@
     },
     "/contract/transfer" : {
       "post" : {
-        "tags" : [ "Contract" ],
+        "tags" : [ "NFT" ],
         "summary" : "토큰 전송",
         "description" : "hi",
         "responses" : {
@@ -294,6 +560,56 @@
             "type" : "string"
           },
           "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "The status.",
+            "example" : "success"
+          }
+        }
+      },
+      "inline_response_404" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "string",
+            "description" : "The status.",
+            "example" : "fail"
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_1_data"
+            }
+          }
+        }
+      },
+      "inline_response_200_1_data" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "example" : "Crazy_NFT"
+          },
+          "club_id" : {
+            "type" : "integer"
+          },
+          "create_at" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "club_img_url" : {
             "type" : "string"
           }
         }
