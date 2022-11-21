@@ -1,5 +1,4 @@
-const { db } = require("#src/models/index.js");
-const { User } = db;
+const { User } = require("#src/models/index.js");
 
 // 유저 정보 가져오기
 exports.getUser = async (address, password) => {
@@ -18,19 +17,19 @@ exports.getMyDetail = async (userId) => {
 };
 
 // 유저 생성하기
-exports.createUser = async (nickname, password, address, profileurl) => {
+exports.createUser = async (address, password, nickname, profileurl) => {
   return await User.create({
-    nickname,
-    password,
     address,
+    password,
+    nickname,
     profileurl,
   });
 };
 
 // 나의 Club 목록
-exports.getMyClubs = async (user_id, address) => {
+exports.getMyClubs = async (userId) => {
   return await User.findAll({
-    where: { UserId: user_id },
+    where: { UserId: userId },
     required: false, // left outer join이 되게 한다.
     include: [
       {
@@ -42,38 +41,28 @@ exports.getMyClubs = async (user_id, address) => {
 };
 
 // 좋아요 반응을 추가
-exports.setPostLike = async (address, user_id, post_id) => {
+exports.setPostLike = async (userId, postId) => {
   const user = await User.findOne({
-    where: { id: user_id },
+    where: { id: userId },
   });
   if (user) {
-    const checkFollow = await user.hasLikePost(parseInt(post_id, 10));
+    const check = await user.hasLikePost(parseInt(postId, 10));
     // 존재할경우 삭제
-    if (checkFollow) {
-      await user.removeLikePost(parseInt(post_id, 10));
+    if (check) {
+      await user.removeLikePost(parseInt(postId, 10));
     } else {
-      await user.addLikePost(parseInt(post_id, 10));
+      await user.addLikePost(parseInt(postId, 10));
     }
   }
+};
 
-  if (result !== "error") {
-    // 회원에게 보상토큰을 전송하는 함수 구현 필요
-    //const contract_result = contract_proc.transmit_Token(address);
+// 클럽 가입신청
+exports.setUserClub = async (userId, clubId) => {
+  const user = await User.findOne({
+    where: { id: userId },
+  });
+  if (user) {
+    return await user.addApplyClub(parseInt(clubId, 10));
   }
+}
 
-  return result;
-};
-
-
-exports.getAdminInfo = async (address) => {
-  // 데이터베이스에서 운영자의 정보 쿼리 함수 구현 필요 -> 가입을 희망하는 회원리스트 쿼리
-  const result = await db_proc.query_AdminInfo(address);
-  return result;
-};
-
-
-exports.setAdminAllow = async (address) => {
-  // 데이터베이스에서 운영자가 가입허락 쿼리 함수 구현 필요 -> 가입을 허락하는 쿼리
-  const result = await db_proc.query_AdminAllow(address);
-  return result;
-};

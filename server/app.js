@@ -4,11 +4,11 @@ const path = require("path");
 const cors = require("cors");
 //const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const dotenv = require("dotenv").config(); 
-if (dotenv.error) throw dotenv.error
+const dotenv = require("dotenv").config();
+if (dotenv.error) throw dotenv.error;
 require("better-module-alias")(__dirname);
-const sequelize = require("./src/models");
-const routes = require("./src/routes");
+const { sequelize } = require("#src/models");
+const routes = require("#src/routes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swaggerhub.json");
 
@@ -32,7 +32,9 @@ sequelize
   .sync({ alter: true }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
   .then(() => {
     console.log("데이터베이스 연결 성공");
-    console.log(`✅ Server running on http://localhost:${app.get('port')}/index`);
+    console.log(
+      `✅ Server running on http://localhost:${app.get("port")}/index`
+    );
   })
   .catch((err) => {
     console.error(err);
@@ -51,7 +53,7 @@ app.use((req, res, next) => {
   return res.status(404).send("invalid path");
 });
 
-app.listen(app.get('port'), () => {
+app.listen(app.get("port"), () => {
   //console.log(`✅ Server running on http://localhost:${app.get('port')}/index`);
 });
 

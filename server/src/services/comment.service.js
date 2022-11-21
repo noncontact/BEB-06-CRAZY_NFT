@@ -1,5 +1,4 @@
-const { db } = require("#src/models/index.js");
-const { Comment } = db;
+const { Comment } = require("#src/models/index.js");
 
 // 댓글 내용을 추가하는 쿼리 
 exports.setCommentWrite = async (

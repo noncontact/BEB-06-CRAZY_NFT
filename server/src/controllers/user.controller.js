@@ -1,22 +1,16 @@
 //const jwt = require("jsonwebtoken");
-const service = require("../services/user.service");
+const { getUser, createUser } = require("#src/services/user.service");
 
 //user 로그인 /signIn
 exports.post_signin = async (req, res, next) => {
   const { address, password } = req.body;
-  console.log(address, password);
+  console.log("userLogin", address, password);
   if (!(address && password))
     return res.status(404).json("입력정보가 부족합니다");
   try {
-    // 로그인 처리 함수 구현 필요
-    const userData = await service.getUserData(address, password);
-    ///////////////test code/////////////
-    let rtn_obj = new Object();
-    rtn_obj.nickname = "kkkk";
-    rtn_obj.imageURI = "IPFS://jbfjrejbjervberruew43jb4j25";
-    console.log(rtn_obj);
-    /////////////////////////////////////
-    if (rtn_obj === "error") {
+    const userData = await getUser(address, password);
+
+    if (userData) {
       console.log("로그인 성공");
       return res.status(200).json({
         data: userData,
@@ -46,13 +40,7 @@ exports.post_signup = async function (req, res, next) {
     });
 
   try {
-    // 회원가입 처리 함수 구현 필요
-    const makeUser = await service.createUser(
-      profileurl,
-      password,
-      nickname,
-      address
-    );
+    await createUser(address, password, nickname, profileurl);
 
     return res.status(200).json({
       data: "success",

@@ -1,5 +1,5 @@
 //const jwt = require("jsonwebtoken");
-const service = require("../services/my.service");
+//const service = require("../services/my.service");
 
 // API 9-1. 일반 회원 MyPage 에서 나의 정보 조회 (나의 상세 정보)
 exports.get_detail = async (req, res, next) => {
@@ -9,7 +9,7 @@ exports.get_detail = async (req, res, next) => {
     if (!address)
       return res.status(404).json({ data: "입력정보가 부족합니다" });
     // 일반회원의 상세정보를 json 포멧 으로 전송 하는 함수 구현 필요
-    const result_data = await service.getMyDetail(address);
+    //const result_data = await service.getMyDetail(address);
     ///////////////////test code ////////////////
     const my_info_obj = {
       nickname: "<nickname>",

@@ -44,17 +44,16 @@ module.exports = class User extends Sequelize.Model {
     db.User.hasMany(db.Post, { foreignKey: "UserId" });
     db.User.hasMany(db.Comment, { foreignKey: "Commenter", sourceKey: "id" });
     db.User.hasMany(db.NFT, { foreignKey: "UserId" });
-    db.User.belongsTo(db.Club, { foreignKey: "ClubId", targetKey: "id" });
+    // 클럽과 유저
+    db.User.belongsToMany(db.Club, {
+      foreignKey: "ClubId",
+      as: "ApplyClub",
+      through: db.UserClub,
+    });
     db.User.belongsToMany(db.Auth, {
       foreignKey: "AuthId",
       as: "Auth", //함수불러올때 이름을 정의해주는것
       through: "AuthorizationUsers", //중간테이블
-    });
-    //클럽 신청 승인
-    db.User.belongsToMany(db.Club, {
-      foreignKey: "ClubId",
-      as: "ApplyClub",
-      through: "Apply"
     });
     db.User.belongsToMany(db.Post, {
       foreignKey: "PostId",

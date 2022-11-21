@@ -1,5 +1,4 @@
-const { db } = require("#src/models/index.js");
-const { Forum, Post } = db;
+const { Forum, Post } = require("#src/models/index.js");
 
 // 카테고리에 따라 모든 작성글 목록 정보 가져오기
 exports.getPostIndex = async (club_id, category_id) => {

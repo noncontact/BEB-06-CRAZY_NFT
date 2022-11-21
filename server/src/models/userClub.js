@@ -1,22 +1,21 @@
 const Sequelize = require("sequelize");
 
-module.exports = class AuthForum extends Sequelize.Model {
+module.exports = class UserClub extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
         use: {
-          // 권한 사용여부
           type: Sequelize.DataTypes.BOOLEAN,
           allowNull: false,
-          defaultValue: true,
+          defaultValue: false,
         },
       },
       {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: "AuthForum",
-        tableName: "AuthorizationForums",
+        modelName: "UserClub",
+        tableName: "UserClubs",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
