@@ -1,29 +1,33 @@
 //const jwt = require("jsonwebtoken");
-
-const service = require("../services/club.service");
+const contract = require("../process/contract.process");
+const club = require("../services/club.service");
+const post = require("../services/post.service");
+const comment = require("../services/comment.service");
+const user = require("../services/user.service");
 
 // API 3. 모든 클럽 목록
 exports.get_allclub = async (req, res, next) => {
-  try {
-    // 모든 클럽의 목록을 가져와서 클라이언트에 json 포멧으로 전송 하는 함수 구현 필요
-    const result_data = await service.getAllclub();
-    ///////////////////test code ////////////////
-    const json_obj = {
-      title: "club title",
-      club_id: "1111",
-      create_at: "2022-11-23 13:34:55",
-      club_img_url: "ipfs://rrrrrrrr",
-    };
-    return res.status(200).json({
-      data: json_obj,
-    });
-    ///////////////////test code ////////////////
-  } catch (err) {
-    return res.status(404).json({
-      data: "fail",
-    });
-  }
-};
+    try {
+        // 모든 클럽의 목록을 가져와서 클라이언트에 json 포멧으로 전송 하는 함수 구현 필요
+        const result_data = await service.getAllclub();
+///////////////////test code ////////////////
+        const json_obj = {
+            "title": "club title",
+            "club_id": "1111",
+            "create_at": "2022-11-23 13:34:55",
+            "club_img_url": "ipfs://rrrrrrrr"
+        }
+        return res.status(200).json({
+            "data": json_obj
+          });
+///////////////////test code ////////////////          
+    }
+    catch (err) {
+        return res.status(404).json({
+          "data": "fail"
+        });
+    }
+}
 
 // API 4. 클럽 게시글 목록
 exports.get_index = async (req, res, next) => {
@@ -116,14 +120,19 @@ exports.post_write = async (req, res, next) => {
     if (!(address && title && content && club_id && category_id))
       return res.status(404).json({ data: "입력정보가 부족합니다" });
 
-    // 회원이 게시글을 작성하고 토큰을 보상받는 함수 구현 필요
-    const result_data = await service.setContentWrite(
+    // 회원이 작성한 게시글 정보를 DB에 insert 함수 구현 필요
+    const result = await post.setPostWrite(
       address,
       title,
       content,
       club_id,
       category_id
     );
+
+    if(result === "success") {
+        // 회원 address로 보상 토큰 전송
+        const contract_result = await contract.transmit_Token(address);
+    }
     ///////////////////test code ////////////////
     return res.status(200).json({
       data: "success",
@@ -144,13 +153,18 @@ exports.post_comm_write = async (req, res, next) => {
       return res.status(404).json({ data: "입력정보가 부족합니다" });
 
     // 회원이 댓글을 작성하고 토큰을 보상받는 함수 구현 필요
-    const result_data = await service.setCommentWrite(
+    const result = await comment.setCommentWrite(
       address,
       post_id,
       content,
       club_id,
       category_id
     );
+
+    if(result === "success") {
+        // 회원 address로 보상 토큰 전송
+        const contract_result = await contract.transmit_Token(address);
+    }
     ///////////////////test code ////////////////
     return res.status(200).json({
       data: "success",
@@ -170,8 +184,10 @@ exports.get_comm_like = async (req, res, next) => {
     console.log(address, post_id);
     if (!(post_id && address))
       return res.status(404).json({ data: "입력정보가 부족합니다" });
-    // 회원이 좋아요를 클릭히고 토큰을 보상받는 함수 구현 필요 단.같은 post id에 같은 address가 중복으로 오면 다시 좋아요를 차감 하여 클라이언트에 전송
-    const result_data = await service.setCommentLike(address, post_id);
+    
+    // 좋아요 반응을 위한 Database 연동 함수 구현 필요
+    const result = await user.setPostLike(address, post_id)// 회원이 좋아요를 클릭히고 토큰을 보상받는 함수 구현 필요 단.같은 post id에 같은 address가 중복으로 오면 다시 좋아요를 차감 하여 클라이언트에 전송
+      
     ///////////////////test code ////////////////
     return res.status(200).json({
       data: { like_num: 555 },
