@@ -1,32 +1,32 @@
-const dotenv = require("dotenv");
-dotenv.config();
+const dotenv = require("dotenv").config;
+if (dotenv.error) throw dotenv.error;
 const env = process.env;
 
 const development = {
-  username: env.POSTGRES_USERNAME,
-  password: env.POSTGRES_PASSWORD,
-  database: env.POSTGRES_DATABASE,
-  host: "localhost",
-  dialect: "postgres",
-  port: env.POSTGRES_PORT,
+  username: env.MYSQL_USERNAME,
+  password: env.MYSQL_PASSWORD,
+  database: env.MYSQL_DATABASE,
+  host: env.MYSQL_HOST,
+  dialect: "mysql",
+  port: env.MYSQL_PORT,
   timezone: "+09:00",
 };
 
 const production = {
-  username: env.POSTGRES_USERNAME,
-  password: env.POSTGRES_PASSWORD,
-  database: env.POSTGRES_DATABASE,
-  host: env.POSTGRES_HOST,
-  dialect: "postgres",
+  username: env.MYSQL_USERNAME,
+  password: env.MYSQL_PASSWORD,
+  database: env.MYSQL_DATABASE,
+  host: env.MYSQL_HOST,
+  dialect: "mysql",
   timezone: "+09:00",
 };
 
 const test = {
-  username: env.POSTGRES_USERNAME,
-  password: env.POSTGRES_PASSWORD,
-  database: env.POSTGRES_DATABASE_TEST,
+  username: env.MYSQL_USERNAME,
+  password: env.MYSQL_PASSWORD,
+  database: env.MYSQL_DATABASE_TEST,
   host: "localhost",
-  dialect: "postgres",
+  dialect: "mysql",
   timezone: "+09:00",
 };
 
