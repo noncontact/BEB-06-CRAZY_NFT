@@ -1,53 +1,25 @@
-const db_proc = require("../process/db.process");
-const contract_proc = require("../process/contract.process");
+const { Club } = require("#src/models/index.js");
 
-exports.getAllclub = async() => {
-    // 데이터베이스에서 모든 클럽정보를 쿼리하는 함수 구현 필요 
-    const result = db_proc.query_Allclub();
-    return result;
-}
+// 모든 클럽정보 가져오기
+exports.getAllClub = async () => {
+  return await Club.findAll({
+    order: [["createdAt", "DESC"]],
+  });
+};
 
-exports.getContentIndex = async(club_id, category_id) => {
-    // 데이터베이스에서 카테고리에 따라 모든 작성글 목록 정보를 쿼리하는 함수 구현 필요 
-    const result = db_proc.query_ContentIndex(club_id, category_id);
-    return result;
-}
+// 가입을 희망하는 회원리스트
+exports.getAdminInfo = async (clubId) => {
+  return await Club.findAll({
+    attribute: [UserId],
+    where: { id: clubId, use: false },
+  });
+};
 
-exports.getContentDetail = async(post_id) => {
-    // 데이터베이스에서 post_id 에 따른 작성글 내용을 쿼리하는 함수 구현 필요 
-    const result = db_proc.query_ContentDetail(post_id);
-    return result;
-}
-
-exports.setContentWrite = async(address, title, content, club_id, category_id) => {
-    // 데이터베이스에서 작성글 내용을 추가하는 쿼리 함수 구현 필요 
-    const result = await db_proc.query_ContentWrite(address, title, content, club_id, category_id);
-    if(result !== "error") { 
-        // 회원에게 보상토큰을 전송하는 함수 구현 필요 
-        const contract_result = contract_proc.transmit_Token(address);
-
-        return result;
-    }
-}
-
-exports.setCommentWrite = async(address, post_id, content, club_id, category_id) => {
-    // 데이터베이스에서 댓글 내용을 추가하는 쿼리 함수 구현 필요 
-    const result = await db_proc.query_CommentWrite(address, post_id, content, club_id, category_id);
-    if(result !== "error") { 
-        // 회원에게 보상토큰을 전송하는 함수 구현 필요 
-        const contract_result = contract_proc.transmit_Token(address);
-
-        return result;
-    }
-}
-
-exports.setCommentLike = async(address, post_id) => {
-    // 데이터베이스에서 좋아요 반응을 추가하는 쿼리 함수 구현 필요
-    const result = await db_proc.query_CommentLike(address, post_id);
-    if(result !== "error") { 
-        // 회원에게 보상토큰을 전송하는 함수 구현 필요 
-        const contract_result = contract_proc.transmit_Token(address);
-
-        return result;
-    }
-}
+// 운영자가 가입을 허락한다.
+exports.setAdminAllow = async (userId, applyUserId, clubId) => {
+  // userId 운영자 확인 로직 필요
+  return await Club.update({
+    use: true,
+    where: { ClubId: clubId, UserId: applyUserId, use: false },
+  });
+};

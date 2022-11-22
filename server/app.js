@@ -4,11 +4,11 @@ const path = require("path");
 const cors = require("cors");
 //const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const dotenv = require("dotenv").config(); 
-if (dotenv.error) throw dotenv.error
+const dotenv = require("dotenv").config();
+if (dotenv.error) throw dotenv.error;
 require("better-module-alias")(__dirname);
-const sequelize = require("./src/models");
-const routes = require("./src/routes");
+const { sequelize } = require("#src/models");
+const routes = require("#src/routes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swaggerhub.json");
 
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const corsOption = {
   origin: "http://localhost:4000",
-  methods: "POST,PUT,DELETE,GET",
+  methods: "POST,GET",
   credentials: true, // true로 하면 설정한 내용을 response 헤더에 추가 해줍니다.
   optionsSuccessStatus: 200,
 };
@@ -33,6 +33,9 @@ sequelize
   .authenticate ()
   .then(() => {
     console.log("데이터베이스 연결 성공");
+    console.log(
+      `✅ Server running on http://localhost:${app.get("port")}/api-docs`
+    );
   })
   .catch((err) => {
     console.error(err);
@@ -52,7 +55,7 @@ app.use((req, res, next) => {
 });
 
 app.listen(app.get("port"), () => {
-  console.log(`✅ Server running on http://localhost:${app.get("port")}/index`);
+  //console.log(`✅ Server running on http://localhost:${app.get('port')}/index`);
 });
 
 module.exports = app;

@@ -1,14 +1,12 @@
 require('dotenv').config();
-const path = require("path")
 const fs = require("fs")
-const os = require("os");
-const envfile = require('envfile')
-const sourcePath = path.join(__dirname, '..', '..', '/.env');
+const path = require("path")
+const env = require('./env.process')
 
-const { SERVER_ACCOUNT, ACCOUNT_SECRET_KEY, KIP7_CONTRACT_ADDRESS} = process.env;
 const Caver = require('caver-js')
 const caver = new Caver('https://api.baobab.klaytn.net:8651/')
 
+const { SERVER_ACCOUNT, ACCOUNT_SECRET_KEY, KIP7_CONTRACT_ADDRESS} = process.env;
 
 const KIP7_jsonFile = fs.readFileSync(path.join(__dirname, '..', '..', '/build/contracts/KIP7Token.json'), 'utf8'); // 변경 필요
 const KIP7_jsonData = JSON.parse(KIP7_jsonFile);
@@ -22,37 +20,6 @@ const accessKey = '';
 const secretKey = '';
 caver_kas.initKASAPI(1001, accessKey, ACCOUNT_SECRET_KEY);
 console.log(accessKey);
-
-const readEnvVars = () => fs.readFileSync(sourcePath, "utf-8").split(os.EOL);
-
-
-
-const getEnvValue = (key) => {
-    
-    // find the line that contains the key (exact match)
-    const matchedLine = readEnvVars().find((line) => line.split("=")[0] === key);
-    console.log(matchedLine);
-    // split the line (delimiter is '=') and return the item at index 2
-    return matchedLine !== undefined ? matchedLine.split("=")[1] : null;
-  };
-
-function setEnvValue(key, value) {
-
-    // read file from hdd & split if from a linebreak to a array
-    const ENV_VARS = fs.readFileSync(sourcePath, "utf8").split(os.EOL);
-
-    // find the env we want based on the key
-    const target = ENV_VARS.indexOf(ENV_VARS.find((line) => {
-        return line.match(new RegExp(key));
-    }));
-
-    // replace the key/value with the new value
-    ENV_VARS.splice(target, 1, `${key}=${value}`);
-
-    // write everything back to the file system
-    fs.writeFileSync("./.env", ENV_VARS.join(os.EOL));
-
-}
 
 exports.testFunction = async()=> {
     // Read keystore json file
@@ -122,7 +89,7 @@ exports.testFunction = async()=> {
     // }, SERVER_ACCOUNT);
 
     //setEnvValue('KIP7_CONTRACT_ADDRESS', deployedInstance.options.address)
-    //console.log(getEnvValue('KIP7_CONTRACT_ADDRESS'));
+    console.log(env.getEnvValue('KIP7_CONTRACT_ADDRESS'));
 
     //parsedFile.NEW_VAR = 'newVariableValue'
     //fs.writeFileSync('./.env', envfile.stringifySync(parsedFile)) 
@@ -148,7 +115,7 @@ exports.transmit_Token = async(address) => {
 }
 
 exports.DeployNFT = async(club_id, meta_cid, deploy_count) => {
-
+    return "success" 
 }
 
 exports.MintNFT = async(address) => {

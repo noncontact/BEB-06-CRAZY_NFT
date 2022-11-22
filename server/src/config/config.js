@@ -15,8 +15,6 @@ const development = {
   }
 };
 
-console.log(development.username, development.database)
-
 const production = {
   username: env.MYSQL_USERNAME,
   password: env.MYSQL_PASSWORD,

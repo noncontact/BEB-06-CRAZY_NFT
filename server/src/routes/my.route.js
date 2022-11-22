@@ -4,9 +4,6 @@ const router = express.Router();
 const controller = require("../controllers/my.controller");
 //const upload = require("./upload.js");
 
-router.use(express.json());
-router.use(express.urlencoded({extended:true}));
-
 /* my router listing. */
 // API 9-1. 일반 회원 MyPage 에서 나의 정보 조회 (나의 상세 정보)
 router.get("/detail/:address", controller.get_detail);

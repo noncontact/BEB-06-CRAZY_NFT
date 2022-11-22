@@ -4,9 +4,6 @@ const router = express.Router();
 const controller = require("../controllers/user.controller");
 //const upload = require("./upload.js");
 
-router.use(express.json());
-router.use(express.urlencoded({extended:true}));
-
 /* users router listing. */
 // API 1. 회원가입
 router.post("/signup", controller.post_signup);

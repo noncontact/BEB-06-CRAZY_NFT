@@ -1,92 +1,43 @@
-// const { db, sequelize } = require("@src/models/index.js");
-// const { User, Comment, CommentLike } = db;
+const { Comment } = require("#src/models/index.js");
 
-// const getCommentList = async (postId) => {
-//   const result = await Comment.findAll({
-//     attributes: [
-//       ["id", "commentId"],
-//       "content",
-//       "createdAt",
-//       "updatedAt",
-//       "commenter",
-//       "postId",
-//     ],
-//     include: [
-//       { model: User, attributes: ["email", "nickname", "profileurl"] },
-//       {
-//         model: CommentLike,
-//         // attributes: [[ sequelize.fn('COUNT', 'id'), 'commentLike' ]],
-//         include: [
-//           { model: User, attributes: ["email", "nickname", "profileurl"] },
-//         ],
-//         order: [["id", "DESC"]],
-//       },
-//     ],
-//     where: { postId },
-//     order: [["id", "DESC"]],
-//   });
-//   return result;
-// };
+// 댓글 내용을 추가하는 쿼리 
+exports.setCommentWrite = async (
+  address,
+  post_id,
+  content,
+  user_id,
+  club_id,
+  category_id
+) => { 
+  const result = await Comment.create({
+    content,
+    Commenter: user_id,
+    PostId: post_id,
+  });
+  if (result !== "error") {
+    // 회원에게 보상토큰을 전송하는 함수 구현 필요
+    //const contract_result = contract_proc.transmit_Token(address);
+  }
 
-// const createComment = async (content, postId, id) => {
-//   await Comment.create({
-//     content,
-//     commenter: id, //작성자
-//     postId, //게시글 위치 (삭제된 게시글이면 에러발생)
-//   });
-// };
+  return result;
+};
 
-// const updateComment = async (commentId, id, content) => {
-//   const data = await Comment.findOne({
-//     where: { id: commentId, commenter: id },
-//   });
-//   await data.update({
-//     //update 날짜는 자동으로 변경
-//     content,
-//   });
-// };
+// 댓글 내용 수정
+exports.updateCommentWrite = async (comment_id, user_id, content) => {
+    const data = await Comment.findOne({
+      where: { id: comment_id, Commenter: user_id },
+    });
+    return await data.update({
+      //update 날짜는 자동으로 변경
+      content,
+    });
+  };
 
-// const deleteComment = async (commentId, id) => {
-//   const data = await Comment.findOne({
-//     where: { id: commentId, commenter: id },
-//   });
-//   data.destroy();
-// };
-
-// const countComment = async (userId, commentId) => {
-//   const result = {};
-//   const isLiked = await CommentLike.findAll({
-//     where: { LikeUserId: userId, LikeCommentId: commentId },
-//   });
-//   if (isLiked.length === 0) {
-//     await CommentLike.create({
-//       LikeUserId: userId,
-//       LikeCommentId: commentId,
-//     });
-//     const count = await CommentLike.findAll({
-//       attributes: [[sequelize.fn("COUNT", "id"), "commentLike"]],
-//       where: { LikeCommentId: commentId },
-//     });
-//     result.count = count;
-//     result.status = true;
-//   } else {
-//     await CommentLike.destroy({
-//       where: { LikeUserId: userId, LikeCommentId: commentId },
-//     });
-//     const count = await CommentLike.findAll({
-//       attributes: [[sequelize.fn("COUNT", "id"), "commentLike"]],
-//       where: { LikeCommentId: commentId },
-//     });
-//     result.count = count;
-//     result.status = false;
-//   }
-//   return result;
-// };
-
-// module.exports = {
-//   getCommentList,
-//   createComment,
-//   updateComment,
-//   deleteComment,
-//   countComment,
-// };
+// 댓글 리스트 가져오기
+exports.getCommentList = async (post_id) => {
+  const result = await Comment.findAll({ 
+    where: { post_id },
+    order: [["id", "DESC"]],
+  });
+  return result;
+};
