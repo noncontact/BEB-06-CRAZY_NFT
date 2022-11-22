@@ -1,29 +1,38 @@
+import React,{ useState } from 'react';
 import { Layout } from 'antd';
 import {  Route, Routes } from 'react-router-dom';
 import {ArticleDetail,CreateArticle} from "../../pages";
-const { Header, Footer, Sider, Content } = Layout;
-const ClubMain =()=>{
+import { Catagory } from '../../component';
+const { Header, Sider, Content } = Layout;
 
+const ClubMain =()=>{
+    const [catagory,setCatagory]=useState("all");
+    const statusIcon = {
+        all: <div>all</div>,
+        notice: <div>notice</div>,
+        qna: <div>qna</div>,
+        free: <div>free</div>,
+        club: <div>club</div>,
+        rare: <div>rare</div>,
+        superrare: <div>superrare</div>,
+    }
+    const StatusIconComponent = statusIcon[catagory];
+    const selectCatagory=(menu)=>{
+        setCatagory(menu);
+    }
     return (
         <Layout>
             <Header>Header</Header>
             <Layout>
                 <Sider style={{height:"80vh",background:"#9747FF"}}>
-                <li>전체글</li>
-                <li>공지사항</li>
-                <li>Q&A</li>
-                <li>자유게시판</li>
-                <li>카페활동</li>
-                <li>레어글</li>
-                <li>슈퍼레어글</li>
+                <Catagory selectCatagory={selectCatagory} />
                 </Sider>
                 <Routes>
-                    <Route path="*" element={<Content>Content</Content>} />
+                    <Route path="*" element={<Content>{StatusIconComponent}</Content>} />
                     <Route path="articledetail/:id" element={<ArticleDetail />} />
                     <Route path="createarticle" element={<CreateArticle />} />
                 </Routes>
             </Layout>
-            <Footer>Footer</Footer>
         </Layout>
     );
 };

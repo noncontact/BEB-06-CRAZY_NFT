@@ -1,3 +1,4 @@
+import React from 'react';
 import { Navi } from "../component";
 import {Layout,List,Card } from 'antd';
 const { Header, Content } = Layout;
