@@ -1,5 +1,6 @@
 import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
+import React from 'react';
 const Footer =()=>{
 
     return (
@@ -20,13 +21,13 @@ const Footer =()=>{
                 <Link to="/clubmaster">clubmaster</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-                <Link to="/clubmain">clubmain</Link>
+                <Link to="/clubmain/socker/">clubmain</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-                <Link to="/clubmain/articledetail/:id">articledetail</Link>
+                <Link to="/clubmain/socker/articledetail/:id">articledetail</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-                <Link to="/clubmain/createarticle">createarticle</Link>
+                <Link to="/clubmain/socker/createarticle">createarticle</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
                 <Link to="/nftalllist">nftalllist</Link>

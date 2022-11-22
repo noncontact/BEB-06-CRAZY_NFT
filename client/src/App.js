@@ -14,7 +14,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/mypage" element={<MyPage   />} />
           <Route path="/clubmaster" element={<ClubMaster   />} />
-          <Route path="/clubmain/*" element={<ClubMain />} />
+          <Route path="/clubmain/:name/*" element={<ClubMain />} />
          
           <Route path="/nftalllist/*" element={<NftAllList />} />
         
