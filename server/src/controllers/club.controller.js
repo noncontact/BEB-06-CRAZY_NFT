@@ -11,7 +11,7 @@ const service = require("../services/club.service");
 exports.get_allclub = async (req, res, next) => {
     try {
         // 모든 클럽의 목록을 가져와서 클라이언트에 json 포멧으로 전송 하는 함수 구현 필요
-        const result_data = await service.getAllclub();
+        //const result_data = await service.getAllclub();
 ///////////////////test code ////////////////
         const json_obj = {
             "title": "club title",

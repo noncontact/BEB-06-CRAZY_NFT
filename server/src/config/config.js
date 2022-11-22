@@ -8,6 +8,11 @@ const development = {
   dialect: "mysql",
   port: env.MYSQL_PORT,
   timezone: "+09:00",
+  dialectOptions: {
+    options: {
+      requestTimout: 3000
+    }
+  }
 };
 
 console.log(development.username, development.database)
