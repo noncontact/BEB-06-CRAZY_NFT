@@ -41,7 +41,7 @@ exports.getMyClubs = async (userId) => {
 };
 
 // 좋아요 반응을 추가
-exports.setPostLike = async (userId, postId) => {
+exports.setPostLike = async (userId, postId) => { // userId => 회원 지갑 주소 입니다.
   const user = await User.findOne({
     where: { id: userId },
   });
