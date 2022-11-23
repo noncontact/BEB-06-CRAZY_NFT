@@ -7,11 +7,11 @@ exports.getMyNFTs = async (userId, address) => {
   });
 };
 
-exports.setNFTDeploy = async (clubId, metaCid, deployCount) => {
+exports.setNFTDeploy = async (clubId, metaCid, contract_address) => {
   // NFT 발행 함수 구현 필요
 };
 
-exports.setNFTMint = async (address) => {
+exports.setNFTMint = async (clubId) => {
   // NFT mint 함수 구현 필요 
   
 };

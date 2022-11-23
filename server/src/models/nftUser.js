@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class NFT extends Sequelize.Model {
+module.exports = class NFTUser extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {

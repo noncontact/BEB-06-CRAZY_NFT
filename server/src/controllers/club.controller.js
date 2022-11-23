@@ -1,5 +1,4 @@
 //const jwt = require("jsonwebtoken");
-
 const service = require("../services/club.service");
 
 // API 3. 모든 클럽 목록
