@@ -6,22 +6,16 @@ const env = require('./env.process')
 const Caver = require('caver-js')
 const caver = new Caver('https://api.baobab.klaytn.net:8651/')
 
-const { SERVER_ACCOUNT, ACCOUNT_SECRET_KEY, KIP7_CONTRACT_ADDRESS} = process.env;
+const { SERVER_ACCOUNT, ACCOUNT_SECRET_KEY, KIP7_CONTRACT_ADDRESS, CHAIN_ID, ACCESS_KEY_ID, SECRECT_ACCESS_KEY, KIP17_CONTRACT_ADDRESS} = process.env;
 
 const KIP7_jsonFile = fs.readFileSync(path.join(__dirname, '..', '..', '/build/contracts/KIP7Token.json'), 'utf8'); // 변경 필요
 const KIP7_jsonData = JSON.parse(KIP7_jsonFile);
 
-// const CaverExtKAS = require('caver-js-ext-kas')
-// const caver_kas = new CaverExtKAS(1001, 'KASK4UC529N23IT0BUGXOXRS', 'z-r02cIl3QfFW_mIq-1LUFjVoWJrRXs3gTYCoGWI')
-
-const CaverExtKAS = require('caver-js-ext-kas');
-const caver_kas = new CaverExtKAS();
-const accessKey = '';
-const secretKey = '';
-caver_kas.initKASAPI(1001, accessKey, ACCOUNT_SECRET_KEY);
-console.log(accessKey);
+const CaverExtKAS = require('caver-js-ext-kas')
+const caver_kas = new CaverExtKAS(Number(CHAIN_ID), ACCESS_KEY_ID, SECRECT_ACCESS_KEY)
 
 exports.testFunction = async()=> {
+
     // Read keystore json file
     //const keystore = await fs.readFileSync(ACCOUNT_KEY_STORE_PATH, 'utf8')
 
@@ -62,7 +56,7 @@ exports.testFunction = async()=> {
     const account_info = await caver.klay.accounts.wallet.getAccount(SERVER_ACCOUNT)
     if(typeof account_info === 'undefined')
     {
-       const result = caver.klay.accounts.wallet.add(ACCOUNT_SECRET_KEY, SERVER_ACCOUNT);
+       const result = await caver.klay.accounts.wallet.add(ACCOUNT_SECRET_KEY, SERVER_ACCOUNT);
        console.log(result.privateKey);     
     }
 
@@ -97,18 +91,59 @@ exports.testFunction = async()=> {
     const kip7Instance = await new caver.klay.KIP7(KIP7_CONTRACT_ADDRESS)
     const balance = await kip7Instance.balanceOf(SERVER_ACCOUNT)
     console.log(balance);
-    const name = await kip7Instance.symbol();
-    console.log(name);
-    let tx_hash = await kip7Instance.transfer('0x723c3659772Fe80284793C6a20bff9071bc683F6', 100000000000000000000, { from: SERVER_ACCOUNT })
-    //let tx_hash_  = await kip7Instance.mint('0x723c3659772Fe80284793C6a20bff9071bc683F6', 1000000000000000000000, { from: SERVER_ACCOUNT })
-    //tx_hash_  = await kip7Instance.burn(1000000000000000000000, { from: SERVER_ACCOUNT })
-    console.log(tx_hash);
-    const hash = await caver.klay.getTransactionBySenderTxHash(tx_hash.senderTxHash);
-    console.log(hash);
-    const hash_ = await caver.klay.getTransactionReceipt(tx_hash.transactionHash)
-    console.log(hash_);
+
+    const result_ = await caver_kas.kas.tokenHistory.getTransferHistoryByTxHash(
+        "0x42fa4522425f2384ffad520226318df645d8a4144cc2c744937286dae432036c"
+      );
+      console.log(result_);
+      console.log(result_.items[0].value);
+    var dec = parseInt(result_.items[0].value, 16);
+    console.log(dec);
+    // const name = await kip7Instance.symbol();
+    // console.log(name);
+    //let tx_hash = await kip7Instance.transfer('0x723c3659772Fe80284793C6a20bff9071bc683F6', 10000000000000000000, { from: SERVER_ACCOUNT })
+    // //let tx_hash_  = await kip7Instance.mint('0x723c3659772Fe80284793C6a20bff9071bc683F6', 1000000000000000000000, { from: SERVER_ACCOUNT })
+    // //tx_hash_  = await kip7Instance.burn(1000000000000000000000, { from: SERVER_ACCOUNT })
+    //console.log(tx_hash);
+    // const hash = await caver.klay.getTransactionBySenderTxHash(tx_hash.senderTxHash);
+    // console.log(hash);
+    // const hash_ = await caver.klay.getTransactionReceipt(tx_hash.transactionHash)
+    // console.log(hash_);
+
+    //const caver_ = new CaverExtKAS();
+    //caver_.initKASAPI(CHAIN_ID, ACCESS_KEY_ID, SECRECT_ACCESS_KEY);
+    //const data = await caver_.rpc.klay.getAccount("0x723c3659772Fe80284793C6a20bff9071bc683F6");
+    //var dec = parseInt(data.account.balance, 16);
+    //console.log(balance);
 }
 
+exports.testKIP17 = async()=> {
+
+    const account_info = await caver.klay.accounts.wallet.getAccount(SERVER_ACCOUNT)
+    if(typeof account_info === 'undefined')
+    {
+       const result = await caver.klay.accounts.wallet.add(ACCOUNT_SECRET_KEY, SERVER_ACCOUNT);
+       console.log(result.privateKey);     
+    }
+
+    // const result = await caver.klay.KIP17.deploy({
+    //     name: 'JM LEB',
+    //     symbol: 'JMB',
+    // }, SERVER_ACCOUNT);
+
+    const kip17Instance = new caver.klay.KIP17(KIP17_CONTRACT_ADDRESS)
+    //console.log(kip17Instance);
+
+    // const num = await kip17Instance.totalSupply()
+    // console.log(num);
+    // const tokenURI = `ipfs://QmPEskugK8WPMBnRDGxF9qxppNChFZmFPxXM6RNfAKFcDN/${Number(num)+1}.json`;
+    // console.log(tokenURI);
+    // const res = await kip17Instance.mintWithTokenURI('0x723c3659772Fe80284793C6a20bff9071bc683F6', Number(num)+1, tokenURI, { from: SERVER_ACCOUNT });
+    // console.log(res);
+
+    const token_uri = await kip17Instance.tokenURI(9);
+    console.log(token_uri);
+}
 
 exports.transmit_Token = async(address) => {
 
