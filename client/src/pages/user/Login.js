@@ -1,19 +1,52 @@
-import React from 'react';
+import React,{useState,createRef} from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Button,Layout,Form, Input } from "antd";
-import {SketchOutlined} from "@ant-design/icons";
+import { Button,Layout,Form, Input ,message} from "antd";
+import {SketchOutlined,CheckCircleTwoTone} from "@ant-design/icons";
+
+
 const {Sider,Content}=Layout;
+
 const Login =()=>{
+    const formRef = createRef();
+    const [isClick,setIsClick]=useState(true);
     const navigate=useNavigate();
     const dispatch=useDispatch();
+    
+    const loadAccountInfo = async () => {
+        const { klaytn } = window
+        
+        if (klaytn) {
+          try {
+            await klaytn.enable()
+            setAccountInfo(klaytn)
+            klaytn.on('accountsChanged', () => setAccountInfo(klaytn))
+          } catch (error) {
+            message.error('User denied account access')
+          }
+        } else {
+            message.error('Non-Kaikas browser detected. You should consider trying Kaikas!')
+        }
+    };
+    
+    const setAccountInfo = async () => {
+        const { klaytn } = window
+        if (klaytn === undefined) return
+        
+        const account = klaytn.selectedAddress
+        formRef.current.setFieldsValue({
+            username: account
+            
+        });
+        setIsClick(false);
+      };
 
     const onFinish = (values) => {
         console.log('Success:', values);
       };
-      const onFinishFailed = (errorInfo) => {
+    const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-      };
+    };
     return (
         <Layout>
             <Sider align="center" style={{height:"100vh",background:"white"}}>
@@ -24,6 +57,7 @@ const Login =()=>{
                 
                 <Content align="center" >
                 <Form
+                    ref={formRef}
                     name="basic"
                     labelCol={{
                         span: 8,
@@ -48,7 +82,8 @@ const Login =()=>{
                         },
                         ]}
                     >
-                        <Button  type="primary" shape="round" icon={<SketchOutlined />} style={{minHeight:"44px",minWidth:"280px"}}>
+                        <CheckCircleTwoTone twoToneColor="#52c41a" hidden={isClick} />
+                        <Button onClick={loadAccountInfo} type="primary" shape="round" icon={<SketchOutlined />} style={{minHeight:"44px",minWidth:"280px"}}>
                             Kaikas
                         </Button>
                         
@@ -61,7 +96,7 @@ const Login =()=>{
                         {
                             required: true,
                             message: 'Please input your password!',
-                        },
+                        }
                         ]}
                     >
                         <Input.Password />

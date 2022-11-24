@@ -13,7 +13,7 @@ function createInstanceWithAuth(url, type) {
 export const instance = createInstanceWithAuth();
 
 // http://localhost:3005/users
-export const sign = createInstanceWithAuth("users");
+export const sign = createInstanceWithAuth("user");
 
 // // http://localhost:3005/comment
 // export const comment = createInstanceWithAuth("comment");
