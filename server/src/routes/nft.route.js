@@ -4,9 +4,6 @@ const router = express.Router();
 const controller = require("../controllers/nft.controller");
 //const upload = require("./upload.js");
 
-router.use(express.json());
-router.use(express.urlencoded({extended:true}));
-
 /* nft router listing. */
 // API 12. NFT 발행 (Deploy) 요청
 router.post("/deploy", controller.post_nft_deploy);

@@ -1,5 +1,5 @@
 import {Image, Col, Row } from 'antd';
-
+import React from 'react';
 const NftDetail =()=>{
 
     return (

@@ -37,7 +37,7 @@ module.exports = class Forum extends Sequelize.Model {
     db.Forum.hasMany(db.Post, { foreignKey: "ForumId" });
     db.Forum.belongsTo(db.Club, { foreignKey: "ClubId", targetKey: "id" });
     db.Forum.belongsToMany(db.Auth, {
-      foreignKey: "AuthId",
+      foreignKey: "ForumId",
       as: "Auth", //함수불러올때 이름을 정의해주는것
       through: db.AuthForum, //중간테이블
     });

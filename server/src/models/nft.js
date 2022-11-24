@@ -13,7 +13,7 @@ module.exports = class NFT extends Sequelize.Model {
           type: Sequelize.STRING(255),
           allowNull: false,
           unique: true,
-        }
+        },
       },
       {
         sequelize,
@@ -29,10 +29,14 @@ module.exports = class NFT extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.NFT.belongsTo(db.User, { foreignKey: "UserId" });  // 운영자 아이디
+    db.NFT.belongsTo(db.User, {
+      foreignKey: "AdminAddress",
+      
+    }); // 운영자 아이디
     db.NFT.belongsTo(db.Club, { foreignKey: "ClubId" });
+    db.NFT.hasMany(db.NFTUser, { foreignKey: "NFTId" });
     db.NFT.belongsToMany(db.Auth, {
-      foreignKey: "AuthId",
+      foreignKey: "NFTId",
       as: "Auth",
       through: "AuthorizationNFTs", //중간테이블
     });

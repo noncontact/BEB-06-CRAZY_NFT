@@ -43,20 +43,24 @@ module.exports = class User extends Sequelize.Model {
   static associate(db) {
     db.User.hasMany(db.Post, { foreignKey: "UserId" });
     db.User.hasMany(db.Comment, { foreignKey: "Commenter", sourceKey: "id" });
-    db.User.hasMany(db.NFT, { foreignKey: "UserId" });
+    db.User.hasMany(db.NFTUser, { foreignKey: "UserId" });
+    db.User.hasOne(db.NFT, {
+      foreignKey: "AdminAddress",
+    }); // NFT 운영자 계정
+    db.User.hasOne(db.Club, { foreignKey: "AdminId" }); // 클럽개설 운영자 id
     // 클럽과 유저
     db.User.belongsToMany(db.Club, {
-      foreignKey: "ClubId",
+      foreignKey: "UserId",
       as: "ApplyClub",
       through: db.UserClub,
     });
     db.User.belongsToMany(db.Auth, {
-      foreignKey: "AuthId",
+      foreignKey: "UserId",
       as: "Auth", //함수불러올때 이름을 정의해주는것
       through: "AuthorizationUsers", //중간테이블
     });
     db.User.belongsToMany(db.Post, {
-      foreignKey: "PostId",
+      foreignKey: "UserId",
       as: "LikePost",
       through: "PostLike",
     });

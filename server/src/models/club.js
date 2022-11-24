@@ -28,11 +28,13 @@ module.exports = class Club extends Sequelize.Model {
   }
 
   static associate(db) {
+    // 클럽 개설 운영자 id
+    db.Club.belongsTo(db.User, { foreignKey: "AdminId" });
     // 클럽과 유저
-    db.Club.belongsToMany(db.User, { 
-      foreignKey: "UserId",
+    db.Club.belongsToMany(db.User, {
+      foreignKey: "ClubId",
       as: "ApplyUser",
-      through: db.UserClub
+      through: db.UserClub,
     });
     db.Club.hasMany(db.Forum, { foreignKey: "ClubId", targetKey: "id" });
     db.Club.hasMany(db.NFT, { foreignKey: "ClubId", targetKey: "id" });
