@@ -1,13 +1,17 @@
-import {Layout} from "antd";
-import { UserMenu } from "../../component";
+import {Layout,Card} from "antd";
+import { UserMenu,UserInfo,UserArticles,UserNfts,UserClub } from "../../component";
 import React,{ useState } from 'react';
+const { Meta } = Card;
 const { Header, Footer, Sider, Content } = Layout;
+
+
 const MyPage =()=>{
     const [menu,setMenu]=useState("info");
     const statusIcon = {
-        info: <div>info</div>,
-        articles: <div>articles</div>,
-        nfts: <div>nfts</div>,
+        info: <UserInfo />,
+        articles: <UserArticles />,
+        club: <UserClub />,
+        nfts: <UserNfts />,
     }
     const StatusIconComponent = statusIcon[menu];
     const selectMenu=(menu)=>{

@@ -4,7 +4,7 @@ const initialState= {
   nickname: null,
   isLogin: false,
   address:null,
-  imageURI: null,
+  profileurl: null,
 };
 
 const accountSlice = createSlice({
@@ -12,10 +12,10 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.nickname = action.payload.nickname;
-      state.isLogin = true;
-      state.address = action.payload.address;
-      state.imageURI = action.payload.imageURI;
+      if(!!action.payload.nickname)state.nickname = action.payload.nickname;
+      if(!!action.payload.nickname)state.isLogin = true;
+      if(!!action.payload.address)state.address = action.payload.address;
+      if(!!action.payload.profileurl)state.profileurl = action.payload.profileurl;
     },
     
   },
