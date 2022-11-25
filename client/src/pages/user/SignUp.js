@@ -1,14 +1,17 @@
-import React,{ useState } from "react";
+import React,{ useState,useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 import { Button,Layout,Upload,Form ,Input} from "antd";
 import {SketchOutlined,CheckCircleTwoTone,PlusOutlined} from "@ant-design/icons";
-import Caver from 'caver-js'
+import Caver from 'caver-js';
+import { registerUser } from "../../api/user";
 
 const {Sider,Content}=Layout;
 
 const SignUp =()=>{
-  
+  const formRef = useRef();
     const navigate=useNavigate();
+    const dispatch=useDispatch();
     const [account,setAccount]=useState({
         isTrue:true,
         txType: null,
@@ -41,6 +44,9 @@ const SignUp =()=>{
         const caver = new Caver(klaytn)
         const account =  klaytn.selectedAddress
         const balance = await caver.klay.getBalance(account)
+        await formRef.current.setFieldsValue({
+          address: account
+        });
         setAccount({
           account,
           balance: caver.utils.fromPeb(balance, 'KLAY'),
@@ -56,8 +62,19 @@ const SignUp =()=>{
     
         setAccount({ network: klaytn.networkVersion })
         klaytn.on('networkChanged', () => setNetworkInfo(klaytn.networkVersion))
-      }
+    };
 
+    const onFinish = async ({address,password,upload,nickname}) => {
+      
+      const profileurl="https://"+upload.file.response.value.cid+".ipfs.nftstorage.link/"+upload.file.name;
+      await registerUser({address,password,profileurl,nickname});
+      dispatch({type:"accountSlice/login",payload:{address,profileurl,nickname}});
+      setTimeout(function() {
+        window.location.href='/';
+      }, 1000);
+
+    };
+    
     return (
         <Layout>
             <Sider align="center" style={{height:"100vh",background:"white"}}>
@@ -68,6 +85,7 @@ const SignUp =()=>{
                 <Content style={{border:"1px solid violet"}} align="center">
                     
                     <Form
+                      ref={formRef}
                       labelCol={{
                         span: 4,
                       }}
@@ -75,11 +93,12 @@ const SignUp =()=>{
                         span: 14,
                       }}
                       layout="horizontal"
+                      onFinish={onFinish}
                       
                     >
                       <Form.Item
-                        label="Username"
-                        name="username"
+                        label="Address"
+                        name="address"
                         rules={[
                         {
                             required: true,
@@ -93,7 +112,8 @@ const SignUp =()=>{
                         </Button>
                         {account.account}
                       </Form.Item>
-                      <Form.Item label="Nickname" 
+                      <Form.Item 
+                      label="Nickname" 
                       name="nickname"
                       rules={[
                         {
@@ -125,7 +145,7 @@ const SignUp =()=>{
                       >
                           <Input.Password />
                       </Form.Item>
-                      <Form.Item label="Upload" valuePropName="fileList">
+                      <Form.Item name="upload" label="Profil image" >
                         <Upload maxCount={1} action='https://api.nft.storage/upload' headers={{withCredentials:true,"Authorization":`Bearer ${process.env.REACT_APP_API_KEY}`}} listType="picture-card">
                           <div>
                             <PlusOutlined />

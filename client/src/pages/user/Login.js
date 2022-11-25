@@ -1,14 +1,14 @@
-import React,{useState,createRef} from 'react';
+import React,{useState,useRef} from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Button,Layout,Form, Input ,message} from "antd";
 import {SketchOutlined,CheckCircleTwoTone} from "@ant-design/icons";
-
+import { loginUser } from '../../api/user';
 
 const {Sider,Content}=Layout;
 
 const Login =()=>{
-    const formRef = createRef();
+    const formRef = useRef();
     const [isClick,setIsClick]=useState(true);
     const navigate=useNavigate();
     const dispatch=useDispatch();
@@ -30,19 +30,27 @@ const Login =()=>{
     };
     
     const setAccountInfo = async () => {
-        const { klaytn } = window
-        if (klaytn === undefined) return
-        
-        const account = klaytn.selectedAddress
-        formRef.current.setFieldsValue({
-            username: account
+        try {
+            const { klaytn } = window
+            if (klaytn === undefined) return
             
-        });
-        setIsClick(false);
+            const account = await klaytn.selectedAddress;
+            await formRef.current.setFieldsValue({
+                address: account
+            });
+            setIsClick(false);
+        } catch (error) {
+            console.log(error);
+        }
+        
       };
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const onFinish = async ({address,password}) => {
+        const info=await loginUser({address,password});
+        console.log(info.data.data);
+        
+        dispatch({type:"accountSlice/login",payload:info.data.data});
+         window.location.replace("/");
       };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -73,8 +81,8 @@ const Login =()=>{
                     autoComplete="off"
                     >
                     <Form.Item
-                        label="Username"
-                        name="username"
+                        label="Address"
+                        name="address"
                         rules={[
                         {
                             required: true,

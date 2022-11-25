@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Menu,Input } from 'antd';
 import React from 'react';
+import { persistor } from '../../store/store';
 const { Search } = Input;
 function getItem(label, key, icon, children, type) {
     return {
@@ -11,15 +13,23 @@ function getItem(label, key, icon, children, type) {
       type,
     };
 }
-const items = [
+const items1 = [
   getItem('LogIn', 'login'  ),
-  getItem('SignUP', 'signup'  ),
-  getItem('MyPage', 'mypage'  ),
-  getItem('NFT', 'nft' )
+  getItem('SignUP', 'signup'  )
+  
 ];
+const items2 = [
+    
+    getItem('MyPage', 'mypage'  ),
+    getItem('NFT', 'nft' ),
+    getItem('LogOut', 'logout' )
+  ];
 
 const Navi =()=>{
     const navigate=useNavigate();
+    const {isLogin,address,profileurl,nickname}=useSelector((state) =>{
+        return state.account;
+      });
     const selectKey={
         login:()=>{
             navigate("/login");
@@ -32,6 +42,10 @@ const Navi =()=>{
         },
         nft:()=>{
             navigate("/nftalllist");
+        },
+        logout:()=>{
+            persistor.purge();
+            window.location.replace("/");
         }
     };
     const onSearch = (value) => console.log(value);
@@ -40,7 +54,7 @@ const Navi =()=>{
     };
     return (
         <div>
-            <div onClick={()=>navigate("/")} style={{float: "left",width: "120px",height: "31px",margin: "16px 24px 16px 0",background: "rgba(255, 255, 255, 0.3)"}} />
+            <div onClick={()=>navigate("/")} style={{float: "left",width: "120px",height: "31px",margin: "16px 24px 16px 0",background: "rgba(255, 255, 255, 0.3)"}}></div>
             
             <Search
             placeholder="input search text"
@@ -57,7 +71,7 @@ const Navi =()=>{
                 style={{display: "flex",justifyContent:"end"}}
                 theme='dark'
                 mode="horizontal"
-                items={items}
+                items={isLogin?items2:items1}
             />
         </div>
     );
