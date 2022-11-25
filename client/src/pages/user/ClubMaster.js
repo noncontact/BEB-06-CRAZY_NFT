@@ -1,20 +1,29 @@
-import {Layout} from "antd";
-import React from 'react';
+import {Layout,Descriptions,List,Card} from "antd";
+import { AdminMenu,UserInfo,UserArticles,UserNfts,UserClub ,ClubEntryList} from "../../component";
+import React,{ useState } from 'react';
+const { Meta } = Card;
 const { Header, Footer, Sider, Content } = Layout;
-
 const ClubMaster =()=>{
-
+    const [menu,setMenu]=useState("info");
+    const statusIcon = {
+        info: <UserInfo />,
+        articles: <UserArticles />,
+        club: <UserClub />,
+        nfts: <UserNfts />,
+        entry: <ClubEntryList />,
+    }
+    const StatusIconComponent = statusIcon[menu];
+    const selectMenu=(menu)=>{
+        setMenu(menu);
+    }
     return (
         <Layout>
-            <Sider style={{background:"#9747FF",height:"100vh"}}>
-                <li>내정보</li>
-                <li>클럽 가입정보</li>
-                <li>내가 쓴글</li>
-                <li>내 NFT</li>
+            <Sider width={300} style={{background:"#9747FF",height:"100vh"}}>
+                <AdminMenu selectMenu={selectMenu}/>
             </Sider>
             <Layout>
                 <Header style={{background:"white"}}>Header</Header>
-                <Content>Content</Content>
+                <Content>{StatusIconComponent}</Content>
                 <Footer>Footer</Footer>
             </Layout>
         </Layout>

@@ -1,5 +1,6 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Navi } from "../component";
+import { allClubsList } from '../api/club';
 import {Layout,List,Card } from 'antd';
 const { Header, Content } = Layout;
 const data = Array.from({
@@ -8,7 +9,16 @@ const data = Array.from({
   title: `Title ${i+1}`,
 }));
 const Main =()=>{
+  const [clubs,setClubs]=useState(data);
+  useEffect(() => {
 
+    const fetchData = async () => {
+      const clublist=await allClubsList();
+      setClubs(clublist.data.data);
+    };
+
+    fetchData();
+  }, []);
     return (
         <Layout>
             <Header><Navi /></Header>
@@ -28,10 +38,10 @@ const Main =()=>{
                   },
                   pageSize: 12,
                 }}
-                dataSource={data}
+                dataSource={clubs}
                 renderItem={(item) => (
                 <List.Item>
-                    <Card title={item.title}>Card content</Card>
+                    <Card title={item.title}>{item.createdAt}</Card>
                 </List.Item>
                 )}
             />

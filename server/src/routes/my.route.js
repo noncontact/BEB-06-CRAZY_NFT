@@ -14,7 +14,7 @@ router.get("/nft/:address", controller.get_nft);
 // API 9-4. 일반 회원 MyPage 에서 나의 정보 조회 (나의 작성 게시글)
 router.get("/content/:address", controller.get_content);
 // API 10. 운영자 MyPage 에서 정보 조회 (가입을 요청한 회원 정보 조회)
-router.get("/admin/info/:address", controller.get_admin_info);
+router.get("/admin/info/:address/:club_id", controller.get_admin_info);
 // API 11. 운영자 MyPage 에서 가입 허용 
 router.get("/admin/allow/:address/:club_id", controller.get_admin_allow);
 

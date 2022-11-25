@@ -1,12 +1,12 @@
 const env = process.env;
 
 const development = {
-  username: env.MYSQL_USERNAME,
-  password: env.MYSQL_PASSWORD,
-  database: env.MYSQL_DATABASE,
-  host: env.MYSQL_HOST,
+  username: env.MYSQL_USERNAME||"root",
+  password: env.MYSQL_PASSWORD||"1234",
+  database: env.MYSQL_DATABASE||"crazynft",
+  host: env.MYSQL_HOST||"localhost",
   dialect: "mysql",
-  port: env.MYSQL_PORT,
+  port: env.MYSQL_PORT||"3306",
   timezone: "+09:00",
   // dialectOptions: {
   //   options: {

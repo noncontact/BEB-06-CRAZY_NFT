@@ -14,10 +14,11 @@ const items = [
   getItem('내 정보', 'info', <UserOutlined /> ),
   getItem('나의 글', 'articles',  <SolutionOutlined />),
   getItem('나의 클럽', 'club',  <SolutionOutlined />),
-  getItem('나의 NFT', 'nfts', <AppstoreOutlined />, )
+  getItem('나의 NFT', 'nfts', <AppstoreOutlined />, ),
+  getItem('클럽 가입 요청', 'entry', <AppstoreOutlined />, )
 ];
 
-const UserMenu =({selectMenu})=>{
+const AdminMenu =({selectMenu})=>{
     
     const onClick = (e) => {
       selectMenu(e.key);
@@ -38,4 +39,4 @@ const UserMenu =({selectMenu})=>{
       </>
     );
 };
-export default UserMenu;
+export default AdminMenu;
