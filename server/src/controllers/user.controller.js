@@ -6,7 +6,7 @@ const {
   setUserClub,
 } = require("#src/services/user.service");
 
-//user 로그인 /signIn
+// ✅ user 로그인 /signIn
 exports.post_signin = async (req, res, next) => {
   const { address, password } = req.body;
   console.log("userLogin", address, password);
@@ -34,7 +34,7 @@ exports.post_signin = async (req, res, next) => {
   }
 };
 
-// user 회원 가입 /signup
+// ✅ user 회원 가입 /signup
 exports.post_signup = async function (req, res, next) {
   const { address, password, nickname, profileurl } = req.body;
   console.log("signup 데이터 체크", address, password, nickname, profileurl);
