@@ -1,19 +1,60 @@
-import React from 'react';
+import React,{useState,useRef} from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Button,Layout,Form, Input } from "antd";
-import {SketchOutlined} from "@ant-design/icons";
+import { Button,Layout,Form, Input ,message} from "antd";
+import {SketchOutlined,CheckCircleTwoTone} from "@ant-design/icons";
+import { loginUser } from '../../api/user';
+
 const {Sider,Content}=Layout;
+
 const Login =()=>{
+    const formRef = useRef();
+    const [isClick,setIsClick]=useState(true);
     const navigate=useNavigate();
     const dispatch=useDispatch();
+    
+    const loadAccountInfo = async () => {
+        const { klaytn } = window
+        
+        if (klaytn) {
+          try {
+            await klaytn.enable()
+            setAccountInfo(klaytn)
+            klaytn.on('accountsChanged', () => setAccountInfo(klaytn))
+          } catch (error) {
+            message.error('User denied account access')
+          }
+        } else {
+            message.error('Non-Kaikas browser detected. You should consider trying Kaikas!')
+        }
+    };
+    
+    const setAccountInfo = async () => {
+        try {
+            const { klaytn } = window
+            if (klaytn === undefined) return
+            
+            const account = await klaytn.selectedAddress;
+            await formRef.current.setFieldsValue({
+                address: account
+            });
+            setIsClick(false);
+        } catch (error) {
+            console.log(error);
+        }
+        
+      };
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const onFinish = async ({address,password}) => {
+        const info=await loginUser({address,password});
+        console.log(info.data.data);
+        
+        dispatch({type:"accountSlice/login",payload:info.data.data});
+         window.location.replace("/");
       };
-      const onFinishFailed = (errorInfo) => {
+    const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-      };
+    };
     return (
         <Layout>
             <Sider align="center" style={{height:"100vh",background:"white"}}>
@@ -24,6 +65,7 @@ const Login =()=>{
                 
                 <Content align="center" >
                 <Form
+                    ref={formRef}
                     name="basic"
                     labelCol={{
                         span: 8,
@@ -39,8 +81,8 @@ const Login =()=>{
                     autoComplete="off"
                     >
                     <Form.Item
-                        label="Username"
-                        name="username"
+                        label="Address"
+                        name="address"
                         rules={[
                         {
                             required: true,
@@ -48,7 +90,8 @@ const Login =()=>{
                         },
                         ]}
                     >
-                        <Button  type="primary" shape="round" icon={<SketchOutlined />} style={{minHeight:"44px",minWidth:"280px"}}>
+                        <CheckCircleTwoTone twoToneColor="#52c41a" hidden={isClick} />
+                        <Button onClick={loadAccountInfo} type="primary" shape="round" icon={<SketchOutlined />} style={{minHeight:"44px",minWidth:"280px"}}>
                             Kaikas
                         </Button>
                         
@@ -61,7 +104,7 @@ const Login =()=>{
                         {
                             required: true,
                             message: 'Please input your password!',
-                        },
+                        }
                         ]}
                     >
                         <Input.Password />

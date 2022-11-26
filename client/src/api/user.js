@@ -12,12 +12,12 @@ function loginUser(userData) {
   return sign.post("login", userData);
 }
 
-function updateProfileUser(imgData) {
+/*function updateProfileUser(imgData) {
   return sign.post("signintes", imgData);
 }
 
 function logoutUser() {
   return sign.post("logout");
-}
+}*/
 
-export { registerInfo, registerUser, loginUser, updateProfileUser, logoutUser };
+export { registerInfo, registerUser, loginUser};

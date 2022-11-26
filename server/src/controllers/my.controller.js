@@ -80,6 +80,7 @@ exports.get_nft = async (req, res, next) => {
       data: { my_nft: result_data },
     });
   } catch (err) {
+    console.log(err);
     return res.status(404).json({
       data: "fail",
     });
