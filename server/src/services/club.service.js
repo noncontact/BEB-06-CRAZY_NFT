@@ -3,6 +3,7 @@ const { User, Club, UserClub } = require("#src/models/index.js");
 // 모든 클럽정보 가져오기
 exports.getAllClub = async () => {
   return await Club.findAll({
+    attributes: ["id", "title", "img", "createdAt", "AdminId"],
     order: [["createdAt", "DESC"]],
   });
 };

@@ -53,23 +53,6 @@ exports.getMyClubs = async (userId) => {
   });
 };
 
-// 좋아요 반응을 추가
-exports.setPostLike = async (userId, postId) => {
-  // userId => 회원 지갑 주소 입니다.
-  const user = await User.findOne({
-    where: { id: userId },
-  });
-  if (user) {
-    const check = await user.hasLikePost(parseInt(postId, 10));
-    // 존재할경우 삭제
-    if (check) {
-      await user.removeLikePost(parseInt(postId, 10));
-    } else {
-      await user.addLikePost(parseInt(postId, 10));
-    }
-  }
-};
-
 // 클럽 가입신청
 exports.setUserClub = async (userId, clubId) => {
   const user = await User.findOne({
