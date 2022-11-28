@@ -14,10 +14,10 @@ exports.get_detail = async (req, res, next) => {
     //const { userId } = req.cookies.login;
     console.log("MyPage나의 정보조회", address);
     if (!address)
-      return res.status(404).json({ data: "입력정보가 부족합니다" });
+      return res.status(404).json({ data: "fail error = 입력정보가 부족합니다" });
 
     const { id } = await getUserId(address);
-    if (!id) return res.status(404).json({ data: "없는 유저입니다." });
+    if (!id) return res.status(404).json({ data: "fail error = 없는 유저입니다." });
     const result_data = await getMyDetail(id);
 
     return res.status(200).json({
@@ -25,7 +25,7 @@ exports.get_detail = async (req, res, next) => {
     });
   } catch (err) {
     return res.status(404).json({
-      data: "fail",
+      data: `fail error = ${err}`
     });
   }
 };
@@ -36,10 +36,10 @@ exports.get_club = async (req, res, next) => {
     const address = req.params.address;
     //const { userId } = req.cookies.login;
     if (!address)
-      return res.status(404).json({ data: "입력정보가 부족합니다" });
+      return res.status(404).json({ data: "fail error = 입력정보가 부족합니다" });
 
     const { id } = await getUserId(address);
-    if (!id) return res.status(404).json({ data: "없는 유저입니다." });
+    if (!id) return res.status(404).json({ data: "fail error = 없는 유저입니다." });
     console.log(id);
     const data = await getMyClubs(id);
     const { ApplyClub } = data[0];
@@ -59,7 +59,7 @@ exports.get_club = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(404).json({
-      data: "fail",
+      data: `fail error = ${err}`
     });
   }
 };
@@ -71,7 +71,7 @@ exports.get_nft = async (req, res, next) => {
     //const { userId } = req.cookies.login;
     console.log(address);
     if (!address)
-      return res.status(404).json({ data: "입력정보가 부족합니다" });
+      return res.status(404).json({ data: "fail error = 입력정보가 부족합니다" });
 
     const { id } = await getUserId(address);
     const result_data = await getMyNFTs(id);
@@ -82,7 +82,7 @@ exports.get_nft = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(404).json({
-      data: "fail",
+      data: `fail error = ${err}`
     });
   }
 };
@@ -93,7 +93,7 @@ exports.get_content = async (req, res, next) => {
     const address = req.params.address; 
     console.log(address);
     if (!address)
-      return res.status(404).json({ data: "입력정보가 부족합니다" });
+      return res.status(404).json({ data: "fail error = 입력정보가 부족합니다" });
 
     const { id } = await getUserId(address);
     const result_data = await getMyContents(id);
@@ -104,7 +104,7 @@ exports.get_content = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(404).json({
-      data: "fail",
+      data: `fail error = ${err}`
     });
   }
 };
@@ -115,7 +115,7 @@ exports.get_admin_info = async (req, res, next) => {
     const { address, club_id } = req.params; 
     console.log(address);
     if (!address)
-      return res.status(404).json({ data: "입력정보가 부족합니다" });
+      return res.status(404).json({ data: "fail error = 입력정보가 부족합니다" });
 
     const { id } = await getUserId(address);
     const result_data = await getAdminInfo(id, club_id);
@@ -126,7 +126,7 @@ exports.get_admin_info = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(404).json({
-      data: "fail",
+      data: `fail error = ${err}`
     });
   }
 };
@@ -138,19 +138,19 @@ exports.get_admin_allow = async (req, res, next) => {
     const { applyUserId } = req.body; // 가입허용 아이디
 
     if (!(address && club_id))
-      return res.status(404).json({ data: "입력정보가 부족합니다" });
+      return res.status(404).json({ data: "fail error = 입력정보가 부족합니다" });
 
     const { id } = await getUserId(address);
     console.log("가입허용", id, club_id, applyUserId);
     const result_data = await setAdminAllow(id, applyUserId, club_id);
 
     return res.status(200).json({
-      data: "success",
+      data: "success"
     });
   } catch (err) {
     console.log(err);
     return res.status(404).json({
-      data: "fail",
+      data: `fail error = ${err}`
     });
   }
 };
