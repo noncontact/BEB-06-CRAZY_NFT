@@ -24,7 +24,7 @@ exports.updateCommentWrite = async (comment_id, user_id, content) => {
 
 // 댓글 리스트 가져오기
 exports.getCommentList = async (PostId) => {
-  return await Comment.findAndCountAll({
+  return await Comment.findAll({
     where: { PostId },
     attributes: ["content", "createdAt"],
     include: [

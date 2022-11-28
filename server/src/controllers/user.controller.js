@@ -1,10 +1,5 @@
 //const jwt = require("jsonwebtoken");
-const {
-  getUserId,
-  getUser,
-  createUser,
-  setUserClub,
-} = require("#src/services/user.service");
+const { user } = require("#src/services/index"); 
 
 // ✅ user 로그인 /signIn
 exports.post_signin = async (req, res, next) => {
@@ -13,7 +8,7 @@ exports.post_signin = async (req, res, next) => {
   if (!(address && password))
     return res.status(404).json("fail error = 입력정보가 부족합니다");
   try {
-    const userData = await getUser(address, password);
+    const userData = await user.getUser(address, password);
 
     if (userData) {
       console.log("로그인 성공");
@@ -45,7 +40,7 @@ exports.post_signup = async function (req, res, next) {
     });
 
   try {
-    await createUser(address, password, nickname, profileurl);
+    await user.createUser(address, password, nickname, profileurl);
 
     return res.status(200).json({
       data: "success",
@@ -66,11 +61,11 @@ exports.post_apply = async function (req, res, next) {
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
-    const { id } = await getUserId(address);
+    const { id } = await user.getUserId(address);
     if (!id)
       return res.status(404).json({ data: "fail error = 없는 유저입니다." });
 
-    await setUserClub(id, club_id);
+    await user.setUserClub(id, club_id);
     console.log("MyPage나의 정보조회", id, club_id);
     return res.status(200).json({
       data: "success",
