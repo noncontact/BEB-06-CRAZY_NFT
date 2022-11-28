@@ -1,4 +1,12 @@
-const { User } = require("#src/models/index.js");
+const { User, Club } = require("#src/models/index.js");
+
+// 유저 Id 가져오기
+exports.getUserId = async (address) => {
+  return await User.findOne({
+    attributes: ["id"],
+    where: { address },
+  });
+};
 
 // 유저 정보 가져오기
 exports.getUser = async (address, password) => {
@@ -12,7 +20,7 @@ exports.getUser = async (address, password) => {
 exports.getMyDetail = async (userId) => {
   return await User.findOne({
     attributes: ["id", "nickname", "profileurl", "address", "createdAt"],
-    where: { userId },
+    where: { id: userId },
   });
 };
 
@@ -26,34 +34,23 @@ exports.createUser = async (address, password, nickname, profileurl) => {
   });
 };
 
-// 나의 Club 목록
+// 나의 가입 Club 목록
 exports.getMyClubs = async (userId) => {
   return await User.findAll({
-    where: { UserId: userId },
-    required: false, // left outer join이 되게 한다.
     include: [
       {
         model: Club,
-        order: [["createdAt", "DESC"]],
+        as: "ApplyClub",
+        attributes: ["id", "title", "img"],
+        through: {
+          attributes: ["createdAt"],
+          where: { use: true },
+        },
       },
     ],
-  });
-};
-
-// 좋아요 반응을 추가
-exports.setPostLike = async (userId, postId) => { // userId => 회원 지갑 주소 입니다.
-  const user = await User.findOne({
+    attributes: [],
     where: { id: userId },
   });
-  if (user) {
-    const check = await user.hasLikePost(parseInt(postId, 10));
-    // 존재할경우 삭제
-    if (check) {
-      await user.removeLikePost(parseInt(postId, 10));
-    } else {
-      await user.addLikePost(parseInt(postId, 10));
-    }
-  }
 };
 
 // 클럽 가입신청
@@ -61,8 +58,8 @@ exports.setUserClub = async (userId, clubId) => {
   const user = await User.findOne({
     where: { id: userId },
   });
+
   if (user) {
     return await user.addApplyClub(parseInt(clubId, 10));
   }
-}
-
+};

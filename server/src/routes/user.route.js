@@ -9,5 +9,6 @@ const controller = require("../controllers/user.controller");
 router.post("/signup", controller.post_signup);
 // API 2. 로그인
 router.post("/login", controller.post_signin);
-
+// API 3. 클럽 가입신청
+router.post("/apply/:address/:club_id", controller.post_apply);
 module.exports = router;

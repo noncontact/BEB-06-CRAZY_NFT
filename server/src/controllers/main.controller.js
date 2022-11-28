@@ -1,5 +1,7 @@
 const contract_proc = require("../process/contract.process");
 const file_proc = require("../process/file.process");
+//const { getAdminInfo, setAdminAllow } = require("#src/services/club.service");
+//모든클럽 목록
 
 exports.main_get = async(req, res, next) => {
     try {

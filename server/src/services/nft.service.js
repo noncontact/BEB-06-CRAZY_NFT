@@ -1,32 +1,53 @@
-const { NFT } = require("#src/models/index.js");
+const { NFT, NFTUser } = require("#src/models/index.js");
 
 // 나의 NFT 목록
-exports.getMyNFTs = async (userId, address) => {
+exports.getMyNFTs = async (userId) => {
   return await NFT.findAll({
     where: { UserId: userId },
   });
 };
 
-exports.setNFTDeploy = async (clubId, metaCid, contract_address) => {
-  // NFT 발행에 따른 clubId, metaCid, contract_address 를 insert 하는 함수 구현 필요
-    return "success"    
+// NFT 발행
+exports.setNFTDeploy = async (ClubId, metaCid, contractAddress, address) => {
+  return await NFT.create({
+    ClubId,
+    metaCid,
+    contractAddress,
+    AdminAddress: address, // 발행 운영자 계정
+  });
 };
 
-exports.setNFTMint = async (address, club_id, token_ID) => {
-  // NFT mint 후 token_id를 insert 하는 함수 구현 필요 
-  return "success"
+// NFT mint -> token_id 유저발행
+exports.setNFTMint = async (address, ClubId, tokenId, UserId) => {
+  const NFTId = await NFT.findOne({
+    attributes: ["id"],
+    where: { ClubId },
+  });
+
+  if(NFTId){
+    return await NFTUser.create({
+      address,
+      tokenId,
+      NFTId,
+      UserId
+    });
+  }
 };
 
-exports.getContractAddress = async(club_id) => {
-    // club_id 로 contract address DB search 
+// club_id 로 contract address DB search
+exports.getContractAddress = async (ClubId) => {
+  return await NFT.findOne({
+    attributes: ["contractAddress"],
+    where: { ClubId },
+  });
 
-    // return example
-    const data = {
-      contract_add : "address",
-      deploy_count : 30,
-      token_URI : "ipfs://xxxxxxxx",
-      price : 1000000000000
-    }
+  // return example
+  // const data = {
+  //   contract_add : "address",
+  //   deploy_count : 30,
+  //   token_URI : "ipfs://xxxxxxxx",
+  //   price : 1000000000000
+  // }
+  // return data;
+};
 
-    return data;
-}

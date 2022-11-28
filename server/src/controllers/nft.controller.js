@@ -4,6 +4,11 @@ const contract_proc = require("../process/contract.process");
 const file_proc = require("../process/file.process");
 const { startCreating, buildSetup } = require(`${basePath}/hashilip_engine/src/main.js`);
 const { updateConfig } = require(`${basePath}/hashilip_engine/src/update_info.js`);
+// const {
+//   setNFTDeploy,
+//   getContractAddress,
+//   setNFTMint,
+// } = require("../services/nft.service");
 
 // API 12. NFT 발행 (Deploy) 요청
 exports.post_nft_deploy = async (req, res, next) => {
@@ -36,7 +41,7 @@ exports.post_nft_deploy = async (req, res, next) => {
     const contract_addr = await contract_proc.DeployNFT(nft_name, nft_symbol);
     if(typeof contract_addr !== "undefined") {
       // 발행을 한 NFT 정보를 database에 insert 하는 함수 구현 필요
-      //const result_db = await service.setNFTDeploy(club_id, meta_cid, nft_price, deploy_count, contract_addr); //  파라메터는 변경 가능 
+      await service.setNFTDeploy(club_id, meta_cid, nft_price, deploy_count, contract_addr); //<<<< Database 함수 추가 필요   
       return res.status(200).json({
         data: { token_uri: `ipfs://${meta_cid}`, ca: contract_addr}
       });
@@ -58,7 +63,7 @@ exports.post_nft_mint = async (req, res, next) => {
           return res.status(404).json({"data": "입력정보가 부족합니다"});
 
       //database 에서 club_id 에 맞는 contract address 와 tokenURI, deploy_count, price 를 가져오는 함수 필요
-      const result_db = await service.getContractAddress(club_id);      
+      const result_db = await service.getContractAddress(club_id); //<<<< Database 함수 추가 필요     
       console.log(result_db);
       // 클라이언트에서 회원이 서버계좌에 토큰을 보냈는지 확인하는 함수 구현
       const result_trans = await contract.getTokenTransCheck(address, tx_hash, result_db.price);
@@ -66,11 +71,11 @@ exports.post_nft_mint = async (req, res, next) => {
         // 현재 발행량이 초과가 되었는지 체크하는 함수  
         const result_supply = await contract_proc.getNFTDeployCheck (result_db.contract_add, result_db.deploy_count) 
         if(result_supply === "ok") { 
-          // 운영자가 NFT 민팅하여 클라이언트 계정에 전송하는 함수 구현 필요
+          // 운영자가 NFT 민팅하여 클라이언트 계정에 전송하는 함수 구현 
           const token_ID = await contract_proc.MintNFT(address, result_db.contract_add, result_db.token_URI);
           if(typeof token_ID !== "undefined") {
             // minting을 한 계정의 NFT 정보를 database에 insert 하는 함수 구현 필요
-            await service.setNFTMint(address, token_ID, club_id);  
+            await service.setNFTMint(address, token_ID, club_id);  //<<<< Database 함수 추가 필요   
 
             // minting 후 nft table에 발행량을 업데이트
             const count = result_db.deploy_count++;

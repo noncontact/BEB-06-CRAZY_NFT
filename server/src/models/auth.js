@@ -26,17 +26,17 @@ module.exports = class Auth extends Sequelize.Model {
 
   static associate(db) {
     db.Auth.belongsToMany(db.Forum, {
-      foreignKey: "ForumId",
+      foreignKey: "AuthId",
       as: "Forum", //함수불러올때 이름을 정의해주는것
       through: db.AuthForum, //중간테이블
     });
     db.Auth.belongsToMany(db.User, {
-      foreignKey: "UserId",
+      foreignKey: "AuthId",
       as: "User", //함수불러올때 이름을 정의해주는것
       through: "AuthorizationUsers", //중간테이블
     });
     db.Auth.belongsToMany(db.NFT, {
-      foreignKey: "NFTId",
+      foreignKey: "AuthId",
       as: "NFT", //함수불러올때 이름을 정의해주는것
       through: "AuthorizationNFTs", //중간테이블
     });

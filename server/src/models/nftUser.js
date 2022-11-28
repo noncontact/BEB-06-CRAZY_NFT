@@ -1,26 +1,26 @@
 const Sequelize = require("sequelize");
 
-module.exports = class NFT extends Sequelize.Model {
+module.exports = class NFTUser extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        metaCid: {
+        address: {
           type: Sequelize.STRING(255),
           allowNull: false,
           unique: true,
         },
-        contractAddress: {
+        token_id: {
           type: Sequelize.STRING(255),
           allowNull: false,
           unique: true,
-        },
+        }
       },
       {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: "NFT",
-        tableName: "nft",
+        modelName: "NFTUser",
+        tableName: "nftuser",
         paranoid: false,
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci",
@@ -29,16 +29,7 @@ module.exports = class NFT extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.NFT.belongsTo(db.User, {
-      foreignKey: "AdminAddress",
-      
-    }); // 운영자 아이디
-    db.NFT.belongsTo(db.Club, { foreignKey: "ClubId" });
-    db.NFT.hasMany(db.NFTUser, { foreignKey: "NFTId" });
-    db.NFT.belongsToMany(db.Auth, {
-      foreignKey: "NFTId",
-      as: "Auth",
-      through: "AuthorizationNFTs", //중간테이블
-    });
+    db.NFTUser.belongsTo(db.User, { foreignKey: "UserId" });  // 운영자 아이디
+    db.NFTUser.belongsTo(db.NFT, { foreignKey: "NFTId" });
   }
 };

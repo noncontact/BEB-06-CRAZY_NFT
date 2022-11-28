@@ -39,7 +39,7 @@ module.exports = class Post extends Sequelize.Model {
     });
     db.Post.hasMany(db.Comment, { foreignKey: "PostId", sourceKey: "id" });
     db.Post.belongsToMany(db.User, {
-      foreignKey: "UserId",
+      foreignKey: "PostId",
       as: "LikeUser",
       through: "PostLike",
     });

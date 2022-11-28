@@ -1,24 +1,28 @@
-//const jwt = require("jsonwebtoken");
-//const service = require("../services/my.service");
+const {
+  getUserId,
+  getMyDetail,
+  getMyClubs,
+} = require("#src/services/user.service");
+const { getMyNFTs } = require("#src/services/nft.service");
+const { getMyContents } = require("#src/services/post.service");
+const { getAdminInfo, setAdminAllow } = require("#src/services/club.service");
 
-// API 9-1. 일반 회원 MyPage 에서 나의 정보 조회 (나의 상세 정보)
+// ✅ API 9-1. 일반 회원 MyPage 에서 나의 정보 조회 (나의 상세 정보)
 exports.get_detail = async (req, res, next) => {
   try {
     const address = req.params.address;
-    console.log(address);
+    //const { userId } = req.cookies.login;
+    console.log("MyPage나의 정보조회", address);
     if (!address)
       return res.status(404).json({ data: "입력정보가 부족합니다" });
-    // 일반회원의 상세정보를 json 포멧 으로 전송 하는 함수 구현 필요
-    //const result_data = await service.getMyDetail(address);
-    ///////////////////test code ////////////////
-    const my_info_obj = {
-      nickname: "<nickname>",
-      image_uri: "<profile iamge IPFS 경로>",
-    };
+
+    const { id } = await getUserId(address);
+    if (!id) return res.status(404).json({ data: "없는 유저입니다." });
+    const result_data = await getMyDetail(id);
+
     return res.status(200).json({
-      data: { my_info: my_info_obj },
+      data: { my_info: result_data },
     });
-    ///////////////////test code ////////////////
   } catch (err) {
     return res.status(404).json({
       data: "fail",
@@ -26,145 +30,125 @@ exports.get_detail = async (req, res, next) => {
   }
 };
 
-// API 9-2. 일반 회원 MyPage 에서 나의 정보 조회 (나의 가입 클럽)
+// ✅ API 9-2. 일반 회원 MyPage 에서 나의 정보 조회 (나의 가입 클럽)
 exports.get_club = async (req, res, next) => {
   try {
     const address = req.params.address;
-    console.log(address);
+    //const { userId } = req.cookies.login;
     if (!address)
       return res.status(404).json({ data: "입력정보가 부족합니다" });
-    // 일반회원이 가입한 club 정보를 json 포멧 으로 전송 하는 함수 구현 필요
-    const result_data = await service.getMyClubs(address);
-    ///////////////////test code ////////////////
-    const my_club_obj = [
-      {
-        club_id: "<club id>",
-        "club name": "<club name>",
-      },
-      {
-        club_id: "<club id 2>",
-        "club name": "<club name 3>",
-      },
-    ];
-    return res.status(200).json({
-      data: { my_club: my_club_obj },
+
+    const { id } = await getUserId(address);
+    if (!id) return res.status(404).json({ data: "없는 유저입니다." });
+    console.log(id);
+    const data = await getMyClubs(id);
+    const { ApplyClub } = data[0];
+
+    const my_club = ApplyClub.map((el) => {
+      return {
+        id: el.id,
+        title: el.title,
+        img: el.img,
+        createdAt: el.UserClub.createdAt,
+      };
     });
-    ///////////////////test code ////////////////
+
+    return res.status(200).json({
+      data: { my_club },
+    });
   } catch (err) {
+    console.log(err);
     return res.status(404).json({
       data: "fail",
     });
   }
 };
+
 // API 9-3. 일반 회원 MyPage 에서 나의 정보 조회 (나의 보유 NFT)
 exports.get_nft = async (req, res, next) => {
   try {
     const address = req.params.address;
+    //const { userId } = req.cookies.login;
     console.log(address);
     if (!address)
       return res.status(404).json({ data: "입력정보가 부족합니다" });
-    // 일반회원의 nft정보를 json 포멧 으로 전송 하는 함수 구현 필요
-    const result_data = await service.getMyNFTs(address);
-    ///////////////////test code ////////////////
-    const my_nft_obj = [
-      {
-        nft_id: "<nft id>",
-        token_url: "ipfs://ehuhuhfuhuhu3fugu3gu3gqu",
-      },
-      {
-        nft_id: "<nft id 2>",
-        token_url: "ipfs://ehuhuhfuhuhu3fugu3gu3gqu",
-      },
-    ];
+
+    const { id } = await getUserId(address);
+    const result_data = await getMyNFTs(id);
+
     return res.status(200).json({
-      data: { my_nft: my_nft_obj },
+      data: { my_nft: result_data },
     });
-    ///////////////////test code ////////////////
   } catch (err) {
+    console.log(err);
     return res.status(404).json({
       data: "fail",
     });
   }
 };
-// API 9-4. 일반 회원 MyPage 에서 나의 정보 조회 (나의 작성 게시글)
+
+// ✅ API 9-4. 일반 회원 MyPage 에서 나의 정보 조회 (나의 작성 게시글)
 exports.get_content = async (req, res, next) => {
   try {
-    const address = req.params.address;
+    const address = req.params.address; 
     console.log(address);
     if (!address)
       return res.status(404).json({ data: "입력정보가 부족합니다" });
 
-    // 일반회원의 작성게시글 정보를 json 포멧 으로 전송 하는 함수 구현 필요
-    const result_data = await service.getMyContents(address);
-    ///////////////////test code ////////////////
-    const my_content_obj = [
-      {
-        title: "<title>",
-        post_id: "<post id>",
-      },
-      {
-        title: "<title 2>",
-        post_id: "<post id 2>",
-      },
-    ];
+    const { id } = await getUserId(address);
+    const result_data = await getMyContents(id);
+
     return res.status(200).json({
-      data: { my_contents: my_content_obj },
+      data: { my_contents: result_data },
     });
-    ///////////////////test code ////////////////
   } catch (err) {
+    console.log(err);
     return res.status(404).json({
       data: "fail",
     });
   }
 };
-// API 10. 운영자 MyPage 에서 정보 조회 (가입을 요청한 회원 정보 조회)
+
+// ✅ API 10. 운영자 MyPage 에서 정보 조회 (가입을 요청한 회원 정보 조회)
 exports.get_admin_info = async (req, res, next) => {
   try {
-    const address = req.params.address;
+    const { address, club_id } = req.params; 
     console.log(address);
     if (!address)
       return res.status(404).json({ data: "입력정보가 부족합니다" });
 
-    // 운영자에게 가입을 희망하는 회원의 정보를 json 포멧 으로 전송 하는 함수 구현 필요
-    const result_data = await service.getAdminInfo(address);
-    ///////////////////test code ////////////////
-    const my_hope_obj = [
-      {
-        address: "<회원 address>",
-        nickname: "<ghldnjs nick name>",
-      },
-      {
-        address: "<회원 address 2>",
-        nickname: "<ghldnjs nick name 2>",
-      },
-    ];
+    const { id } = await getUserId(address);
+    const result_data = await getAdminInfo(id, club_id);
+
     return res.status(200).json({
-      data: { signup_list: my_hope_obj },
+      data: { signup_list: result_data[0].ApplyUser },
     });
-    ///////////////////test code ////////////////
   } catch (err) {
+    console.log(err);
     return res.status(404).json({
       data: "fail",
     });
   }
 };
-// API 11. 운영자 MyPage 에서 가입 허용
+
+// ✅ API 11. 운영자 MyPage 에서 가입 허용
 exports.get_admin_allow = async (req, res, next) => {
   try {
-    const address = req.params.address;
-    const club_id = req.params.club_id;
-    console.log(address, club_id);
+    const { address, club_id } = req.params;
+    const { applyUserId } = req.body; // 가입허용 아이디
+
     if (!(address && club_id))
       return res.status(404).json({ data: "입력정보가 부족합니다" });
 
-    // 운영자가 가입을 희망하는 회원을 허락하는 함수 구현 필요
-    const result_data = await service.setAdminAllow(address);
-    ///////////////////test code ////////////////
+    const { id } = await getUserId(address);
+    console.log("가입허용", id, club_id, applyUserId);
+    const result_data = await setAdminAllow(id, applyUserId, club_id);
+
     return res.status(200).json({
       data: "success",
     });
-    ///////////////////test code ////////////////
   } catch (err) {
+    console.log(err);
     return res.status(404).json({
       data: "fail",
     });

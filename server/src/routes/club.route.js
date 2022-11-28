@@ -4,9 +4,6 @@ const router = express.Router();
 const controller = require("../controllers/club.controller");
 //const upload = require("./upload.js");
 
-router.use(express.json());
-router.use(express.urlencoded({extended:true}));
-
 /* club router listing. */
 // API 3. 모든 클럽 목록
 router.get("/allclub", controller.get_allclub);
@@ -20,5 +17,7 @@ router.post("/write", controller.post_write);
 router.post("/comment/write", controller.post_comm_write);
 // API 8. 좋아요 반응 작성
 router.get("/comment/like/:post_id/:address", controller.get_comm_like);
+// API 9. advance 클럽 생성 
+router.post("/makeclub", controller.post_make_club);
 
 module.exports = router;
