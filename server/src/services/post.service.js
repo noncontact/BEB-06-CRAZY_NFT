@@ -8,6 +8,25 @@ exports.getMyContents = async (UserId) => {
   });
 };
 
+exports.getPostLike = async (PostId) => {
+  return await Post.count({
+    attributes: [], 
+    where: {
+      id: PostId,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ["nickname", "profileurl", "createdAt"],
+        as: "LikeUser",
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  });
+};
+
 // PostId 에 따른 작성글 상세내용 가져오기
 exports.getContentDetail = async (PostId) => {
   return await Post.findOne({
@@ -17,11 +36,10 @@ exports.getContentDetail = async (PostId) => {
     },
     include: [
       {
-        model: User,
         attributes: ["nickname", "profileurl", "createdAt"],
+        model: User,
       },
     ],
-
     order: [["createdAt", "DESC"]],
   });
 };

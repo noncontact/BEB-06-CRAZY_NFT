@@ -1,8 +1,5 @@
 const contract = require("../process/contract.process");
-const club = require("../services/club.service");
-const post = require("../services/post.service");
-const comment = require("../services/comment.service");
-const user = require("../services/user.service");
+const { club, post, comment, user } = require("#src/services/index");
 
 // ✅ API 3. 모든 클럽 목록
 exports.get_allclub = async (req, res, next) => {
@@ -54,9 +51,18 @@ exports.get_detail = async (req, res, next) => {
 
     const result_post = await post.getContentDetail(post_id);
     const result_comment = await comment.getCommentList(post_id);
+    const result_postLike = await post.getPostLike(post_id);
 
     return res.status(200).json({
-      data: { result_post, result_comment },
+      data: {
+        id: result_post.id,
+        title: result_post.title,
+        img: result_post.img,
+        createdAt: result_post.createdAt,
+        user: result_post.User,
+        comment: result_comment,
+        like_num: result_postLike,
+      },
     });
   } catch (err) {
     console.log(err);
