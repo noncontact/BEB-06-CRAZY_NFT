@@ -4,18 +4,18 @@ function myDetail(address) {
   return my.get(`detail/${address}`);
 }
 function myClub(address) {
-    return my.get(`club/${address}`);
+  return my.get(`club/${address}`);
 }
 function myNft(address) {
-    return my.get(`nft/${address}`);
+  return my.get(`nft/${address}`);
 }
 function myContent(address) {
-    return my.get(`content/${address}`);
+  return my.get(`content/${address}`);
 }
-function clubEntryList(address,club_id) {
+function clubEntryList(address, club_id) {
   return my.get(`admin/info/${address}/${club_id}`);
 }
-function clubEntry(address,club_id) {
+function clubEntry(address, club_id) {
   return my.get(`admin/allow/${address}/${club_id}`);
 }
 
@@ -27,4 +27,4 @@ function logoutUser() {
   return sign.post("logout");
 }*/
 
-export { myDetail,myClub,myNft,myContent,clubEntryList,clubEntry};
+export { myDetail, myClub, myNft, myContent, clubEntryList, clubEntry };

@@ -8,7 +8,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import Caver from "caver-js";
-import { registerUser } from "../../api/user";
+import { registerUser } from "api/user";
 
 const { Sider, Content } = Layout;
 

@@ -20,4 +20,4 @@ function logoutUser() {
   return sign.post("logout");
 }*/
 
-export { registerInfo, registerUser, loginUser};
+export { registerInfo, registerUser, loginUser };

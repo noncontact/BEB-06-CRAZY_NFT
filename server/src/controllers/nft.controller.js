@@ -4,11 +4,6 @@ const contract_proc = require("../process/contract.process");
 const file_proc = require("../process/file.process");
 const { startCreating, buildSetup } = require(`${basePath}/hashilip_engine/src/main.js`);
 const { updateConfig } = require(`${basePath}/hashilip_engine/src/update_info.js`);
-// const {
-//   setNFTDeploy,
-//   getContractAddress,
-//   setNFTMint,
-// } = require("../services/nft.service");
 
 // API 12. NFT 발행 (Deploy) 요청
 exports.post_nft_deploy = async (req, res, next) => {
