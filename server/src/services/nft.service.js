@@ -8,21 +8,20 @@ exports.getMyNFTs = async (userId) => {
 };
 
 // NFT 발행
+
 exports.setNFTDeploy = async (
   ClubId,
   metaCid,
   nft_price,
   deployCount,
-  contractAddress,
-  address
+  contractAddress,  
 ) => {
   return await NFT.create({
     ClubId,
     metaCid,
     price: nft_price,
     deployCount,
-    contractAddress,
-    AdminAddress: address, // 발행 운영자 계정
+    contractAddress
   });
 };
 
