@@ -10,9 +10,8 @@ module.exports = class NFTUser extends Sequelize.Model {
           unique: true,
         },
         token_id: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.INTEGER,
           allowNull: false,
-          unique: true,
         }
       },
       {

@@ -26,6 +26,8 @@ const corsOption = {
   optionsSuccessStatus: 200,
 };
 
+console.log("server start-------------------")
+
 app.use(cors(corsOption));
 
 sequelize

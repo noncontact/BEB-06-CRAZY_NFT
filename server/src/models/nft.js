@@ -14,6 +14,15 @@ module.exports = class NFT extends Sequelize.Model {
           allowNull: false,
           unique: true,
         },
+        // 최대 발행량
+        deployCount: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        price: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        }
       },
       {
         sequelize,

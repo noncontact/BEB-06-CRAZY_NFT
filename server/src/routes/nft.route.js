@@ -2,12 +2,45 @@ const express = require("express");
 const router = express.Router();
 //const { isLoggedIn } = require("./middleware.js");
 const controller = require("../controllers/nft.controller");
-//const upload = require("./upload.js");
+const multer = require("multer");
+
+router.use(express.json());
+router.use(express.urlencoded({extended:true}));
+
+const file_process = require('../process/file.process')
+
+
+//buffer 형태로 저장
+// const upload = multer({
+//   storage: multer.memoryStorage(),
+// });
+
+// multer storge 저장
+const storage = multer.diskStorage({
+    destination:  (req, file, cb) => {
+      cb(null, process.env.NFT_UPLOAD_PATH)
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
+//미들웨어 등록- stotage
+let upload = multer({
+    storage: storage
+});
+
+// 미들웨어 등록 - traget dir 
+// let upload = multer({
+//     dest: 'upload_parts/'
+// });
 
 /* nft router listing. */
 // API 12. NFT 발행 (Deploy) 요청
 router.post("/deploy", controller.post_nft_deploy);
 // API 13. NFT 민팅 요청
-router.get("/mint/:address", controller.get_nft_mint);
+router.post("/mint", controller.post_nft_mint);
+// 15. NFT 이미지 생성을 위한 Parts 이미지 upload 요청
+router.post("/upload", upload.array('img'), controller.post_nft_parts_upload);
 
 module.exports = router;
