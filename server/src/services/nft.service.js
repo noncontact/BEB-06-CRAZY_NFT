@@ -19,6 +19,14 @@ exports.setNFTMint = async (address, club_id, token_ID) => {
 
 exports.getContractAddress = async(club_id) => {
     // club_id 로 contract address DB search 
-    let contract_address;
-    return contract_address;
+
+    // return example
+    const data = {
+      contract_add : "address",
+      deploy_count : 30,
+      token_URI : "ipfs://xxxxxxxx",
+      price : 1000000000000
+    }
+
+    return data;
 }
