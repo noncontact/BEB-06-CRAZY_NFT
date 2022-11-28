@@ -196,10 +196,18 @@ exports.transmit_Token = async(address) => {
         // 클라이언트에게 보상으로 발행하는 토큰(PCT)으로 100PCT를 전송한다.
         const kip7Instance = await new caver.klay.KIP7(process.env.KIP7_CONTRACT_ADDRESS)
         let tx_hash  = await kip7Instance.mint(address, 100000000000000000000, { from: process.env.SERVER_ACCOUNT })
-        return tx_hash;
+        const data = {
+            msg : "success",
+            value : tx_hash
+        }
+        return data;
     }
     catch(err) {
-        return err;
+        const data = {
+            msg : "fail",
+            value : err
+        }
+        return data;
     }
 }
 
@@ -231,12 +239,18 @@ exports.DeployNFT = async(nft_name, nft_symbol) => {
         // .then(function(newKIP17Instance) {
         //     console.log(newKIP17Instance.options.address) // instance with the new token contract address
         // })
-
-        return result._address
-
+        const data = {
+            msg : "success",
+            value : result._address
+        }
+        return data
     }
     catch (err) {
-        return err;
+        const data = {
+            msg : "fail",
+            value : err
+        }
+        return data;
     }
 }
 
@@ -307,12 +321,19 @@ exports.MintNFT = async(address, contract_add, tokenURI) => {
         const num = await kip17Instance.totalSupply()
         const res = await kip17Instance.mintWithTokenURI(address, Number(num)+1, tokenURI, { from: process.env.SERVER_ACCOUNT });
         console.log(res);
-        const token_uri = await kip17Instance.tokenURI(Number(num)+1);
-        console.log(token_uri);
-
-        return Number(num)+1;
+        // const token_uri = await kip17Instance.tokenURI(Number(num)+1);
+        // console.log(token_uri);
+        const data = {
+            mag : "success",
+            value : Number(num)+1
+        }
+        return data;
     }
     catch (err) {
-        return err;
+        const data = {
+            mag : "fail",
+            value : err
+        }
+        return data;
     }
 }
