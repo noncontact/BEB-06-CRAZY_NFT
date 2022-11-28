@@ -8,10 +8,19 @@ exports.getMyNFTs = async (userId) => {
 };
 
 // NFT 발행
-exports.setNFTDeploy = async (ClubId, metaCid, contractAddress, address) => {
+exports.setNFTDeploy = async (
+  ClubId,
+  metaCid,
+  nft_price,
+  deployCount,
+  contractAddress,
+  address
+) => {
   return await NFT.create({
     ClubId,
     metaCid,
+    price: nft_price,
+    deployCount,
     contractAddress,
     AdminAddress: address, // 발행 운영자 계정
   });
@@ -24,12 +33,12 @@ exports.setNFTMint = async (address, ClubId, tokenId, UserId) => {
     where: { ClubId },
   });
 
-  if(NFTId){
+  if (NFTId) {
     return await NFTUser.create({
       address,
       tokenId,
       NFTId,
-      UserId
+      UserId,
     });
   }
 };
@@ -37,17 +46,7 @@ exports.setNFTMint = async (address, ClubId, tokenId, UserId) => {
 // club_id 로 contract address DB search
 exports.getContractAddress = async (ClubId) => {
   return await NFT.findOne({
-    attributes: ["contractAddress"],
+    attributes: ["metaCid", "contractAddress", "deployCount", "price"],
     where: { ClubId },
   });
-
-  // return example
-  // const data = {
-  //   contract_add : "address",
-  //   deploy_count : 30,
-  //   token_URI : "ipfs://xxxxxxxx",
-  //   price : 1000000000000
-  // }
-  // return data;
 };
-
