@@ -40,4 +40,14 @@ exports.getContractAddress = async (ClubId) => {
     attributes: ["contractAddress"],
     where: { ClubId },
   });
+
+  // return example
+  // const data = {
+  //   contract_add : "address",
+  //   deploy_count : 30,
+  //   token_URI : "ipfs://xxxxxxxx",
+  //   price : 1000000000000
+  // }
+  // return data;
 };
+
