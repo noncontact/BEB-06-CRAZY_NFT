@@ -1,11 +1,11 @@
-import {
-  AppstoreOutlined,
-  UserOutlined,
-  SolutionOutlined,
-} from "@ant-design/icons";
-import { Menu } from "antd";
-import { useNavigate } from "react-router-dom";
-import React from "react";
+
+import { AppstoreOutlined, UserOutlined, SolutionOutlined } from '@ant-design/icons';
+import { Menu } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -26,20 +26,37 @@ const items = [
   getItem("슈퍼레어글", "superrare", <AppstoreOutlined />),
 ];
 
-const Catagory = ({ selectCatagory }) => {
-  const navigate = useNavigate();
-  const onClick = (e) => {
-    selectCatagory(e.key);
-    navigate("/clubmain/socker/");
-  };
-  return (
-    <>
+const cataId = {
+  all: 0,
+  notice: 1,
+  qna: 2,
+  free: 3,
+  club: 4,
+  rare: 5,
+  superrare: 6,
+}
+const Catagory =()=>{
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
+    const {clubName,catagory}=useSelector((state) =>{
+      return state.club;
+    });
+    const onClick = (e) => {
+      
+      dispatch({type:"clubSlice/selectCatagory",payload:{catagory:e.key,catagoryId:cataId[e.key]}});
+      navigate(`/clubmain/${clubName}`);
+    };
+    return (
+      <>
+
       <Menu
         onClick={onClick}
         style={{
           background: "#9747FF",
         }}
-        defaultSelectedKeys={["all"]}
+
+        defaultSelectedKeys={[catagory]}
+
         mode="inline"
         items={items}
       />

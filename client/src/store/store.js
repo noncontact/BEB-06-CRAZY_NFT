@@ -1,16 +1,18 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import {
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import accountSlice from "./accountSlice";
-import { persistStore } from "redux-persist";
+
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER, } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import accountSlice from './accountSlice';
+import { persistStore } from 'redux-persist';
+import clubSlice from './clubSlice';
+
+
 
 const persistConfig = {
   key: "root",
@@ -18,8 +20,11 @@ const persistConfig = {
 };
 
 let rootReducer = combineReducers({
-  account: accountSlice.reducer,
-});
+
+    account: accountSlice.reducer,
+    club: clubSlice.reducer,
+})
+
 
 const persistedReducer = persistReducer(persistConfig, rootReducer); // redux-persist
 
