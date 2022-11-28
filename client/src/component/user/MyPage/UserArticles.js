@@ -9,13 +9,6 @@ const UserArticles = () => {
     return state.account;
   });
   useEffect(() => {
-    const fetchData = async () => {
-      const contents = await myContent(address);
-      setArticles(contents.data.data.my_contents);
-      console.log(contents.data.data.my_contents);
-    };
-
-
         const fetchData = async () => {
         const contents=await myContent(address);
         setArticles(contents.data.data.my_contents);
