@@ -22,7 +22,7 @@ module.exports = class NFT extends Sequelize.Model {
         price: {
           type: Sequelize.INTEGER,
           allowNull: false,
-        }
+        },
       },
       {
         sequelize,
@@ -38,10 +38,6 @@ module.exports = class NFT extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.NFT.belongsTo(db.User, {
-      foreignKey: "AdminAddress",
-      
-    }); // 운영자 아이디
     db.NFT.belongsTo(db.Club, { foreignKey: "ClubId" });
     db.NFT.hasMany(db.NFTUser, { foreignKey: "NFTId" });
     db.NFT.belongsToMany(db.Auth, {

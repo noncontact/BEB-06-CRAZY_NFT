@@ -44,9 +44,6 @@ module.exports = class User extends Sequelize.Model {
     db.User.hasMany(db.Post, { foreignKey: "UserId" });
     db.User.hasMany(db.Comment, { foreignKey: "Commenter", sourceKey: "id" });
     db.User.hasMany(db.NFTUser, { foreignKey: "UserId" });
-    db.User.hasOne(db.NFT, {
-      foreignKey: "AdminAddress",
-    }); // NFT 운영자 계정
     db.User.hasOne(db.Club, { foreignKey: "AdminId" }); // 클럽개설 운영자 id
     // 클럽과 유저
     db.User.belongsToMany(db.Club, {
