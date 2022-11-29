@@ -84,7 +84,7 @@ exports.post_nft_mint = async (req, res, next) => {
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
-    // DB table에서 tx_hash 를 서색하여 동일한 것이 잇는지 확인한다.
+    // DB table에서 tx_hash 를 검색하여 동일한 것이 잇는지 확인한다.
     const result_check = await service_nft.checkTransHash(tx_hash); //<<<< Database 함수 추가 필요
     if(result_check === "true")
       return res.status(404).json({ data: "fail error = 이미 처리된 hash 입니다." });

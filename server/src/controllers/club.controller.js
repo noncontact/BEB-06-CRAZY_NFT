@@ -75,6 +75,7 @@ exports.post_write = async (req, res, next) => {
       id,
       title,
       content,
+
       club_id,
       category_id
     );

@@ -52,7 +52,7 @@ exports.getContractAddress = async (ClubId) => {
 
 exports.setTransHash = async (address, tx_hash) => {
   // transaction History 테이블에 회원 account (address), tx_hash 를 insert 하는 함수 필요
-  // return true: 있는 경우 false : 없는 경우  
+ 
 }
 
 exports.checkTransHash = async (tx_hash) => {
