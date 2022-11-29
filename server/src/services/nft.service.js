@@ -52,10 +52,19 @@ exports.getContractAddress = async (ClubId) => {
 
 // transaction History 테이블에 회원 account (address), tx_hash 를 insert 하는 함수
 exports.setTransHash = async (UserId, tx_hash) => {
-  return await TranHash.create({
-    tx_hash,
-    UserId,
-  });
+  try {
+    return await TranHash.create({
+      tx_hash,
+      UserId,
+    });
+  }
+  catch (err) {
+    const data = {
+      msg : "error",
+      value : err
+    }
+    return data;
+  }
 };
 
 exports.checkTransHash = async (tx_hash) => {

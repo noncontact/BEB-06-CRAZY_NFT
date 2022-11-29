@@ -115,20 +115,14 @@ exports.post_nft_mint = async (req, res, next) => {
             club_id,
             return_mint.value,
             user.id
-          ); //<<<< Database 함수 추가 필요
+          ); 
           // transaction history table에 회원 지갑 주소, tx_hash 를 insert 하는 함수 필요
-          const { id } = await user.getUserId(address);
-          if (!id)
-            return res
-              .status(404)
-              .json({ data: "fail error = 없는 유저입니다." }); 
-          const result_check = await service_nft.setTransHash(id, tx_hash);
-
-          if (result_check !== "success")
+          const result_set = await service_nft.setTransHash(user.id, tx_hash);
+          if (result_set.msg === "error")
             return res
               .status(404)
               .json({
-                data: "fail error = database에서 hash 이력 등록 처리 오류 입니다.",
+                data: `fail error = ${result_set.value}`
               });
 
           return res.status(200).json({
