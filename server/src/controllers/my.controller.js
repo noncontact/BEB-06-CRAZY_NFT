@@ -4,7 +4,6 @@ const { user, nft, post, club } = require("#src/services/index");
 exports.get_detail = async (req, res, next) => {
   try {
     const address = req.params.address;
-    //const { userId } = req.cookies.login;
     console.log("MyPage나의 정보조회", address);
     if (!address)
       return res
