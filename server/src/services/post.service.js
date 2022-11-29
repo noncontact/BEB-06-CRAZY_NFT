@@ -30,7 +30,7 @@ exports.getPostLike = async (PostId) => {
 // PostId 에 따른 작성글 상세내용 가져오기
 exports.getContentDetail = async (PostId) => {
   return await Post.findOne({
-    attributes: ["id", "title", "img", "createdAt"],
+    attributes: ["id", "title", "content","img", "createdAt"],
     where: {
       id: PostId,
     },

@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const port = process.env.PORT || 4000;
 const path = require("path");
+const webpack = require('webpack');
 
 module.exports = {
   // 개발환경
@@ -42,6 +43,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "public/index.html",
     }),
+    new webpack.EnvironmentPlugin({
+      REACT_APP_API_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGEyQTlGNTMxMkVDQjM4OGQ0NTdEODkzQjlEZkM4YWI1MWM4ZTQzZjgiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2NzA2MzA1MzA3OSwibmFtZSI6ImltYWdlVGVzdCJ9.xqjlAjrKyRJVOBD-6igpXvL-L-35syf401kWpDlfCrc'
+    })
   ],
   resolve: {
     fallback: {
