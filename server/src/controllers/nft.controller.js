@@ -1,5 +1,6 @@
 const basePath = process.cwd();
-const service = require("../services/nft.service");
+const service_user = require("../services/user.service");
+const service_nft = require("../services/nft.service");
 const contract_proc = require("../process/contract.process");
 const file_proc = require("../process/file.process");
 const {
@@ -14,7 +15,6 @@ const {
 exports.post_nft_deploy = async (req, res, next) => {
   try {
     const {
-      address,
       club_id,
       nft_name,
       nft_symbol,
@@ -24,7 +24,7 @@ exports.post_nft_deploy = async (req, res, next) => {
     } = req.body;
     console.log(club_id, nft_name, nft_desc, nft_price, deploy_count);
     if (
-      !(address && club_id && nft_name && nft_desc && nft_price && deploy_count)
+      !(club_id && nft_name && nft_desc && nft_price && deploy_count)
     )
       return res
         .status(404)
@@ -52,13 +52,12 @@ exports.post_nft_deploy = async (req, res, next) => {
     const result_deploy = await contract_proc.DeployNFT(nft_name, nft_symbol);
     if (result_deploy.msg === "success") {
       // 발행을 한 NFT 정보를 database에 insert 하는 함수 구현 필요
-      await service.setNFTDeploy(
+      await service_nft.setNFTDeploy(
         club_id,
         meta_cid,
         nft_price,
         deploy_count,
-        result_deploy.value,
-        address
+        result_deploy.value
       );
       return res.status(200).json({
         data: { token_uri: `ipfs://${meta_cid}`, ca: result_deploy.value },
@@ -85,43 +84,48 @@ exports.post_nft_mint = async (req, res, next) => {
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
+    // DB table에서 tx_hash 를 서색하여 동일한 것이 잇는지 확인한다.
+    const result_check = await service_nft.checkTransHash(tx_hash); //<<<< Database 함수 추가 필요
+    if(result_check === "true")
+      return res.status(404).json({ data: "fail error = 이미 처리된 hash 입니다." });
     //database 에서 club_id 에 맞는 contract address 와 tokenURI, deploy_count, price 를 가져오는 함수 필요
-    const result_db = await service.getContractAddress(club_id); //<<<< Database 함수 추가 필요
-    console.log(result_db);
+    const result_db = await service_nft.getContractAddress(club_id); //<<<< Database 함수 추가 필요
     // 클라이언트에서 회원이 서버계좌에 토큰을 보냈는지 확인하는 함수 구현
-    const result_trans = await contract.getTokenTransCheck(
+    const result_trans = await contract_proc.getTokenTransCheck(
       address,
       tx_hash,
-      result_db.price
+      result_db.dataValues.price
     );
     if (result_trans === "ok") {
       // 현재 발행량이 초과가 되었는지 체크하는 함수
       const result_supply = await contract_proc.getNFTDeployCheck(
-        result_db.contract_add,
-        result_db.deploy_count
+        result_db.dataValues.contractAddress,
+        result_db.dataValues.deployCount
       );
       if (result_supply === "ok") {
         // 운영자가 NFT 민팅하여 클라이언트 계정에 전송하는 함수 구현
         const return_mint = await contract_proc.MintNFT(
           address,
-          result_db.contract_add,
-          result_db.token_URI
+          result_db.dataValues.contractAddress,
+          result_db.dataValues.metaCid
         );
-        if (return_mint === "success") {
+        if (return_mint.msg === "success") {
           // minting을 한 user 계정의 NFT 정보를 database에 insert 하는 함수 구현 필요
-          const user = await getUserId(address);
+          const user = await service_user.getUserId(address); // <<< Database 함수 추가 필요
           if (!user)
             return res
               .status(404)
               .json({ data: "fail error = 없는 유저입니다." });
-          await service.setNFTMint(address, club_id, return_mint.value, user.id); //<<<< Database 함수 추가 필요
-          // minting 후 nft table에 발행량을 업데이트
-          const count = result_db.deploy_count++;
-          await service.setDeployCount(club_id, count);
+          await service_nft.setNFTMint(address, club_id, return_mint.value, user.id); //<<<< Database 함수 추가 필요
+          // transaction history table에 회원 지갑 주소, tx_hash 를 insert 하는 함수 필요
+          const result_check = await service_nft.setTransHash(address, tx_hash); //<<<< Database 함수 추가 필요
+          if(result_check !== "success")
+            return res.status(404).json({ data: "fail error = database에서 hash 이력 등록 처리 오류 입니다." });
+
           return res.status(200).json({
             data: {
-              token_uri: result_db.token_URI,
-              token_id: return_mint.value,
+              token_uri: `ipfs://${result_db.dataValues.metaCid}`,
+              token_id: return_mint.value
             },
           });
         } else {
@@ -151,9 +155,6 @@ exports.post_nft_parts_upload = async (req, res, next) => {
   try {
     const { club_id, dir, total } = await req.body;
     console.log(club_id, dir, total);
-    console.log(
-      "move start -----------------------------------------------------------------------"
-    );
     const targetDir = `${process.env.NFT_IMG_WORK_PATH}/${club_id}/layer/${dir}`;
     console.log(targetDir);
     await file_proc.makeFolder(targetDir);

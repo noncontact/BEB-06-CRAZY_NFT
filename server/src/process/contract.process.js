@@ -308,6 +308,7 @@ exports.getTokenTransCheck = async (address, tx_hash, nft_price) => {
 
     // 클라이언트에서 전송한 토큰량을 확인
     const dec = parseInt(result.items[0].value, 16);
+    console.log(dec)
     // 클라이언트의 계정을 확인
     const from = result.items[0].from;
     console.log(result.items[0].formattedValue, from);
@@ -347,7 +348,7 @@ exports.getNFTDeployCheck = async (contract_add, deploy_count) => {
   }
 };
 
-exports.MintNFT = async (address, contract_add, tokenURI) => {
+exports.MintNFT = async (address, contract_add, cid) => {
   try {
     // 현재 서버의 지갑에 계정이 등록이 되었는지 확인하고 그렇지 않으면 계정을 등록한다.
     const account_info = await caver.klay.accounts.wallet.getAccount(
@@ -358,31 +359,31 @@ exports.MintNFT = async (address, contract_add, tokenURI) => {
         process.env.ACCOUNT_SECRET_KEY,
         process.env.SERVER_ACCOUNT
       );
-      console.log(result.privateKey);
     }
 
     // 해당 nft contract address 에 대해 전체 발행량을 체크하고 민팅을 요청한 회원의 계정에 nft를 민팅한다
     const kip17Instance = new caver.klay.KIP17(contract_add);
-    console.log(kip17Instance);
     const num = await kip17Instance.totalSupply();
+    const tokenURI = `ipfs://${cid}/${Number(num) + 1}.json`;
     const res = await kip17Instance.mintWithTokenURI(
       address,
       Number(num) + 1,
       tokenURI,
       { from: process.env.SERVER_ACCOUNT }
     );
-    console.log(res);
+
     // const token_uri = await kip17Instance.tokenURI(Number(num)+1);
     // console.log(token_uri);
     const data = {
-      mag: "success",
-      value: Number(num) + 1,
+      msg: "success",
+      value: Number(num) + 1
     };
+    console.log(data);
     return data;
   } catch (err) {
     const data = {
-      mag: "fail",
-      value: err,
+      msg: "fail",
+      value: err
     };
     return data;
   }
