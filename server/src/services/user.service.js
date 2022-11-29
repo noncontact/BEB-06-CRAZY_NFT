@@ -2,10 +2,12 @@ const { User, Club } = require("#src/models/index.js");
 
 // 유저 Id 가져오기
 exports.getUserId = async (address) => {
-  return await User.findOne({
+  const data = await User.findOne({
     attributes: ["id"],
     where: { address },
   });
+  if (data) return data;
+  else return "error";
 };
 
 // 유저 정보 가져오기
