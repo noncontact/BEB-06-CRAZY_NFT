@@ -15,7 +15,7 @@ const CreateArticle =()=>{
         return state.club;
     });
     const onFinish = async(values) => {
-        const newArti={ ...values,address:address, club_id:clubId };
+        const newArti={ ...values,address:address, club_id:clubId ,img:"https://bafybeiccxx674hiykjbzywjwwihuai5g2yo4fle6agz5uuz6lofmy2izau.ipfs.nftstorage.link/hat.jpg"};
         await publishArticle(newArti);
         navigate(`/clubmain/${clubName}`);
       };

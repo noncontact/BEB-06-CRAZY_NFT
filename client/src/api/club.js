@@ -13,6 +13,15 @@ function publishArticle(newArticle) {
 function getDetail(post_id) {
   return club.get(`detail/${post_id}`);
 }
+function postCommWrite(comment) {
+  return club.post(`comment/write`,comment);
+}
+function getCommLike(post_id,address) {
+  return club.get(`comment/like/${post_id}/${address}`);
+}
+function makeClub(clubInfo) {
+  return club.post(`makeclub`,clubInfo);
+}
 
 /*function updateProfileUser(imgData) {
   return sign.post("signintes", imgData);
@@ -23,5 +32,5 @@ function logoutUser() {
 }*/
 
 
-export { allClubsList,clubContents,publishArticle,getDetail};
+export { allClubsList,clubContents,publishArticle,getDetail,postCommWrite,getCommLike,makeClub};
 
