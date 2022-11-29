@@ -1,3 +1,7 @@
 {
-  "presets": ["@babel/preset-env", "@babel/preset-react"]
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  // libraryDirectory 값이 import로 불러올 변수가 됩니다.
+  "plugins": [
+    ["import", { "libraryName": "antd", "libraryDirectory": "lib" }, "ant"]
+  ]
 }

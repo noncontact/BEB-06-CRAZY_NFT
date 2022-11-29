@@ -8,7 +8,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import Caver from "caver-js";
-import { registerUser } from "api/user";
+import { registerUser } from "../../api/user";
 
 const { Sider, Content } = Layout;
 
@@ -172,7 +172,7 @@ const SignUp = () => {
                 action="https://api.nft.storage/upload"
                 headers={{
                   withCredentials: true,
-                  Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+                  // Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
                 }}
                 listType="picture-card"
               >
@@ -182,7 +182,9 @@ const SignUp = () => {
                     style={{
                       marginTop: 8,
                     }}
-                  ></div>
+                  >
+                    Upload
+                  </div>
                 </div>
               </Upload>
             </Form.Item>
