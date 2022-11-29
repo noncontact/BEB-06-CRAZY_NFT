@@ -1,9 +1,36 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import { Menu,Input } from 'antd';
+import { persistor } from "../../store/store";
 const { Search } = Input;
-
+function getItem(label, key, icon, children, type) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    };
+  }
+  const items = [
+    getItem("DEPLOY", "deploy"),
+    getItem("LogOut", "logout"),
+  ];
 const Navi =()=>{
     const onSearch = (value) => console.log(value);
+    const navigate = useNavigate();
+    const selectKey = {
+        deploy: () => {
+          navigate("/nftmint");
+        },
+        logout: () => {
+          persistor.purge();
+          window.location.replace("/");
+        },
+    };
+    const onMenu = (e) => {
+      selectKey[e.key]();
+    };
     return (
         <div>
             <div style={{float: "left",width: "120px",height: "31px",margin: "16px 24px 16px 0",background: "rgba(255, 255, 255, 0.3)"}} />
@@ -19,17 +46,11 @@ const Navi =()=>{
             />
             
             <Menu
+                onClick={onMenu}
                 style={{display: "flex",justifyContent:"end"}}
                 theme='dark'
                 mode="horizontal"
-                defaultSelectedKeys={['2']}
-                items={new Array(5).fill(null).map((_, index) => {
-                const key = index + 1;
-                return {
-                    key,
-                    label: `nav ${key}`,
-                };
-                })}
+                items={items}
             />
         </div>
     );

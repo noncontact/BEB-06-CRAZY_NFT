@@ -2,8 +2,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const webpack = require("webpack");
+const dotenv = require("dotenv").config();
 const port = process.env.PORT || 4000;
 const path = require("path");
+
 
 const config = ({ isDev }) => ({
   mode: isDev ? "development" : "production",
@@ -67,9 +69,9 @@ const config = ({ isDev }) => ({
     }),
     new webpack.DefinePlugin({
       VERSION: JSON.stringify("v0.1.0"),
+      "process.env": JSON.stringify(process.env),
     }),
     //new CleanWebpackPlugin(), // 웹팩 실행시마다 dist 폴더 정리
-    new ReactRefreshWebpackPlugin(),
   ],
   resolve: {
     fallback: {
@@ -94,10 +96,9 @@ const config = ({ isDev }) => ({
     client: {
       overlay: false, //웹팩 빌드 에러를 브라우저 상에 출력
     },
-    // proxy: {
-    //   "/api": "http://localhost:4000", // 프론트 단에서 CORS 에러 해결하는 방법
-    // },
   },
 });
 
-module.exports = (env, argv) => config({ isDev: argv.mode === "development" });
+module.exports = (env, argv) => {
+  return config({ isDev: argv.mode === "development" });
+};
