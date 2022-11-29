@@ -1,25 +1,36 @@
 import React from "react";
-import styled from "styled-components";
-import { Calendar } from "antd";
-import { InstagramOutlined } from "@ant-design/icons";
-
-const StyledButton = styled.button`
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 1rem;
-  line-height: 1.5;
-  border: 1px solid lightgray;
-  color: gray;
-  background: white;
-`;
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  Login,
+  SignUp,
+  MyPage,
+  ClubMaster,
+  Main,
+  ClubMain,
+  NftAllList,
+  NftMint,
+} from "./pages";
+import { Footer } from "./component";
+import "antd/dist/antd.min.css";
 
 function App() {
   return (
     <div>
-      <p>
-        <InstagramOutlined />
-      </p>
-      <Calendar />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/clubmaster" element={<ClubMaster />} />
+          <Route path="/clubmain/:name/*" element={<ClubMain />} />
+
+          <Route path="/nftalllist/*" element={<NftAllList />} />
+
+          <Route path="/nftmint" element={<NftMint />} />
+        </Routes>
+        <Footer></Footer>
+      </BrowserRouter>
     </div>
   );
 }
