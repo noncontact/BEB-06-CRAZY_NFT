@@ -28,16 +28,16 @@ exports.setNFTDeploy = async (
 
 // NFT mint -> token_id 유저발행
 exports.setNFTMint = async (address, ClubId, tokenId, UserId) => {
-  const NFTId = await NFT.findOne({
+  const NFTdata = await NFT.findOne({
     attributes: ["id"],
     where: { ClubId },
   });
 
-  if (NFTId) {
+  if (NFTdata) {
     return await NFTUser.create({
       address,
       tokenId,
-      NFTId,
+      NFTId: NFTdata.id,
       UserId,
     });
   }

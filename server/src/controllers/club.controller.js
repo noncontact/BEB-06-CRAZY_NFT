@@ -215,3 +215,29 @@ exports.post_make_category = async (req, res, next) => {
     });
   }
 };
+
+// ✅ API 16. 클럽 가입신청
+exports.post_apply = async function (req, res, next) {
+  try {
+    const { address, club_id } = req.params;
+    if (!address)
+      return res
+        .status(404)
+        .json({ data: "fail error = 입력정보가 부족합니다" });
+
+    const { id } = await user.getUserId(address);
+    if (!id)
+      return res.status(404).json({ data: "fail error = 없는 유저입니다." });
+
+    await user.setUserClub(id, club_id);
+    console.log("MyPage나의 정보조회", id, club_id);
+    return res.status(200).json({
+      data: "success",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({
+      data: `fail error = ${err}`,
+    });
+  }
+};
