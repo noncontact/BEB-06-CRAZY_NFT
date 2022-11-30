@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setInterceptors } from "./common/interceptors";
 
+console.log("현재 연결서버주소", process.env.BASE_URL);
 // 액시오스 초기화 함수
 function createInstanceWithAuth(url, type) {
   const instance = axios.create({
