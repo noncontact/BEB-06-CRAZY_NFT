@@ -1,11 +1,33 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button, Layout, Form, Input, message } from "antd";
-import { SketchOutlined, CheckCircleTwoTone } from "@ant-design/icons";
+import { Button, Layout, Form, Input, Image, message } from "antd";
+import Icon, { CheckCircleTwoTone } from "@ant-design/icons";
 import { loginUser } from "../../api/user";
+import KaikasSvg from "../../component/common/KaikasButton";
+import rule from "../../util/rule.json";
+import styled from "styled-components";
+import Logo from "../../img/logo.png";
 
-const { Sider, Content } = Layout;
+const KaikasIcon = (props) => <Icon component={KaikasSvg} {...props} />;
+
+const LoginForm = styled(Form)`
+  width: 60%;
+  height: 800px;
+  align-self: center;
+  background: #f1eee4;
+`;
+
+const SignUpInputPassword = styled(Input.Password)`
+  height: 45px;
+  width: 90%;
+  border-radius: 5px;
+`;
+
+const ButtonWrapper = styled(Button)`
+  width: 90%;
+  height: 45px;
+`;
 
 const Login = () => {
   const formRef = useRef();
@@ -30,7 +52,6 @@ const Login = () => {
       );
     }
   };
-
   const setAccountInfo = async () => {
     try {
       const { klaytn } = window;
@@ -45,7 +66,6 @@ const Login = () => {
       console.log(error);
     }
   };
-
   const onFinish = async ({ address, password }) => {
     const info = await loginUser({ address, password });
     console.log(info.data.data);
@@ -58,76 +78,38 @@ const Login = () => {
   };
   return (
     <Layout>
-      <Sider align="center" style={{ height: "100vh", background: "white" }}>
-        <div onClick={() => navigate("/")}>home</div>
-      </Sider>
-      <Layout>
-        <Content align="center">
-          <Form
-            ref={formRef}
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="Address"
-              name="address"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your username!",
-                },
-              ]}
-            >
-              <CheckCircleTwoTone twoToneColor="#52c41a" hidden={isClick} />
-              <Button
-                onClick={loadAccountInfo}
-                type="primary"
-                shape="round"
-                icon={<SketchOutlined />}
-                style={{ minHeight: "44px", minWidth: "280px" }}
-              >
-                Kaikas
-              </Button>
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-
-          <Button onClick={() => navigate("/signup")}>회원가입</Button>
-        </Content>
-      </Layout>
+      <LoginForm
+        ref={formRef}
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="on"
+        justify="space-around"
+        align="middle"
+      >
+        <Image src={Logo} height={400} preview={false} />
+        <Form.Item name="address" rules={[rule.address]}>
+          <CheckCircleTwoTone twoToneColor="#52c41a" hidden={isClick} />
+          <ButtonWrapper onClick={loadAccountInfo} type="primary" shape="round">
+            <KaikasIcon />
+            Connect to Kaikas
+          </ButtonWrapper>
+        </Form.Item>
+        <Form.Item name="password" rules={[rule.password]}>
+          <SignUpInputPassword placeholder="Password" />
+        </Form.Item>
+        <Form.Item name="submit">
+          <ButtonWrapper type="primary" htmlType="submit">
+            Submit
+          </ButtonWrapper>
+        </Form.Item>
+        <div>
+          <span>계정이 없으시간요? </span>
+          <a href={() => navigate("/signup")}>가입하기</a>
+        </div>
+      </LoginForm>
     </Layout>
   );
 };

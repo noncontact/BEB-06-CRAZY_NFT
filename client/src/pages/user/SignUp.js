@@ -11,8 +11,7 @@ import {
   Image,
   message,
 } from "antd";
-import {
-  SketchOutlined,
+import Icon, {
   CheckCircleTwoTone,
   PlusOutlined,
   LoadingOutlined,
@@ -23,6 +22,10 @@ import styled from "styled-components";
 import Caver from "caver-js";
 import { registerUser } from "../../api/user";
 import Logo from "../../img/logo.png";
+import KaikasSvg from "../../component/common/KaikasButton";
+import rule from "../../util/rule.json";
+
+const KaikasIcon = (props) => <Icon component={KaikasSvg} {...props} />;
 
 const upload = {};
 //upload.action = "https://www.mocky.io/v2/5cc8019d300000980a055e76";
@@ -47,20 +50,6 @@ const beforeUpload = (file) => {
     message.error("Image must smaller than 2MB!");
   }
   return isJpgOrPng && isLt2M;
-};
-
-const rule = {};
-rule.address = {
-  require: true,
-  message: "Please interlock Kaikas!",
-};
-rule.nickname = {
-  required: true,
-  message: "Please input your nickname!",
-};
-rule.password = {
-  required: true,
-  message: "Please input your password!",
 };
 
 const SignUp = () => {
@@ -180,9 +169,9 @@ const SignUp = () => {
                 onClick={loadAccountInfo}
                 type="primary"
                 shape="round"
-                icon={<SketchOutlined />}
               >
-                Address - Kaikas
+                <KaikasIcon style={{ fontSize: "32px" }} />
+                Connect to Kaikas
               </ButtonWrapper>
               {account.account}
             </SignUpFormItem>
