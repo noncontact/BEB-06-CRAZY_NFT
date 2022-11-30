@@ -4,12 +4,11 @@ import { Route, Routes } from "react-router-dom";
 import { ArticleDetail, CreateArticle } from "../../pages";
 import { Catagory, Articles } from "../../component";
 
+
 const { Header, Sider, Content } = Layout;
 
 const ClubMain = () => {
-  
-  
-  
+
   return (
     <Layout>
       <Header>Header</Header>

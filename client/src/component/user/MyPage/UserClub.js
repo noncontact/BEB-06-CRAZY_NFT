@@ -1,18 +1,20 @@
 import { List } from "antd";
 import { useSelector } from "react-redux";
 import { myClub } from "../../../api/my";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react"; //useState
 
 const UserClub = () => {
-  const [clubs, setClubs] = useState([]);
+  // const [clubs, setClubs] = useState([]);
   const { address } = useSelector((state) => {
     return state.account;
   });
   useEffect(() => {
     const fetchData = async () => {
       const contents = await myClub(address);
-      setClubs(contents.data.data.my_club);
-      console.log(clubs);
+
+      // setClubs(contents.data.data.my_club);
+      console.log(contents.data.data.my_club);
+
     };
 
     fetchData();

@@ -7,7 +7,6 @@ module.exports = class Forum extends Sequelize.Model {
         title: {
           type: Sequelize.STRING(100),
           allowNull: false,
-          unique: true,
         },
         depth: {
           // 0: 카테고리, 1: 게시판 , 2: 자식 게시판

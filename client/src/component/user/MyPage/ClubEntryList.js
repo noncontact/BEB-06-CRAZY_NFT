@@ -1,15 +1,16 @@
 import { List,Avatar,message } from "antd";
 import { useSelector } from "react-redux";
-import { clubEntryList, clubEntry } from "../../../api/my";
-import React, { useState, useEffect } from "react";
+import { clubEntryList } from "../../../api/my"; //clubEntry
+import React, { useEffect } from "react"; //useState, 
 
 const ClubEntryList = () => {
-  const [entry, setEntry] = useState([]);
+  // const [entry, setEntry] = useState([]);
   const { address } = useSelector((state) => {
     return state.account;
   });
   useEffect(() => {
     const fetchData = async () => {
+
       try {
         const contents = await clubEntryList(address, 1);
         setEntry(contents.data.data.signup_list);
@@ -18,6 +19,7 @@ const ClubEntryList = () => {
         console.log(error);
       }
       
+
     };
 
     fetchData();

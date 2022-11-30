@@ -16,12 +16,12 @@ export const instance = createInstanceWithAuth();
 export const sign = createInstanceWithAuth("user");
 
 // // http://localhost:3005/club
- export const club = createInstanceWithAuth("club");
+export const club = createInstanceWithAuth("club");
 // // http://localhost:3005/my
 export const my = createInstanceWithAuth("my");
 // // http://localhost:3005/nft
 export const nft = createInstanceWithAuth("nft");
-export const nftMulti = createInstanceWithAuth("nft",'multipart/form-data');
+export const nftMulti = createInstanceWithAuth("nft", "multipart/form-data");
 // // http://localhost:3005/post
 // export const post = createInstanceWithAuth("post");
 // export const postW = createInstanceWithAuth("post", "write");

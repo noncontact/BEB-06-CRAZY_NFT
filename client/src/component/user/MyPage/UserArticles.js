@@ -17,7 +17,7 @@ const UserArticles = () => {
 
     fetchData();
   }, []);
-  
+
   return (
     <List
       size="large"

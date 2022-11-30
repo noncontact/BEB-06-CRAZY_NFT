@@ -2,7 +2,9 @@ import React from 'react';
 
 import { imgUpload } from '../../api/nft';
 import { useSelector } from 'react-redux';
-const Deploy4 =()=>{
+
+
+const Deploy3 =()=>{
   const clubId=useSelector((state) => {
     return state.club.clubId;
   });
@@ -31,19 +33,19 @@ const Deploy4 =()=>{
       }
     };
 
-    return (
-        <div>
-           <form encType='multipart/form-data' onSubmit={upload}>
-            <div className="w-full text-center mt-4 font-bold">
-              <span className="text-4xl text-red-700">background를 업로드하세요!</span>
-            </div>
-            <input type='file' name='file' multiple webkitdirectory="true"/>
-            {/* <button type='submit'>업로드</button> */}
-            <button type='submit'>
-              업로드
-            </button>
-        </form>
+  return (
+    <div>
+      <form encType="multipart/form-data" onSubmit={upload}>
+        <div className="w-full text-center mt-4 font-bold">
+          <span className="text-4xl text-red-700">
+            background를 업로드하세요!
+          </span>
         </div>
-    );
+        <input type="file" name="file" multiple webkitdirectory="true" />
+        {/* <button type='submit'>업로드</button> */}
+        <button type="submit">업로드</button>
+      </form>
+    </div>
+  );
 };
 export default Deploy4;
