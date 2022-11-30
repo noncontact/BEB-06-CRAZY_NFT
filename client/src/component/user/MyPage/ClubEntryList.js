@@ -1,4 +1,4 @@
-import { List } from "antd";
+import { List,Avatar,message } from "antd";
 import { useSelector } from "react-redux";
 import { clubEntryList } from "../../../api/my"; //clubEntry
 import React, { useEffect } from "react"; //useState, 
@@ -10,28 +10,45 @@ const ClubEntryList = () => {
   });
   useEffect(() => {
     const fetchData = async () => {
-      const contents = await clubEntryList(address, 1);
-      // setEntry(contents.data.data.signup_list);
-      console.log(contents.data.data.signup_list);
+
+      try {
+        const contents = await clubEntryList(address, 1);
+        setEntry(contents.data.data.signup_list);
+        console.log(contents.data.data.signup_list);
+      } catch (error) {
+        console.log(error);
+      }
+      
+
     };
 
     fetchData();
   }, []);
-  const data = [
-    "Racing car sprays burning fuel into crowd.",
-    "Japanese princess to wed commoner.",
-    "Australian walks 100km after outback crash.",
-    "Man charged over missing wedding girl.",
-    "Los Angeles battles huge wildfires.",
-  ];
+  const acceptEntry = async()=>{
+    try {
+      await clubEntry(address, 1);
+      message.success("승인 됐습니다");
+    } catch (error) {
+      message.error("승인이 실패 했습니다");
+    }
+    
+  };
   return (
     <List
       size="large"
-      header={<div>Header</div>}
-      footer={<div>Footer</div>}
-      dataSource={data}
+      
+      dataSource={entry}
       renderItem={(item) => (
-        <List.Item style={{ border: "1px solid gray" }}>{item}</List.Item>
+        <List.Item 
+        style={{ border: "1px solid gray" }} 
+        >
+          <List.Item.Meta
+          avatar={<Avatar src={item.profileurl} />}
+          title={<p>{item.nickname}</p>}
+          description={item.createdAt}
+          />
+          <button onClick={acceptEntry}>승인</button>
+        </List.Item>
       )}
     />
   );

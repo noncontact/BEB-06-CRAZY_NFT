@@ -4,7 +4,7 @@ import { setInterceptors } from "./common/interceptors";
 // 액시오스 초기화 함수
 function createInstanceWithAuth(url, type) {
   const instance = axios.create({
-    baseURL: `${process.env.BASE_URL}/${url}`,
+    baseURL: `${process.env.REACT_APP_URL}/${url}`,
   });
   return setInterceptors(instance, type);
 }

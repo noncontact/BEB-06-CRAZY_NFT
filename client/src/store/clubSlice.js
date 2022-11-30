@@ -6,7 +6,7 @@ const initialState= {
   clubName:"",
   catagory:"all",
   catagoryId:0,
-  post_id:undefined,
+  post_id:undefined
 };
 
 const clubSlice = createSlice({
