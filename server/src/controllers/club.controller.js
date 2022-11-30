@@ -57,6 +57,7 @@ exports.get_detail = async (req, res, next) => {
       data: {
         id: result_post.id,
         title: result_post.title,
+        content: result_post.content,
         img: result_post.img,
         createdAt: result_post.createdAt,
         user: result_post.User,

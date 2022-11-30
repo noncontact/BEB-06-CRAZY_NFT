@@ -11,8 +11,10 @@ const UserClub = () => {
   useEffect(() => {
     const fetchData = async () => {
       const contents = await myClub(address);
+
       // setClubs(contents.data.data.my_club);
       console.log(contents.data.data.my_club);
+
     };
 
     fetchData();
