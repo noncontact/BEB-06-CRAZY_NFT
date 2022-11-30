@@ -8,7 +8,6 @@ function createInstanceWithAuth(url, type) {
   const instance = axios.create({
     baseURL: `${process.env.REACT_APP_BASE_URL}/${url}`,
   });
-  console.log("??", process.env.REACT_APP_BASE_URL, url);
   return setInterceptors(instance, type);
 }
 
