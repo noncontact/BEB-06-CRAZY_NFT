@@ -7,12 +7,10 @@ module.exports = class NFT extends Sequelize.Model {
         metaCid: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          unique: true,
         },
         contractAddress: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          unique: true,
         },
         // 최대 발행량
         deployCount: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select,message } from "antd";
 import { publishArticle } from "../../api/club";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +13,15 @@ const CreateArticle = () => {
     return state.club;
   });
   const onFinish = async (values) => {
-    const newArti = { ...values, address: address, club_id: clubId };
-    await publishArticle(newArti);
-    navigate(`/clubmain/${clubName}`);
+    try {
+      const newArti = { ...values, address: address, club_id: clubId };
+      await publishArticle(newArti);
+      message.success("작성이 완료되었습니다.");
+      navigate(`/clubmain/${clubName}`);
+    } catch (error) {
+      message.error("작성이 실패 했습니다.");
+    }
+    
   };
   return (
     <Form name="nest-messages" onFinish={onFinish}>

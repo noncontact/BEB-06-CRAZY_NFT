@@ -22,6 +22,9 @@ function getCommLike(post_id,address) {
 function makeClub(clubInfo) {
   return club.post(`makeclub`,clubInfo);
 }
+function clubSignup(post_apply) {
+  return club.post(`signup`,post_apply);
+}
 
 /*function updateProfileUser(imgData) {
   return sign.post("signintes", imgData);
@@ -32,5 +35,5 @@ function logoutUser() {
 }*/
 
 
-export { allClubsList,clubContents,publishArticle,getDetail,postCommWrite,getCommLike,makeClub};
+export { allClubsList,clubContents,publishArticle,getDetail,postCommWrite,getCommLike,makeClub,clubSignup};
 

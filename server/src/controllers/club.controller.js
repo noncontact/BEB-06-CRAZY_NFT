@@ -83,7 +83,7 @@ exports.get_detail = async (req, res, next) => {
 
     return res.status(200).json({
       data: {
-        post_id: result_post.value.dataValues.id,
+        id: result_post.value.dataValues.id,
         title: result_post.value.dataValues.title,
         content: result_post.value.dataValues.content,
         img: result_post.value.dataValues.img,

@@ -1,13 +1,15 @@
+
 import React from 'react';
-import axios from "axios";
+
 import { imgUpload } from '../../api/nft';
 import { useSelector } from 'react-redux';
 
 
-const Deploy2 =()=>{
-  const clubId=useSelector((state) => {
+const Deploy2 = () => {
+  const clubId = useSelector((state) => {
     return state.club.clubId;
   });
+
     const upload = async(e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -23,9 +25,9 @@ const Deploy2 =()=>{
         try {
             imgUpload(formData)
             .then(function (res) {
-              if(res.status==200){
-                const token_url = res.data;
-                console.log(res.data,"1번")
+              if(res.status===200){
+                
+                console.log(res.data,"2번")
               }
             })
       }
@@ -34,19 +36,20 @@ const Deploy2 =()=>{
       }
     };
 
-    return (
-        <div>
-           <form encType='multipart/form-data' onSubmit={upload}>
-            <div className="w-full text-center mt-4 font-bold">
-              <span className="text-4xl text-red-700">background를 업로드하세요!</span>
-            </div>
-            <input type='file' name='file' multiple webkitdirectory="true"/>
-            {/* <button type='submit'>업로드</button> */}
-            <button type='submit'>
-              업로드
-            </button>
-        </form>
+
+  return (
+    <div>
+      <form encType="multipart/form-data" onSubmit={upload}>
+        <div className="w-full text-center mt-4 font-bold">
+          <span className="text-4xl text-red-700">
+            background를 업로드하세요!
+          </span>
         </div>
-    );
+        <input type="file" name="file" multiple webkitdirectory="true" />
+        {/* <button type='submit'>업로드</button> */}
+        <button type="submit">업로드</button>
+      </form>
+    </div>
+  );
 };
 export default Deploy2;

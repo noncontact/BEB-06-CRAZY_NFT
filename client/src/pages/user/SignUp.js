@@ -46,7 +46,7 @@ const SignUp = () => {
     const { klaytn } = window;
     if (klaytn === undefined) return;
     const caver = new Caver(klaytn);
-    const account = klaytn.selectedAddress;
+    const account = await klaytn.selectedAddress;
     const balance = await caver.klay.getBalance(account);
     await formRef.current.setFieldsValue({
       address: account,

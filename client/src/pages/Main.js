@@ -2,14 +2,15 @@ import React,{useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navi } from "../component";
 import { allClubsList } from '../api/club';
-import {Layout,List,Card } from 'antd';
+import {Layout,List,Card ,Skeleton} from 'antd';
 import { useDispatch } from 'react-redux';
 const { Header, Content } = Layout;
-const data = Array.from({
-  length: 23,
-}).map((_, i)=>({
-  title: `Title ${i+1}`,
-}));
+const data = [
+  <Skeleton active />,
+  <Skeleton active />,
+  <Skeleton active />,
+  
+];
 
 const Main =()=>{
   const [clubs,setClubs]=useState(data);
@@ -54,7 +55,7 @@ const Main =()=>{
                 dataSource={clubs}
                 renderItem={(item) => (
                 <List.Item>
-                    <Card onClick={()=>clickclub(item.id,item.title)} title={item.title}>{item.createdAt}</Card>
+                    <Card onClick={()=>clickclub(item.id,item.title)} title={item.title}>{item.createdAt?item.createdAt:item}</Card>
                 </List.Item>
                 )}
             />

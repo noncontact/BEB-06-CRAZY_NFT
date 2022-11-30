@@ -1,10 +1,10 @@
 
 import { AppstoreOutlined, UserOutlined, SolutionOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
+import { Button, Menu,message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { clubSignup } from '../../../api/club';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -38,9 +38,24 @@ const cataId = {
 const Catagory =()=>{
     const dispatch=useDispatch();
     const navigate=useNavigate();
-    const {clubName,catagory}=useSelector((state) =>{
+    const {clubName,clubId,catagory}=useSelector((state) =>{
       return state.club;
     });
+    const address=useSelector((state) =>{
+      return state.account.address;
+    });
+    const entry=async()=>{
+      try {
+        await clubSignup({
+          address:address,
+          club_id:clubId
+        });
+        message.success("가입신청을 하였습니다.");
+      } catch (error) {
+        message.error("가입신청에 실패 하였습니다.");
+      }
+      
+    }
     const onClick = (e) => {
       
       dispatch({type:"clubSlice/selectCatagory",payload:{catagory:e.key,catagoryId:cataId[e.key]}});
@@ -48,7 +63,7 @@ const Catagory =()=>{
     };
     return (
       <>
-
+      <Button onClick={entry}>가입신청</Button>
       <Menu
         onClick={onClick}
         style={{

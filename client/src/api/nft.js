@@ -38,5 +38,9 @@ img : <parts image>
 function imgUpload(formdata) {
     return nftMulti.post("upload",formdata);
 }
+/**17. 클럽에서 민팅된 모든  nft 보기 요청 */
+function getClubNfts(cid) {
+    return nftMulti.post(`all/${cid}`);
+}
 
-export { nftDeploy, nftMint, getCA,imgUpload };
+export { nftDeploy, nftMint, getCA,imgUpload ,getClubNfts};
