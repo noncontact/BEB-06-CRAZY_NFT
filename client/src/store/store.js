@@ -11,6 +11,7 @@ import storage from 'redux-persist/lib/storage';
 import accountSlice from './accountSlice';
 import { persistStore } from 'redux-persist';
 import clubSlice from './clubSlice';
+import nftSlice from './nftSlice';
 
 
 
@@ -20,7 +21,7 @@ const persistConfig = {
 };
 
 let rootReducer = combineReducers({
-
+    nft:nftSlice.reducer,
     account: accountSlice.reducer,
     club: clubSlice.reducer,
 })
