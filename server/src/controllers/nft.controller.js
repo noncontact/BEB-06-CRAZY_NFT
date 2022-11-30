@@ -78,56 +78,73 @@ exports.post_nft_mint = async (req, res, next) => {
 
     // DB table에서 tx_hash 를 검색하여 동일한 것이 잇는지 확인한다.
     const result_check = await service_nft.checkTransHash(tx_hash); //<<<< Database 함수 추가 필요
-    if (result_check === "true")
+    if (result_check.msg === "success")
       return res
         .status(404)
         .json({ data: "fail error = 이미 처리된 hash 입니다." });
     //database 에서 club_id 에 맞는 contract address 와 tokenURI, deploy_count, price 를 가져오는 함수 필요
     const result_db = await service_nft.getContractAddress(club_id); //<<<< Database 함수 추가 필요
+    if(result_db.msg !== "success"){
+      return res.status(404).json({
+        data: `fail error = ${result_db.value}`,
+      });
+    }
     // 클라이언트에서 회원이 서버계좌에 토큰을 보냈는지 확인하는 함수 구현
     const result_trans = await contract_proc.getTokenTransCheck(
       address,
       tx_hash,
-      result_db.dataValues.price
+      result_db.value.price
     );
     if (result_trans === "ok") {
       // 현재 발행량이 초과가 되었는지 체크하는 함수
       const result_supply = await contract_proc.getNFTDeployCheck(
-        result_db.dataValues.contractAddress,
-        result_db.dataValues.deployCount
+        result_db.value.dataValues.contractAddress,
+        result_db.value.dataValues.deployCount
       );
       if (result_supply === "ok") {
+        console.log("esult_supply === ok")
+        console.log(result_db.value.dataValues)
         // 운영자가 NFT 민팅하여 클라이언트 계정에 전송하는 함수 구현
         const return_mint = await contract_proc.MintNFT(
           address,
-          result_db.dataValues.contractAddress,
-          result_db.dataValues.metaCid
+          result_db.value.dataValues.contractAddress,
+          result_db.value.dataValues.metaCid
         );
         if (return_mint.msg === "success") {
+          console.log("return_mint.msg === ok")
           // minting을 한 user 계정의 NFT 정보를 database에 insert 하는 함수 구현 필요
-          const user = await service_user.getUserId(address); // <<< Database 함수 추가 필요
-          if (!user)
-            return res
-              .status(404)
-              .json({ data: "fail error = 없는 유저입니다." });
-          await service_nft.setNFTMint(
+          const result_user = await service_user.getUserId(address); // <<< Database 함수 추가 필요
+          
+          if(result_user.msg !== "success") {
+            return res.status(404).json({
+              data: `fail error = ${result_user.value}`,
+            });
+          }
+          console.log("result_user = " , result_user.value.dataValues.id)
+          const result = await service_nft.setNFTMint(
             address,
             club_id,
             return_mint.value,
-            user.id
+            result_user.value.dataValues.id
           ); 
+           
+          if(result.msg !== "success") {
+            return res.status(404).json({
+              data: `fail error = ${result.value}`,
+            });
+          }
           // transaction history table에 회원 지갑 주소, tx_hash 를 insert 하는 함수 필요
-          const result_set = await service_nft.setTransHash(user.id, tx_hash);
-          if (result_set.msg === "error")
-            return res
-              .status(404)
-              .json({
-                data: `fail error = ${result_set.value}`
-              });
+          console.log("insert start = ", result_user.value, tx_hash)
+          const result_set = await service_nft.setTransHash(result_user.value.dataValues.id, tx_hash);
+          if (result_set.msg !== "success"){
+            return res.status(404).json({
+              data: `fail error = ${result_set.value}`,
+            });
+          }
 
           return res.status(200).json({
             data: {
-              token_uri: `ipfs://${result_db.dataValues.metaCid}`,
+              token_uri: `ipfs://${result_db.value.dataValues.metaCid}`,
               token_id: return_mint.value,
             },
           });
@@ -185,3 +202,27 @@ exports.post_nft_parts_upload = async (req, res, next) => {
     });
   }
 };
+
+
+//17. 클럽에서 민팅된 모등 NFT 정보 요청
+exports.get_nft_all = async(req, res, next)=> {
+  try {
+    const club_id = req.params.club_id;
+    console.log(club_id);
+    const result_array = await service_nft.getNFTAllInfo(club_id);
+    if(result_array.msg === "success") {
+      res.status(200).json({
+        data: result_array.value
+      });
+    }
+    
+    res.status(404).json({
+      data: `fail error = ${result_array.value}`
+    });
+  }
+  catch (err) {
+    return res.status(404).json({
+      data: `fail error = ${err}`,
+    });
+  }
+}

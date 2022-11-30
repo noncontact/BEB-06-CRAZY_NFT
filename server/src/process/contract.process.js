@@ -329,7 +329,7 @@ exports.getNFTDeployCheck = async (contract_add, deploy_count) => {
     // 해당 클럽의 NFT Contract address 를 가져와 klay init
     console.log(contract_add, deploy_count);
     const kip17Instance = new caver.klay.KIP17(contract_add);
-    console.log(kip17Instance);
+    //console.log(kip17Instance);
 
     // 전체 발행량을 조사
     let num = await kip17Instance.totalSupply();

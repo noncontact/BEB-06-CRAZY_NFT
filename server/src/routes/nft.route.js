@@ -42,5 +42,6 @@ router.post("/deploy", controller.post_nft_deploy);
 router.post("/mint", controller.post_nft_mint);
 // 15. NFT 이미지 생성을 위한 Parts 이미지 upload 요청
 router.post("/upload", upload.array('img'), controller.post_nft_parts_upload);
-
+// API 17. 클럽 NFT 모두 보기
+router.get("/all/:club_id", controller.get_nft_all);
 module.exports = router;

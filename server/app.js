@@ -12,7 +12,7 @@ const routes = require("#src/routes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swaggerhub.json");
 
-app.set("port", process.env.PORT || 4000);
+app.set("port", process.env.SERVER_PORT || 4500);
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -31,8 +31,8 @@ console.log("server start-------------------");
 app.use(cors(corsOption));
 
 sequelize
-  .sync({ alter: true }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
-  //.authenticate ()
+  //.sync({ alter: true }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
+  .authenticate ()
   .then(() => {
     console.log("데이터베이스 연결 성공");
     console.log(
