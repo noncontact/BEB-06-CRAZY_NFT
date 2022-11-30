@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, message,Steps,Input } from 'antd';
+import { Button,Steps } from 'antd';
 import { Deploy1,Deploy2,Deploy3,Deploy4,Deploy5 } from '../../component';
 import { nftDeploy } from '../../api/nft';
 import { useSelector } from 'react-redux';

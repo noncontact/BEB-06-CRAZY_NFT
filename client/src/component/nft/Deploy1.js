@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from "axios";
 import { imgUpload } from '../../api/nft';
 import { useSelector } from 'react-redux';
 
@@ -23,8 +22,8 @@ const Deploy1 =()=>{
         try {
             imgUpload(formData)
             .then(function (res) {
-              if(res.status==200){
-                const token_url = res.data;
+              if(res.status===200){
+                
                 console.log(res.data,"1번")
               }
             })

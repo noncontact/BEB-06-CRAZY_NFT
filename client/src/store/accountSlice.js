@@ -4,7 +4,7 @@ const initialState= {
   nickname: null,
   isLogin: false,
   address:null,
-  profileurl: null,
+  profileurl: null
 };
 
 const accountSlice = createSlice({

@@ -4,22 +4,14 @@ import { useSelector } from 'react-redux';
 import { getDetail,getCommLike,postCommWrite } from '../../api/club';
 const { TextArea } = Input;
 const initArti={
-    result_comment:{
-        count:0,
-        rows:[],
-    },
-    result_post:{
-        User:{
-            nickname:"",
-            profileurl:"",
-            createdAt:"",
-        },
-        content:"",
-        createdAt:"",
-        id:null,
-        img:"",
-        title:"",
-    },
+    id: 0,
+    title: "",
+    content: "",
+    img: "",
+    createdAt: "",
+    user: "",
+    comment: [],
+    like_num: 0,
 };
 const ArticleDetail =()=>{
     const [article,setArticle]=useState(initArti);
@@ -33,6 +25,7 @@ const ArticleDetail =()=>{
         try {
             const contents=await getDetail(post_id);
             setArticle(contents.data.data);
+            console.log(contents.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -41,9 +34,11 @@ const ArticleDetail =()=>{
     useEffect(() => {
         fetchData();
     }, []);
+
     const clickLike=async()=>{
         try {
-            await getCommLike(post_id,address);
+            const data=await getCommLike(post_id,address);
+            console.log(data);
         } catch (error) {
             console.log(error);
         }
@@ -63,16 +58,16 @@ const ArticleDetail =()=>{
     return (
         <div>
             {/*글정보 범위*/}
-            <div>{article.result_post.title}</div>
+            <div>{article.title}</div>
             <Divider />
             {/*콘탠츠 범위*/}
-            <div>{article.result_post.content}</div>
+            <div>{article.content}</div>
             <button onClick={clickLike}>좋아요</button>
             <Divider />
             {/**댓글 범위 */}
             <List
                 itemLayout="horizontal"
-                dataSource={article.result_comment.rows}
+                dataSource={article.comment}
                 renderItem={(item) => (
                 <List.Item>
                     <List.Item.Meta

@@ -22,7 +22,7 @@ const items2 = [
 
 const Navi = () => {
   const navigate = useNavigate();
-  const { isLogin, address, profileurl, nickname } = useSelector((state) => {
+  const { isLogin} = useSelector((state) => {
     return state.account;
   });
   const selectKey = {
