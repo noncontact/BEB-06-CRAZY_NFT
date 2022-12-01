@@ -1,10 +1,10 @@
 import { List,Avatar,message } from "antd";
 import { useSelector } from "react-redux";
-import { clubEntryList } from "../../../api/my"; //clubEntry
+import { clubEntryList,clubEntry } from "../../../api/my"; //clubEntry
 import React, { useEffect } from "react"; //useState, 
 
 const ClubEntryList = () => {
-  // const [entry, setEntry] = useState([]);
+  const [entry, setEntry] = useState([]);
   const { address } = useSelector((state) => {
     return state.account;
   });
