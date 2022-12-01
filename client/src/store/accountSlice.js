@@ -4,7 +4,9 @@ const initialState= {
   nickname: null,
   isLogin: false,
   address:null,
-  profileurl: null
+  profileurl: null,
+  server:"",
+  ca:"",
 };
 
 const accountSlice = createSlice({
@@ -16,6 +18,8 @@ const accountSlice = createSlice({
       if(!!action.payload.nickname)state.isLogin = true;
       if(!!action.payload.address)state.address = action.payload.address;
       if(!!action.payload.profileurl)state.profileurl = action.payload.profileurl;
+      if(!!action.payload.server)state.server = action.payload.server;
+      if(!!action.payload.ca)state.ca = action.payload.ca;
     },
     
   },
