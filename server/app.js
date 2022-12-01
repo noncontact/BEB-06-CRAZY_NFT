@@ -12,7 +12,7 @@ const routes = require("#src/routes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swaggerhub.json");
 
-app.set("port", process.env.PORT || 4000);
+app.set("port", process.env.SERVER_PORT || 4500);
 
 app.use(logger("dev"));
 app.use(express.json());
