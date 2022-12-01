@@ -15,7 +15,7 @@ const initArti={
 };
 const ArticleDetail =()=>{
     const [article,setArticle]=useState(initArti);
-    const {address}=useSelector((state) =>{
+    const {address,isLogin}=useSelector((state) =>{
         return state.account;
     });
     const {post_id}=useSelector((state) =>{
@@ -84,6 +84,7 @@ const ArticleDetail =()=>{
                 wrapperCol={{ span: 16 }}
                 onFinish={onFinish}
                 autoComplete="off"
+                disabled={!isLogin}
             >
             <Form.Item
                 name="content"
