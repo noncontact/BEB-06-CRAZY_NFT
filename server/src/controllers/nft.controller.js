@@ -104,7 +104,6 @@ exports.post_nft_mint = async (req, res, next) => {
         result_db.value.dataValues.deployCount
       );
       if (result_supply === "ok") {
-        console.log("esult_supply === ok")
         console.log(result_db.value.dataValues)
         // 운영자가 NFT 민팅하여 클라이언트 계정에 전송하는 함수 구현
         const return_mint = await contract_proc.MintNFT(
@@ -113,7 +112,6 @@ exports.post_nft_mint = async (req, res, next) => {
           result_db.value.dataValues.metaCid
         );
         if (return_mint.msg === "success") {
-          console.log("return_mint.msg === ok")
           // minting을 한 user 계정의 NFT 정보를 database에 insert 하는 함수 구현 필요
           const result_user = await service_user.getUserId(address); // <<< Database 함수 추가 필요
           
@@ -122,7 +120,6 @@ exports.post_nft_mint = async (req, res, next) => {
               data: `fail error = ${result_user.value}`,
             });
           }
-          console.log("result_user = " , result_user.value.dataValues.id)
           const result = await service_nft.setNFTMint(
             address,
             club_id,
