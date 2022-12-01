@@ -14,7 +14,7 @@ const data = [
   
 ];
 const NftAllList = () => {
-  const [nftList,setNftList]=useState(data);
+  const [nftList,setNftList]=useState([]);
   const navigate = useNavigate();
   const dispatch= useDispatch
   const {clubId}=useSelector((state) =>{
@@ -25,13 +25,16 @@ const NftAllList = () => {
     const fetchData = async () => {
       try {
         const result = await getClubNfts(clubId);
-        const nftList = result.data.data;
-        await nftList.map(async(data)=>{
-          const meta=await axios(`https://ipfs.io/ipfs/${data.token_uri}/${data.token_id}.json`);
-          return {...meta,address:data.address};
-        })
-        setNftList(nftList);
-        console.log(nftList);
+        const nfts = result.data.data;
+        const jsondata=[];
+        nfts.forEach(async(data)=>{
+          let meta=await axios(`https://ipfs.io/ipfs/${data.token_uri}/${data.token_id}.json`).then();
+          
+          jsondata.push({...meta.data,address:data.address});
+        });
+        
+        setNftList(jsondata);
+        console.log(jsondata);
       } catch (error) {
         console.log(error);
       }
@@ -42,8 +45,9 @@ const NftAllList = () => {
   }, []);
 
   const selectnft=(meta)=>{
-    dispatch({type:"nftSlice/selectNft",payload:meta});
-    navigate(`/nftalllist/nftdetail/${meta.name}`);
+    console.log(meta);
+    //dispatch({type:"nftSlice/selectNft",payload:meta});
+    //navigate(`/nftalllist/nftdetail/${meta.name}`);
   };
 
   return (
@@ -52,11 +56,18 @@ const NftAllList = () => {
         <NftNavi />
       </Header>
       <Content>
+        <button onClick={()=>console.log(nftList)}></button>
         <Routes>
           <Route
             path="*"
             element={
-              <List
+              <div>
+                {nftList.map((item)=>{
+                  return(<div>name: {item.name}  image:{item.image}</div>);
+                })}
+                
+              </div>
+              /*<List
                 grid={{
                   gutter: 16,
                   column: 4,
@@ -67,7 +78,7 @@ const NftAllList = () => {
                     <Card onClick={item.address&&(()=>selectnft(item))} title={item.name}>{item.image?item.image:item}</Card>
                   </List.Item>
                 )}
-              />
+              />*/
             }
           />
           <Route path="nftdetail/:id" element={<NftDetail />} />

@@ -64,11 +64,15 @@ const SignUp = () => {
   };
 
   const onFinish = async ({ address, password, upload, nickname }) => {
-    const profileurl =
+    if(!!upload){const profileurl =
       "https://" +
       upload.file.response.value.cid +
       ".ipfs.nftstorage.link/" +
       upload.file.name;
+    }else{
+      const profileurl=""
+    }
+    
     await registerUser({ address, password, profileurl, nickname });
     dispatch({
       type: "accountSlice/login",
