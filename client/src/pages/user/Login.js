@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Layout, Form, Input, message } from "antd";
 import { SketchOutlined, CheckCircleTwoTone } from "@ant-design/icons";
 import { loginUser } from "../../api/user";
-
+import { getCA } from "../../api/nft";
 const { Sider, Content } = Layout;
 
 const Login = () => {
@@ -47,11 +47,18 @@ const Login = () => {
   };
 
   const onFinish = async ({ address, password }) => {
-    const info = await loginUser({ address, password });
-    console.log(info.data.data);
-
-    dispatch({ type: "accountSlice/login", payload: info.data.data });
-    window.location.replace("/");
+    const result = await loginUser({ address, password });
+    const info=result.data.data;
+    
+    
+      const sev=await getCA();
+      const serverInfo=sev.data.data;
+      
+      const accountInfo={...info,server:serverInfo.address,ca:serverInfo.ca}
+      dispatch({ type: "accountSlice/login", payload: accountInfo });
+      
+      window.location.replace("/");
+    
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

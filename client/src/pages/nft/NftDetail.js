@@ -9,8 +9,8 @@ const NftDetail = () => {
   const meta=useSelector((state)=>{
     return state.nft.meta;
   });
-  const address=useSelector((state)=>{
-    return state.account.address;
+  const {address,server,ca}=useSelector((state)=>{
+    return state.account;
   });
   const club_id=useSelector((state)=>{
     return state.club.clubId;
@@ -19,8 +19,8 @@ const NftDetail = () => {
     try {
       const { klaytn } = window;
       const caver = new Caver(klaytn);
-      const kip7Instance = await new caver.klay.KIP7("컨트랙트 주소");
-      let mintInfo = await kip7Instance.mint("서버 주소", 100000000000000000000, {
+      const kip7Instance = await new caver.klay.KIP7(ca);
+      let mintInfo = await kip7Instance.transfer(server, 100000000000000000000, {
         from: address,
       });
       const tx_hash=mintInfo.transactionHash;
@@ -33,6 +33,7 @@ const NftDetail = () => {
   };
   return (
     <div>
+      <button onClick={()=>console.log(server)}>server</button>
       <Row>
         <Col span={6} offset={4}>
           <Image
