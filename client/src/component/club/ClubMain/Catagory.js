@@ -41,8 +41,8 @@ const Catagory =()=>{
     const {clubName,clubId,catagory}=useSelector((state) =>{
       return state.club;
     });
-    const address=useSelector((state) =>{
-      return state.account.address;
+    const {address,isLogin}=useSelector((state) =>{
+      return state.account;
     });
     const entry=async()=>{
       try {
@@ -63,7 +63,7 @@ const Catagory =()=>{
     };
     return (
       <>
-      <Button onClick={entry}>가입신청</Button>
+      {isLogin?<Button onClick={entry}>가입신청</Button>:<div></div>}
       <Menu
         onClick={onClick}
         style={{
