@@ -229,11 +229,11 @@ exports.transmit_Token = async (address) => {
         process.env.SERVER_ACCOUNT
       );
     }
-    // 클라이언트에게 보상으로 발행하는 토큰(PCT)으로 100PCT를 전송한다.
+    // 클라이언트에게 보상으로 발행하는 토큰(PCT)으로 10PCT를 전송한다.
     const kip7Instance = await new caver.klay.KIP7(
       process.env.KIP7_CONTRACT_ADDRESS
     );
-    let tx_hash = await kip7Instance.mint(address, 100000000000000000000, {
+    let tx_hash = await kip7Instance.mint(address, 10000000000000000000, {
       from: process.env.SERVER_ACCOUNT,
     });
     const data = {

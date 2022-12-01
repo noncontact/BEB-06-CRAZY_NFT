@@ -6,7 +6,8 @@ exports.get_allclub = async (req, res, next) => {
   try {
     // 모든 클럽의 목록을 가져와서 클라이언트에 json 포멧으로 전송 하는 함수 구현 필요
     const result_data = await club.getAllClub();
-    if(result_data.msg !== "success") {
+    console.log(result_data.value)
+    if(result_data.msg === "success") {
       return res.status(200).json({
         data: result_data.value,
       });
@@ -295,19 +296,21 @@ exports.post_make_category = async (req, res, next) => {
 exports.post_apply = async function (req, res, next) {
   try {
     const { address, club_id } = req.body;
+    console.log(address, club_id)
     if (!address)
       return res
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
     const result_user = await user.getUserId(address);
-    if (result !== "success")
+    if (result_user.msg !== "success")
       return res.status(404).json({
         data: `fail error = ${result_user.value}`
-      });
+    });
+
 
     const result = await user.setUserClub(result_user.value.dataValues.id, club_id);
-    if (result !== "success")
+    if (result.msg !== "success")
       return res.status(404).json({
         data: `fail error = ${result.value}`
       });

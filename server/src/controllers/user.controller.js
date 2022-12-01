@@ -12,7 +12,7 @@ exports.post_signin = async (req, res, next) => {
     if(userData.msg === "success") {
       console.log("로그인 성공");
       return res.status(200).json({
-        data: userData,
+        data: userData.value
       });
     } else {
       console.log("로그인 실패");

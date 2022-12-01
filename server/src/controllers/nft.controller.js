@@ -14,6 +14,7 @@ const {
 // API 12. NFT 발행 (Deploy) 요청
 exports.post_nft_deploy = async (req, res, next) => {
   try {
+    console.log("12. NFT 발행 (Deploy) 요청")
     const { club_id, nft_name, nft_symbol, nft_desc, nft_price, deploy_count } =
       req.body;
     console.log(club_id, nft_name, nft_desc, nft_price, deploy_count);
@@ -69,6 +70,7 @@ exports.post_nft_deploy = async (req, res, next) => {
 // API 13. NFT 민팅 요청
 exports.post_nft_mint = async (req, res, next) => {
   try {
+    console.log("API 13. NFT 민팅 요청")
     const { address, tx_hash, club_id } = await req.body;
     console.log(address, tx_hash, club_id);
     if (!(address && club_id && tx_hash))
@@ -170,9 +172,29 @@ exports.post_nft_mint = async (req, res, next) => {
   }
 };
 
+// API 14. 서버 계정(Account) 및 contract address 요청
+exports.get_nft_address = async (req, res, next) => {
+  try {
+    console.log("14. 서버 계정(Account) 및 contract address 요청")
+    return res.status(200).json({
+      data: {
+        address: `${process.env.SERVER_ACCOUNT}`,
+        ca: `${process.env.KIP7_CONTRACT_ADDRESS}`
+      }
+    });
+
+  }catch (err) {
+    return res.status(404).json({
+      data: `fail error = ${err}`,
+    });
+  }
+
+}
+
 //15. NFT 이미지 생성을 위한 Parts 이미지 upload 요청
 exports.post_nft_parts_upload = async (req, res, next) => {
   try {
+    console.log("15. NFT 이미지 생성을 위한 Parts 이미지 upload 요청")
     const { club_id, dir, total } = await req.body;
     console.log(club_id, dir, total);
     const targetDir = `${process.env.NFT_IMG_WORK_PATH}/${club_id}/layer/${dir}`;
@@ -185,7 +207,7 @@ exports.post_nft_parts_upload = async (req, res, next) => {
     );
     if (result === "success") {
       const msg = `${dir}/${total} 번째 Parts 이미지 저장 성공`;
-      res.status(200).json({
+      return res.status(200).json({
         data: {
           message: msg,
           fileInfo: req.files,
@@ -207,16 +229,17 @@ exports.post_nft_parts_upload = async (req, res, next) => {
 //17. 클럽에서 민팅된 모등 NFT 정보 요청
 exports.get_nft_all = async(req, res, next)=> {
   try {
+    console.log("17. 클럽에서 민팅된 모등 NFT 정보 요청")
     const club_id = req.params.club_id;
     console.log(club_id);
     const result_array = await service_nft.getNFTAllInfo(club_id);
     if(result_array.msg === "success") {
-      res.status(200).json({
+      return res.status(200).json({
         data: result_array.value
       });
     }
     
-    res.status(404).json({
+    return res.status(404).json({
       data: `fail error = ${result_array.value}`
     });
   }

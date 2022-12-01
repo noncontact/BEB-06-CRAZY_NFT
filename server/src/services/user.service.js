@@ -92,7 +92,7 @@ exports.setUserClub = async (userId, clubId) => {
 
     if (user !== null) {
       await user.addApplyClub(parseInt(clubId, 10));
-      return return_function("insert")
+      return_function("insert")
     }
     return return_function(user)
   }
