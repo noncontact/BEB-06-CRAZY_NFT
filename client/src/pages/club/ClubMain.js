@@ -1,17 +1,16 @@
 import React from "react";
 import { Layout } from "antd";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ArticleDetail, CreateArticle } from "../../pages";
 import { Catagory, Articles } from "../../component";
 
 
 const { Header, Sider, Content } = Layout;
-
 const ClubMain = () => {
-
+  const navigate=useNavigate();
   return (
     <Layout>
-      <Header>Header</Header>
+      <Header>Header <button onClick={()=>navigate('/nftalllist')} >클럽 nft</button></Header>
       <Layout>
         <Sider style={{ height: "80vh", background: "#9747FF" }}>
           <Catagory />

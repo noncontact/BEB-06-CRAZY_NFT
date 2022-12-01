@@ -1,13 +1,12 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Button, Layout, Upload, Form, Input } from "antd";
+import { Button, Layout, Upload, Form, Input,message } from "antd";
 import {
   SketchOutlined,
   CheckCircleTwoTone,
   PlusOutlined,
 } from "@ant-design/icons";
-import Caver from "caver-js";
 import { registerUser } from "../../api/user";
 const { Sider, Content } = Layout;
 
@@ -15,11 +14,11 @@ const SignUp = () => {
   const formRef = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isUploading,setIsUploading]=useState(false);
   const [account, setAccount] = useState({
     isTrue: true,
     txType: null,
     account: "",
-    balance: 0,
     network: null,
   });
 
@@ -45,15 +44,13 @@ const SignUp = () => {
   const setAccountInfo = async () => {
     const { klaytn } = window;
     if (klaytn === undefined) return;
-    const caver = new Caver(klaytn);
-    const account = await klaytn.selectedAddress;
-    const balance = await caver.klay.getBalance(account);
+    const kaiAddress = await klaytn.selectedAddress;
+    
     await formRef.current.setFieldsValue({
-      address: account,
+      address: kaiAddress,
     });
     setAccount({
-      account,
-      balance: caver.utils.fromPeb(balance, "KLAY"),
+      account:kaiAddress,
       isTrue: false,
     });
   };
@@ -82,6 +79,18 @@ const SignUp = () => {
     }, 1000);
   };
 
+  const uploading=(info)=> {
+    const { status } = info.file;
+    if (status === 'uploading') {
+      setIsUploading(true);
+    }
+    if (status === 'done') {
+      setIsUploading(false);
+      message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
   return (
     <Layout>
       <Sider align="center" style={{ height: "100vh", background: "white" }}>
@@ -174,6 +183,7 @@ const SignUp = () => {
                   Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
                 }}
                 listType="picture-card"
+                onChange={(info)=>uploading(info)}
               >
                 <div>
                   <PlusOutlined />
@@ -193,7 +203,7 @@ const SignUp = () => {
                 span: 16,
               }}
             >
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" disabled={isUploading}>
                 Submit
               </Button>
             </Form.Item>
