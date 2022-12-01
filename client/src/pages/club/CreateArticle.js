@@ -3,11 +3,12 @@ import { Button, Form, Input, Select,message } from "antd";
 import { publishArticle } from "../../api/club";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { NoAuth } from "../../component";
 
 const CreateArticle = () => {
   const navigate = useNavigate();
-  const address = useSelector((state) => {
-    return state.account.address;
+  const {address,isLogin} = useSelector((state) => {
+    return state.account;
   });
   const { clubId, clubName } = useSelector((state) => {
     return state.club;
@@ -24,7 +25,8 @@ const CreateArticle = () => {
     
   };
   return (
-    <Form name="nest-messages" onFinish={onFinish}>
+    <div>
+    {isLogin?<Form name="nest-messages" onFinish={onFinish}>
       <Form.Item
         name="title"
         rules={[
@@ -57,7 +59,8 @@ const CreateArticle = () => {
           Submit
         </Button>
       </Form.Item>
-    </Form>
+    </Form>:<NoAuth />}
+    </div>
   );
 };
 export default CreateArticle;

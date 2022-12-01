@@ -4,7 +4,7 @@ import { imgUpload } from '../../api/nft';
 import { useSelector } from 'react-redux';
 
 
-const Deploy3 =()=>{
+const Deploy4 =()=>{
   const clubId=useSelector((state) => {
     return state.club.clubId;
   });
