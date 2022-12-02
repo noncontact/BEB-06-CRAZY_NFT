@@ -43,6 +43,7 @@ db.NFT = NFT;
 db.UserClub = UserClub;
 db.NFTUser = NFTUser;
 db.TranHash = TranHash;
+db.Deploy = Deploy;
 
 User.init(sequelize);
 Post.init(sequelize);
