@@ -1,61 +1,60 @@
 import { Image, Col, Row, message } from "antd";
 import React from "react";
-import Caver from "caver-js";
-import {  useSelector } from "react-redux";
-import { nftMint } from "../../api/nft";
+//import Caver from "caver-js";
+import { useSelector } from "react-redux";
+import { nftMint } from "api/nft";
 
 const NftDetail = () => {
-  
-  const meta=useSelector((state)=>{
+  const meta = useSelector((state) => {
     return state.nft.meta;
   });
-  const address=useSelector((state)=>{
+  const address = useSelector((state) => {
     return state.account.address;
   });
-  const club_id=useSelector((state)=>{
+  const club_id = useSelector((state) => {
     return state.club.clubId;
   });
-  const trade = async()=>{
-    try {
-      const { klaytn } = window;
-      const caver = new Caver(klaytn);
-      const kip7Instance = await new caver.klay.KIP7("컨트랙트 주소");
-      let mintInfo = await kip7Instance.mint("서버 주소", 100000000000000000000, {
-        from: address,
-      });
-      const tx_hash=mintInfo.transactionHash;
-
-      const result=await nftMint({address,club_id,tx_hash});
-      message.success(result.data.data.token_uri);
-    } catch (error) {
-      console.log(error);
-    } 
+  const trade = async () => {
+    // try {
+    //   const { klaytn } = window;
+    //   const caver = new Caver(klaytn);
+    //   const kip7Instance = await new caver.klay.KIP7("컨트랙트 주소");
+    //   let mintInfo = await kip7Instance.mint("서버 주소", 100000000000000000000, {
+    //     from: address,
+    //   });
+    //   const tx_hash=mintInfo.transactionHash;
+    //   const result=await nftMint({address,club_id,tx_hash});
+    //   message.success(result.data.data.token_uri);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   return (
     <div>
       <Row>
         <Col span={6} offset={4}>
-          <Image
-            width={200}
-            src={""}
-          />
+          <Image width={200} src={""} />
         </Col>
         <Col span={6} offset={4} style={{ border: "1px solid red" }}>
           NFT 정보
           <div>address: {meta.address}</div>
           <div>name: {meta.name}</div>
           <div>description: {meta.description}</div>
-          {meta.attributes.map((attribute)=>{
-            return (<div>trait_type:{attribute.trait_type} value:{attribute.value}</div>);
+          {meta.attributes.map((attribute) => {
+            return (
+              <div>
+                trait_type:{attribute.trait_type} value:{attribute.value}
+              </div>
+            );
           })}
         </Col>
       </Row>
       <Row>
         <Col span={12} offset={6} style={{ border: "1px solid red" }}>
           거래 컴포넌트
-          <button onClick={trade} >구입</button>
+          <button onClick={trade}>구입</button>
         </Col>
-        </Row>
+      </Row>
     </div>
   );
 };

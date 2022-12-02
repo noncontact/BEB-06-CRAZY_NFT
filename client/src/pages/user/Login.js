@@ -1,15 +1,13 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Layout, Form, Input, Image, message } from "antd";
-import Icon, { CheckCircleTwoTone } from "@ant-design/icons";
-import { loginUser } from "../../api/user";
-import KaikasSvg from "../../component/common/KaikasButton";
-import rule from "../../util/rule.json";
 import styled from "styled-components";
-import Logo from "../../img/logo.png";
 
-const KaikasIcon = (props) => <Icon component={KaikasSvg} {...props} />;
+import { loginUser } from "api/user";
+import rule from "util/rule.json";
+import Logo from "img/logo.png";
+import Account from "util/Account";
 
 const LoginForm = styled(Form)`
   width: 60%;
@@ -29,60 +27,34 @@ const ButtonWrapper = styled(Button)`
   height: 45px;
 `;
 
+const onFinishFailed = (errorInfo) => {
+  return console.log("Failed:", errorInfo);
+};
+
 const Login = () => {
-  const formRef = useRef();
-  const [isClick, setIsClick] = useState(true);
-  const navigate = useNavigate();
+  const [address, setAddress] = useState("");
   const dispatch = useDispatch();
 
-  const loadAccountInfo = async () => {
-    const { klaytn } = window;
-
-    if (klaytn) {
-      try {
-        await klaytn.enable();
-        setAccountInfo(klaytn);
-        klaytn.on("accountsChanged", () => setAccountInfo(klaytn));
-      } catch (error) {
-        message.error("User denied account access");
-      }
+  const onFinish = async ({ password }) => {
+    console.log("login Data", address, password);
+    if (!!address && !!password) {
+      const { data } = await loginUser({ address, password });
+      //const sev = await getCA();
+      //const serverInfo = sev.data.data;
+      console.log("test", data);
+      //const accountInfo={...info,server:serverInfo.address,ca:serverInfo.ca}
+ 
+      //dispatch({ type: "accountSlice/login", payload: accountInfo }); 
+      //window.location.replace("/");
     } else {
-      message.error(
-        "Non-Kaikas browser detected. You should consider trying Kaikas!"
-      );
+      message.error("address 및 비밀번호를 입력해주세요.");
     }
   };
-  const setAccountInfo = async () => {
-    try {
-      const { klaytn } = window;
-      if (klaytn === undefined) return;
 
-      const account = await klaytn.selectedAddress;
-      await formRef.current.setFieldsValue({
-        address: account,
-      });
-      setIsClick(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const onFinish = async ({ address, password }) => {
-    const info = await loginUser({ address, password });
-    console.log(info.data.data);
-
-    dispatch({ type: "accountSlice/login", payload: info.data.data });
-    window.location.replace("/");
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
   return (
     <Layout>
       <LoginForm
-        ref={formRef}
-        initialValues={{
-          remember: true,
-        }}
+        initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="on"
@@ -90,24 +62,20 @@ const Login = () => {
         align="middle"
       >
         <Image src={Logo} height={400} preview={false} />
-        <Form.Item name="address" rules={[rule.address]}>
-          <CheckCircleTwoTone twoToneColor="#52c41a" hidden={isClick} />
-          <ButtonWrapper onClick={loadAccountInfo} type="primary" shape="round">
-            <KaikasIcon />
-            Connect to Kaikas
-          </ButtonWrapper>
+        <Form.Item rules={[rule.address]}>
+          <Account address={address} setAddress={setAddress} />
         </Form.Item>
         <Form.Item name="password" rules={[rule.password]}>
           <SignUpInputPassword placeholder="Password" />
         </Form.Item>
-        <Form.Item name="submit">
+        <Form.Item>
           <ButtonWrapper type="primary" htmlType="submit">
             Submit
           </ButtonWrapper>
         </Form.Item>
         <div>
-          <span>계정이 없으시간요? </span>
-          <a href={() => navigate("/signup")}>가입하기</a>
+          <span>계정이 없으신가요? </span>
+          <Link to="/signup">가입하기</Link>
         </div>
       </LoginForm>
     </Layout>

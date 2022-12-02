@@ -1,7 +1,7 @@
 import { Descriptions } from "antd";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { myDetail } from "../../../api/my";
+import { myDetail } from "api/my";
 const UserInfo = () => {
   const [info, setInfo] = useState({
     id: 0,

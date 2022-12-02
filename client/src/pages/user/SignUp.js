@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   Col,
@@ -11,21 +11,17 @@ import {
   Image,
   message,
 } from "antd";
-import Icon, {
-  CheckCircleTwoTone,
+import {
   PlusOutlined,
   LoadingOutlined,
   UserOutlined,
   KeyOutlined,
 } from "@ant-design/icons";
 import styled from "styled-components";
-import Caver from "caver-js";
-import { registerUser } from "../../api/user";
-import Logo from "../../img/logo.png";
-import KaikasSvg from "../../component/common/KaikasButton";
-import rule from "../../util/rule.json";
-
-const KaikasIcon = (props) => <Icon component={KaikasSvg} {...props} />;
+import { registerUser } from "api/user";
+import Logo from "img/logo.png";
+import rule from "util/rule.json";
+import Account from "util/Account";
 
 const upload = {};
 //upload.action = "https://www.mocky.io/v2/5cc8019d300000980a055e76";
@@ -39,6 +35,7 @@ const getBase64 = (img, callback) => {
   reader.addEventListener("load", () => callback(reader.result));
   reader.readAsDataURL(img);
 };
+
 // 이미지 업로드전 이미지타입 확인
 const beforeUpload = (file) => {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -53,11 +50,10 @@ const beforeUpload = (file) => {
 };
 
 const SignUp = () => {
-  const formRef = useRef();
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -84,96 +80,43 @@ const SignUp = () => {
       </div>
     </div>
   );
+  const [address, setAddress] = useState("");
 
-  const [account, setAccount] = useState({
-    isTrue: true,
-    txType: null,
-    account: "",
-    balance: 0,
-    network: null,
-  });
-
-  const loadAccountInfo = async () => {
-    const { klaytn } = window;
-
-    if (klaytn) {
-      try {
-        await klaytn.enable();
-        setAccountInfo(klaytn);
-        setNetworkInfo();
-        klaytn.on("accountsChanged", () => setAccountInfo(klaytn));
-      } catch (error) {
-        console.log("User denied account access");
-      }
-    } else {
-      console.log(
-        "Non-Kaikas browser detected. You should consider trying Kaikas!"
-      );
+  const onFinish = async ({ nickname, password, upload }) => {
+    //if (!!address) message.error("지갑 연결을 해주세요.");
+    let profileurl = "";
+    if (!!upload) {
+      profileurl =
+        "https://" +
+        upload.file.response.value.cid +
+        ".ipfs.nftstorage.link/" +
+        upload.file.name;
     }
-  };
-
-  const setAccountInfo = async () => {
-    const { klaytn } = window;
-    if (klaytn === undefined) return;
-    const caver = new Caver(klaytn);
-    const account = await klaytn.selectedAddress;
-    const balance = await caver.klay.getBalance(account);
-    await formRef.current.setFieldsValue({
-      address: account,
+    console.log("signup", address, nickname, password, profileurl);
+    const data = await registerUser({
+      address,
+      nickname,
+      password,
+      profileurl,
     });
-    setAccount({
-      account,
-      balance: caver.utils.fromPeb(balance, "KLAY"),
-      isTrue: false,
-    });
-  };
 
-  const setNetworkInfo = () => {
-    const { klaytn } = window;
-    if (klaytn === undefined) return;
-
-    setAccount({ network: klaytn.networkVersion });
-    klaytn.on("networkChanged", () => setNetworkInfo(klaytn.networkVersion));
-  };
-
-  const onFinish = async ({ address, password, upload, nickname }) => {
-    const profileurl =
-      "https://" +
-      upload.file.response.value.cid +
-      ".ipfs.nftstorage.link/" +
-      upload.file.name;
-    await registerUser({ address, password, profileurl, nickname });
     dispatch({
       type: "accountSlice/login",
-      payload: { address, profileurl, nickname },
+      payload: { address, nickname, profileurl },
     });
-    setTimeout(function () {
-      window.location.href = "/";
-    }, 1000);
+    window.location.replace("/");
   };
 
   return (
     <Layout>
-      <SignUpForm ref={formRef} onFinish={onFinish}>
+      <SignUpForm onFinish={onFinish}>
         <SignUpRow gutter={24} justify="space-around" align="middle">
           <SignUpCol span={24}>
             <Image src={Logo} height={400} preview={false} />
           </SignUpCol>
           <SignUpCol span={24}>
             <SignUpFormItem name="address" rules={[rule.address]}>
-              <CheckCircleTwoTone
-                twoToneColor="#52c41a"
-                hidden={account.isTrue}
-              />
-              <ButtonWrapper
-                onClick={loadAccountInfo}
-                type="primary"
-                shape="round"
-              >
-                <KaikasIcon style={{ fontSize: "32px" }} />
-                Connect to Kaikas
-              </ButtonWrapper>
-              {account.account}
+              <Account address={address} setAddress={setAddress} />
             </SignUpFormItem>
           </SignUpCol>
           <SignUpCol span={24}>
