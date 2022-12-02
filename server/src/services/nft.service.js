@@ -1,4 +1,4 @@
-const { NFT, NFTUser, TranHash} = require("#src/models/index.js");
+const { NFT, NFTUser, TranHash, Deploy} = require("#src/models/index.js");
 const { return_function, return_err } = require("#src/process/error.process.js");
 // 나의 NFT 목록
 exports.getMyNFTs = async (userId) => {
@@ -12,7 +12,7 @@ exports.getMyNFTs = async (userId) => {
         },
       ],
     });
-    return return_function (result)
+    return return_function (result, false)
   }
   catch (err) {
     return return_err(err)
@@ -137,13 +137,40 @@ exports.getNFTAllInfo = async (ClubId) => {
         }
        
         //console.log(arry);
-        return return_function (arry)
+        return return_function (arry, false)
       }
       return return_function (res_query)
     }
     return return_function (data)
   }
   catch (err) {
-    returnreturn_err(err)
+    return return_err(err)
+  }
+}
+
+exports.checkDeploy = async(Club_Id) => {
+  try {
+    const result = await Deploy.findOne({
+      attributes: ["id"],
+      where: { Club_Id }
+    });
+    return return_function (result)
+  }
+  catch (err) {
+    return return_err(err)
+  }
+}
+
+exports.setDeploy = async(Club_id, use) => {
+  try {
+    console.log("insert------------")
+    await Deploy.create({
+      use,
+      Club_id,
+    });
+    return return_function ("insert")
+  }
+  catch (err) {
+    return return_err(err)
   }
 }

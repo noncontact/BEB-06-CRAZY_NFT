@@ -12,6 +12,8 @@ const routes = require("#src/routes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swaggerhub.json");
 
+const db = require("#src/process/db.process")
+
 app.set("port", process.env.SERVER_PORT || 4500);
 
 app.use(logger("dev"));
@@ -31,8 +33,8 @@ console.log("server start-------------------");
 app.use(cors(corsOption));
 
 sequelize
-  //.sync({ alter: true }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
-  .authenticate ()
+  .sync({ alter: false }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
+  //.authenticate ()
   .then(() => {
     console.log("데이터베이스 연결 성공");
     console.log(
@@ -59,5 +61,16 @@ app.use((req, res, next) => {
 app.listen(app.get("port"), () => {
   //console.log(`✅ Server running on http://localhost:${app.get('port')}/index`);
 });
+
+const init_DB = async () => {
+  let result = await db.initUser(process.env.SERVER_ACCOUNT, "1234", "Crazy", "")
+  console.log(result);
+  result = await db.initClub(process.env.SERVER_ACCOUNT, "Crazy Club", "https://image.bugsm.co.kr/album/images/500/3141/314174.jpg")
+  console.log(result);
+  result = await db.initForum()
+  console.log(result);
+}
+
+init_DB();
 
 module.exports = app;

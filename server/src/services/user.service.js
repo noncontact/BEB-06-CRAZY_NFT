@@ -7,7 +7,7 @@ exports.getUserId = async (address) => {
       attributes: ["id"],
       where: { address },
     });
-    return return_function(result)
+    return return_function(result, true)
   }
   catch (err) {
     return return_err(err)
@@ -76,7 +76,7 @@ exports.getMyClubs = async (userId) => {
       attributes: [],
       where: { id: userId },
     });
-    return return_function(result)
+    return return_function(result, false)
   }
   catch (err) {
     return return_err(err)

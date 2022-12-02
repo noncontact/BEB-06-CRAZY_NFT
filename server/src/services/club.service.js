@@ -8,7 +8,7 @@ exports.getAllClub = async () => {
       attributes: ["id", "title", "img", "createdAt", "AdminId"],
       order: [["createdAt", "DESC"]],
     });
-    return return_function(result);
+    return return_function(result, false);
   }
   catch (err) {
     return return_err(err);
@@ -33,7 +33,7 @@ exports.getAdminInfo = async (userId, clubId) => {
       ],
       where: { id: clubId },
     });
-    return return_function(result);
+    return return_function(result, false);
   } 
   catch (err) {
     return return_err(err);
