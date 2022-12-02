@@ -16,9 +16,31 @@ exports.getPostIndex = async (club_id, category_id) => {
         },
       ],
     });
-    return return_function (result)
+    return return_function (result, false)
   }
   catch (err) {
     return return_err(err)
   }
 };
+
+exports.getForumAll = async () => {
+  try {
+    const result = await Forum.findAll({
+      attributes: ["id"]
+    });
+    return return_function (result, false)
+  } 
+  catch (err) {
+    return return_err(err)
+  }
+}
+
+exports.setForumValue = async(title, depth, parent, ClubId) => {
+  try {
+    await Forum.create({ title, depth, parent, ClubId });
+    return return_function("insert")
+  }
+  catch (err) {
+    return return_err(err)
+  }
+}

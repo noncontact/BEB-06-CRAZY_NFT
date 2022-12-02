@@ -51,7 +51,7 @@ exports.getCommentList = async (PostId) => {
       ],
       order: [["createdAt", "ASC"]],
     }); 
-    return return_function (result)
+    return return_function (result, false)
   }
   catch (err) {
     return return_err(err)
