@@ -1,43 +1,79 @@
-import { Descriptions } from "antd";
+import { Image, Descriptions } from "antd";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { myDetail } from "api/my";
+import { getBalance, getKIP7 } from "api/klaytn";
+import styled from "styled-components";
+import { AntDesignOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
+const App = ({ url }) => (
+  <Avatar
+    size={{
+      xs: 100,
+      sm: 100,
+      md: 100,
+      lg: 100,
+      xl: 200,
+      xxl: 250,
+    }}
+    src={url}
+    icon={<AntDesignOutlined />}
+  />
+);
+
 const UserInfo = () => {
   const [info, setInfo] = useState({
     id: 0,
-    nickname: "test",
+    nickname: "non",
     profileurl: "http://",
-    address: "0x0315eebae95017773c65e55fe83d4ef260de0f0d",
-    createdAt: "2022-11-24T16:59:25.000Z",
-    token:""
+    address: "",
+    createdAt: "",
+    token: "",
   });
-  const { address,ca } = useSelector((state) => {
+
+  const { address, ca } = useSelector((state) => {
     return state.account;
   });
+
   useEffect(() => {
     const fetchData = async () => {
       const info = await myDetail(address);
-      const myInfo=info.data.data.my_info;
-      console.log(ca);
-      //const kip7Instance =new caver.klay.KIP7(ca);
-      
-      //var balance=await kip7Instance.balanceOf(address);
-      //console.log(balance.toNumber());
-      //setInfo({...myInfo,token:balance.toNumber()});
+      const myInfo = info.data.data.my_info;
+      const klayBalance = await getBalance(address);
+      console.log(await getKIP7(ca));
+      const KIP7 = await getKIP7(ca);
+      setInfo({
+        ...myInfo,
+        name: KIP7.name,
+        symbol: KIP7.symbol,
+        totalSupply: KIP7.totalSupply,
+        klayBalance,
+      });
     };
 
     fetchData();
   }, []);
   return (
-    <Descriptions title="User Info">
-      <Descriptions.Item label="UserName">{info.nickname}</Descriptions.Item>
-      <Descriptions.Item label="Address">{info.address}</Descriptions.Item>
-      <Descriptions.Item label="CreatedAt">{info.createdAt}</Descriptions.Item>
-      <Descriptions.Item label="token">{info.token}</Descriptions.Item>
-      <Descriptions.Item label="profileurl">
-        {info.profileurl}
-      </Descriptions.Item>
-    </Descriptions>
+    <>
+      <App url={info.profileurl} />
+      <Descriptions bordered>
+        <Descriptions.Item label="닉네임">{info.nickname}</Descriptions.Item>
+        <Descriptions.Item label="Address">{info.address}</Descriptions.Item>
+        <Descriptions.Item label="클레이 갯수">
+          Klay: {info.klayBalance}
+        </Descriptions.Item>
+        <Descriptions.Item label="보유 토큰">
+          토큰명 : {info.name}
+          <br />
+          심볼 : {info.symbol}
+          <br />
+          총발행량 : {info.totalSupply}
+        </Descriptions.Item>
+        <Descriptions.Item label="생성 날짜">
+          {info.createdAt}
+        </Descriptions.Item>
+      </Descriptions>
+    </>
   );
 };
 export default UserInfo;

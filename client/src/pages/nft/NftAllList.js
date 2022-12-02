@@ -1,9 +1,9 @@
-import { NftNavi } from "../../component";
+import { NftNavi } from "component";
 import NftDetail from "./NftDetail";
 import { Layout, List, Card ,Skeleton} from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import React, { useState ,useEffect} from "react";
-import { getClubNfts } from "../../api/nft";
+import { getClubNfts } from "api/nft";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 const { Header, Content } = Layout;

@@ -43,12 +43,13 @@ const Login = () => {
       const sev = await getCA();
       const serverInfo = sev.data.data;
       const accountInfo = {
-        ...data,
+        ...data.data,
         server: serverInfo.address,
         ca: serverInfo.ca,
       };
+      //console.log("login", accountInfo);
       dispatch({ type: "accountSlice/login", payload: accountInfo });
-       
+
       window.location.replace("/");
     } else {
       message.error("address 및 비밀번호를 입력해주세요.");
