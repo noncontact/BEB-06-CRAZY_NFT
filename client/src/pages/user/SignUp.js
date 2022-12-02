@@ -21,7 +21,7 @@ import styled from "styled-components";
 import { registerUser } from "api/user";
 import Logo from "img/logo.png";
 import rule from "util/rule.json";
-import Account from "util/Account";
+import Account from "component/common/KaikasButton";
 
 const upload = {};
 //upload.action = "https://www.mocky.io/v2/5cc8019d300000980a055e76";
@@ -106,6 +106,19 @@ const SignUp = () => {
     });
     window.location.replace("/");
   };
+
+  // const uploading = (info) => {
+  //   const { status } = info.file;
+  //   if (status === "uploading") {
+  //     setIsUploading(true);
+  //   }
+  //   if (status === "done") {
+  //     setIsUploading(false);
+  //     message.success(`${info.file.name} file uploaded successfully.`);
+  //   } else if (status === "error") {
+  //     message.error(`${info.file.name} file upload failed.`);
+  //   }
+  // };
 
   return (
     <Layout>

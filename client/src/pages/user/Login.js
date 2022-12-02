@@ -5,9 +5,10 @@ import { Button, Layout, Form, Input, Image, message } from "antd";
 import styled from "styled-components";
 
 import { loginUser } from "api/user";
+import { getCA } from "api/nft";
 import rule from "util/rule.json";
 import Logo from "img/logo.png";
-import Account from "util/Account";
+import Account from "component/common/KaikasButton";
 
 const LoginForm = styled(Form)`
   width: 60%;
@@ -39,13 +40,16 @@ const Login = () => {
     console.log("login Data", address, password);
     if (!!address && !!password) {
       const { data } = await loginUser({ address, password });
-      //const sev = await getCA();
-      //const serverInfo = sev.data.data;
-      console.log("test", data);
-      //const accountInfo={...info,server:serverInfo.address,ca:serverInfo.ca}
- 
-      //dispatch({ type: "accountSlice/login", payload: accountInfo }); 
-      //window.location.replace("/");
+      const sev = await getCA();
+      const serverInfo = sev.data.data;
+      const accountInfo = {
+        ...data,
+        server: serverInfo.address,
+        ca: serverInfo.ca,
+      };
+      dispatch({ type: "accountSlice/login", payload: accountInfo });
+       
+      window.location.replace("/");
     } else {
       message.error("address 및 비밀번호를 입력해주세요.");
     }

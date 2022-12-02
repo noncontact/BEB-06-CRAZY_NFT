@@ -15,7 +15,7 @@ const initArti={
 };
 const ArticleDetail =()=>{
     const [article,setArticle]=useState(initArti);
-    const {address}=useSelector((state) =>{
+    const {address,isLogin}=useSelector((state) =>{
         return state.account;
     });
     const {post_id}=useSelector((state) =>{
@@ -37,8 +37,8 @@ const ArticleDetail =()=>{
 
     const clickLike=async()=>{
         try {
-            const data=await getCommLike(post_id,address);
-            console.log(data);
+            const like=await getCommLike(post_id,address);
+            setArticle({...article,like_num:like.data.data.like_num});
         } catch (error) {
             console.log(error);
         }
@@ -62,7 +62,7 @@ const ArticleDetail =()=>{
             <Divider />
             {/*콘탠츠 범위*/}
             <div>{article.content}</div>
-            <button onClick={clickLike}>좋아요</button>
+            <button onClick={clickLike}>좋아요{article.like_num}</button>
             <Divider />
             {/**댓글 범위 */}
             <List
@@ -84,6 +84,7 @@ const ArticleDetail =()=>{
                 wrapperCol={{ span: 16 }}
                 onFinish={onFinish}
                 autoComplete="off"
+                disabled={!isLogin}
             >
             <Form.Item
                 name="content"

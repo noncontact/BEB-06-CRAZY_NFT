@@ -12,17 +12,6 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-     await queryInterface.bulkInsert('clubs', [
-      {
-        id: 1, 
-        title: 'BEB-06-CRAZY',
-        img: null,
-        AdminId: 1,
-        createdAt: new Date,
-        updatedAt: new Date,
-        deletedAt: new Date
-      }
-     ], {});
   },
 
   async down (queryInterface, Sequelize) {

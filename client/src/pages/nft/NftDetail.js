@@ -8,8 +8,8 @@ const NftDetail = () => {
   const meta = useSelector((state) => {
     return state.nft.meta;
   });
-  const address = useSelector((state) => {
-    return state.account.address;
+  const {address,server,ca}=useSelector((state)=>{
+    return state.account;
   });
   const club_id = useSelector((state) => {
     return state.club.clubId;
@@ -31,6 +31,7 @@ const NftDetail = () => {
   };
   return (
     <div>
+      <button onClick={()=>console.log(server)}>server</button>
       <Row>
         <Col span={6} offset={4}>
           <Image width={200} src={""} />

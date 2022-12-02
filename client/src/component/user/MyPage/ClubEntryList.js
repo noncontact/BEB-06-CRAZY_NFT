@@ -1,6 +1,6 @@
 import { List, Avatar, message } from "antd";
 import { useSelector } from "react-redux";
-import { clubEntry, clubEntryList } from "../../../api/my"; //
+import { clubEntry, clubEntryList } from "api/my"; //
 import React, { useState, useEffect } from "react"; //,
 
 const ClubEntryList = () => {

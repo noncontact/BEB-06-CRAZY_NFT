@@ -10,13 +10,17 @@ exports.get_detail = async (req, res, next) => {
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
-    const { id } = await user.getUserId(address);
-    if (!id)
-      return res.status(404).json({ data: "fail error = 없는 유저입니다." });
-    const result_data = await user.getMyDetail(id);
+    const result_user = await user.getUserId(address);
+    if(result_user.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_user.value}` });
+
+    const result_data = await user.getMyDetail(result_user.value.dataValues.id);
+    if(result_data.msg !== "success") {
+      return res.status(404).json({ data: `fail error = ${result_data.value}` });
+    }
 
     return res.status(200).json({
-      data: { my_info: result_data },
+      data: { my_info: result_data.value },
     });
   } catch (err) {
     return res.status(404).json({
@@ -29,18 +33,22 @@ exports.get_detail = async (req, res, next) => {
 exports.get_club = async (req, res, next) => {
   try {
     const address = req.params.address;
+    console.log("MyPage 나의 club 조회", address);
     //const { userId } = req.cookies.login;
     if (!address)
       return res
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
-    const { id } = await user.getUserId(address);
-    if (!id)
-      return res.status(404).json({ data: "fail error = 없는 유저입니다." });
-    console.log(id);
-    const data = await user.getMyClubs(id);
-    const { ApplyClub } = data[0];
+    const result_user = await user.getUserId(address);
+    if(result_user.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_user.value}` });
+
+    const data = await user.getMyClubs(result_user.value.dataValues.id);
+    if(data.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${data.value}` });
+
+    const { ApplyClub } = data.value[0];
 
     const my_club = ApplyClub.map((el) => {
       return {
@@ -66,6 +74,7 @@ exports.get_club = async (req, res, next) => {
 exports.get_nft = async (req, res, next) => {
   try {
     const address = req.params.address;
+    console.log("MyPage 나의 nft 조회", address);
     //const { userId } = req.cookies.login;
     console.log(address);
     if (!address)
@@ -73,11 +82,16 @@ exports.get_nft = async (req, res, next) => {
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
-    const { id } = await user.getUserId(address);
-    const result_data = await nft.getMyNFTs(id);
+    const result_user = await user.getUserId(address);
+    if(result_user.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_user.value}` });
+
+    const result_data = await nft.getMyNFTs(result_user.value.dataValues.id);
+    if(result_data.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_data.value}` });
 
     return res.status(200).json({
-      data: { my_nft: result_data },
+      data: { my_nft: result_data.value },
     });
   } catch (err) {
     console.log(err);
@@ -97,11 +111,15 @@ exports.get_content = async (req, res, next) => {
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
-    const { id } = await user.getUserId(address);
-    const result_data = await post.getMyContents(id);
+    const result_user = await user.getUserId(address);
+    if(result_user.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_user.value}` });
+    const result_data = await post.getMyContents(result_user.value.dataValues.id);
+    if(result_data.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_data.value}` });
 
     return res.status(200).json({
-      data: { my_contents: result_data },
+      data: { my_contents: result_data.value },
     });
   } catch (err) {
     console.log(err);
@@ -121,11 +139,15 @@ exports.get_admin_info = async (req, res, next) => {
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
-    const { id } = await user.getUserId(address);
-    const result_data = await club.getAdminInfo(id, club_id);
+    const result_user = await user.getUserId(address);
+    if(result_user.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_user.value}` });
+    const result_data = await club.getAdminInfo(result_user.value.dataValues.id, club_id);
+    if(result_data.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_data.value}` });
 
     return res.status(200).json({
-      data: { signup_list: result_data[0].ApplyUser },
+      data: { signup_list: result_data.value[0].ApplyUser },
     });
   } catch (err) {
     console.log(err);
@@ -139,16 +161,20 @@ exports.get_admin_info = async (req, res, next) => {
 exports.get_admin_allow = async (req, res, next) => {
   try {
     const { address, club_id } = req.params;
-    const { applyUserId } = req.body; // 가입허용 아이디
+    //const { applyUserId } = req.body; // 가입허용 아이디
 
     if (!(address && club_id))
       return res
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
-    const { id } = await user.getUserId(address);
-    console.log("가입허용", id, club_id, applyUserId);
-    const result_data = await club.setAdminAllow(id, applyUserId, club_id);
+    const result_user = await user.getUserId(address);
+    if(result_user.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_user.value}` });
+    console.log("가입허용", result_user.value, club_id, result_user.value.dataValues.id);
+    const result_data = await club.setAdminAllow(result_user.value.dataValues.id, club_id);
+    if(result_data.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_data.value}` });
 
     return res.status(200).json({
       data: "success",

@@ -9,11 +9,10 @@ exports.post_signin = async (req, res, next) => {
     return res.status(404).json("fail error = 입력정보가 부족합니다");
   try {
     const userData = await user.getUser(address, password);
-
-    if (userData) {
+    if(userData.msg === "success") {
       console.log("로그인 성공");
       return res.status(200).json({
-        data: userData,
+        data: userData.value
       });
     } else {
       console.log("로그인 실패");
@@ -40,11 +39,17 @@ exports.post_signup = async function (req, res, next) {
     });
 
   try {
-    await user.createUser(address, password, nickname, profileurl);
+    const result = await user.createUser(address, password, nickname, profileurl);
+    if(result.msg === "success") {
+      return res.status(200).json({
+        data: "success",
+      });
+    }
 
-    return res.status(200).json({
-      data: "success",
+    return res.status(404).json({
+      data: `fail error = ${result.value}`,
     });
+
   } catch (err) {
     return res.status(404).json({
       data: `fail error = ${err}`,
