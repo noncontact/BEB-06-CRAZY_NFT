@@ -17,6 +17,7 @@ import {
   UserOutlined,
   KeyOutlined,
 } from "@ant-design/icons";
+<<<<<<< HEAD
 import styled from "styled-components";
 import { registerUser } from "api/user";
 import Logo from "img/logo.png";
@@ -48,6 +49,11 @@ const beforeUpload = (file) => {
   }
   return isJpgOrPng && isLt2M;
 };
+=======
+import { registerUser } from "../../api/user";
+import { getCA } from "../../api/nft";
+const { Sider, Content } = Layout;
+>>>>>>> 8463fd925e20f1d7e8fe918b412d450d5a6f8b01
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -82,6 +88,7 @@ const SignUp = () => {
   );
   const [address, setAddress] = useState("");
 
+<<<<<<< HEAD
   const onFinish = async ({ nickname, password, upload }) => {
     //if (!!address) message.error("지갑 연결을 해주세요.");
     let profileurl = "";
@@ -103,6 +110,24 @@ const SignUp = () => {
     dispatch({
       type: "accountSlice/login",
       payload: { address, nickname, profileurl },
+=======
+  const onFinish = async ({ address, password, upload, nickname }) => {
+    let profileurl="";
+    if(!!upload){
+      profileurl =
+      "https://" +
+      upload.file.response.value.cid +
+      ".ipfs.nftstorage.link/" +
+      upload.file.name;
+    }
+    
+    await registerUser({ address, password, profileurl, nickname });
+    const sev=await getCA();
+    const serverInfo=sev.data.data;
+    dispatch({
+      type: "accountSlice/login",
+      payload: { address, profileurl, nickname ,server:serverInfo.address,ca:serverInfo.ca},
+>>>>>>> 8463fd925e20f1d7e8fe918b412d450d5a6f8b01
     });
     window.location.replace("/");
   };
