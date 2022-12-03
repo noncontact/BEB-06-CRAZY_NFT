@@ -27,7 +27,7 @@ const getBalance = async (account) => {
   return result.data.result / 10e17;
 };
 
-// klay 잔고 조회
+// 토큰 조회
 const getKIP7 = async (ca) => {
   let config = {
     method: "GET",
@@ -44,4 +44,23 @@ const getKIP7 = async (ca) => {
   };
 };
 
-export { getBalance, getKIP7 };
+// 토큰 발행
+const mintKIP7 = async (ca, from, to, amount) => {
+  let data = JSON.stringify({
+    from,
+    to,
+    amount,
+  });
+
+  let config = {
+    method: "POST",
+    url: `https://kip7-api.klaytnapi.com/v1/contract/${ca}/mint`,
+    headers: header,
+    data: data,
+    json: true,
+  };
+
+  const result = await axios(config);
+  return result.data;
+};
+export { getBalance, getKIP7, mintKIP7 };
