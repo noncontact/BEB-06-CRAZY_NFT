@@ -14,7 +14,6 @@ const NftDetail = () => {
   const club_id = useSelector((state) => {
     return state.club.clubId;
   });
-<<<<<<< HEAD
   const trade = async () => {
     // try {
     //   const { klaytn } = window;
@@ -29,26 +28,6 @@ const NftDetail = () => {
     // } catch (error) {
     //   console.log(error);
     // }
-=======
-  const trade = async()=>{
-    try {
-      const { klaytn } = window;
-      await klaytn.enable();
-      const caver = new Caver(klaytn);
-      const kip7Instance = await new caver.klay.KIP7(ca);
-      let mintInfo = await kip7Instance.transfer(server, 100000000000000000000, {
-        from: address,
-      });
-      const tx_hash=mintInfo.transactionHash;
-      setTimeout(async()=> {
-        const result=await nftMint({address,club_id,tx_hash});
-        message.success(result.data.data.token_uri);
-      }, 10000);
-      
-    } catch (error) {
-      console.log(error);
-    } 
->>>>>>> 8463fd925e20f1d7e8fe918b412d450d5a6f8b01
   };
   return (
     <div>
@@ -62,17 +41,8 @@ const NftDetail = () => {
           <div>address: {meta.address}</div>
           <div>name: {meta.name}</div>
           <div>description: {meta.description}</div>
-<<<<<<< HEAD
-          {meta.attributes.map((attribute) => {
-            return (
-              <div>
-                trait_type:{attribute.trait_type} value:{attribute.value}
-              </div>
-            );
-=======
           {meta.attributes.map((attribute)=>{
             return (<div key={attribute.trait_type}>trait_type:{attribute.trait_type} value:{attribute.value}</div>);
->>>>>>> 8463fd925e20f1d7e8fe918b412d450d5a6f8b01
           })}
         </Col>
       </Row>
