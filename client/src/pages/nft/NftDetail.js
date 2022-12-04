@@ -1,6 +1,5 @@
 import { Image, Col, Row, message } from "antd";
 import React from "react";
-//import Caver from "caver-js";
 import { useSelector } from "react-redux";
 import { nftMint } from "api/nft";
 

@@ -1,7 +1,7 @@
 import { List, Button } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { clubContents } from "../../../api/club";
+import { clubContents } from "api/club";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 /**User
