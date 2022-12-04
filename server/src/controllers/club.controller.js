@@ -70,17 +70,13 @@ exports.get_detail = async (req, res, next) => {
       });
     }
     const result_comment = await comment.getCommentList(post_id);
-    if (result_comment.msg !== "success"){
-      return res.status(404).json({
-        data: `fail error = ${result_comment.value}`,
-      });
-    }
+    let comment_data;
+    if (result_comment.msg !== "success")
+      comment_data = [];
+    else 
+      comment_data = result_comment.value;
+
     const result_postLike = await post.getPostLike(post_id);
-    if (result_postLike.msg !== "success"){
-      return res.status(404).json({
-        data: `fail error = ${result_postLike.value}`,
-      });
-    }
 
     return res.status(200).json({
       data: {
@@ -90,7 +86,7 @@ exports.get_detail = async (req, res, next) => {
         img: result_post.value.dataValues.img,
         createdAt: result_post.value.dataValues.createdAt,
         user: result_post.value.dataValues.User,
-        comment: result_comment.value,
+        comment: comment_data,
         like_num: result_postLike.value
       },
     });
