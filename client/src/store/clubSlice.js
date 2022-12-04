@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  clubId: undefined,
-  clubName: "",
-  category: "all",
-  categoryId: 0,
-  post_id: undefined,
+const initialState= { 
+  clubId:undefined,
+  clubImg:"",
+  clubName:"",
+  catagory:"all",
+  catagoryId:0,
+  post_id:undefined
+
 };
 
 const clubSlice = createSlice({
@@ -14,6 +16,7 @@ const clubSlice = createSlice({
   reducers: {
     selectClub: (state, action) => {
       state.clubId = action.payload.clubId;
+      state.clubImg = action.payload.clubImg;
       state.clubName = action.payload.clubName;
     },
     selectCategory: (state, action) => {
