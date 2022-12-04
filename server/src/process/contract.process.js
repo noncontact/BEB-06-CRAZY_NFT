@@ -388,3 +388,39 @@ exports.MintNFT = async (address, contract_add, cid) => {
     return data;
   }
 };
+
+exports.sendTransfer = async(address) => {
+  try {
+    const account_info = await caver.klay.accounts.wallet.getAccount(
+      process.env.SERVER_ACCOUNT
+    );
+    if (typeof account_info === "undefined") {
+      const result = await caver.klay.accounts.wallet.add(
+        process.env.ACCOUNT_SECRET_KEY,
+        process.env.SERVER_ACCOUNT
+      );
+    }
+
+    const receipt = await caver.klay.sendTransaction({
+      type: 'VALUE_TRANSFER',
+      from: process.env.SERVER_ACCOUNT,
+      to: address,
+      gas: '300000',
+      value: caver.utils.toPeb('10', 'KLAY'),
+    })
+
+    console.log(receipt);
+    const data = {
+      msg: "success",
+      value: receipt
+    };
+    return data;
+  }
+  catch (err) {
+    const data = {
+      msg: "fail",
+      value: err
+    };
+    return data;
+  }
+}

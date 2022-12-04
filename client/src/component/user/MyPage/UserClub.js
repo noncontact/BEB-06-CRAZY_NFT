@@ -20,7 +20,7 @@ const UserClub = () => {
     };
 
     fetchData();
-  }, []);
+  }, [address]);
   const data = [
     {
       title: "TWICE 팬클럽",

@@ -15,6 +15,20 @@ exports.getAllClub = async () => {
   }
 };
 
+exports.getClub = async (user_id, title) => {
+  try {
+    const result = await Club.findAll({
+      attributes: ["id", "title"],
+      where: { AdminId : user_id , title},
+    });
+    console.log(result);
+    return return_function(result, false);
+  }  
+  catch (err) {
+    return return_err(err);
+  }
+}
+
 // 가입을 희망하는 회원리스트
 exports.getAdminInfo = async (userId, clubId) => {
   try {
@@ -65,8 +79,16 @@ exports.createClub = async (userId, title, img) => {
       img,
       AdminId: userId,
     });
-    console.log(userId, title, img)
+
     await club.addApplyUser(parseInt(userId, 10));
+
+    await User.update(
+      { auth: 1 },
+      {
+        where: { id: userId },
+      }
+    );
+
     return return_function("insert");
   }
   catch (err) {

@@ -20,7 +20,7 @@ const ClubEntryList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [address]);
   const acceptEntry = async () => {
     try {
       await clubEntry(address, 1);
