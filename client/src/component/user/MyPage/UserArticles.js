@@ -16,7 +16,7 @@ const UserArticles = () => {
     };
 
     fetchData();
-  }, []);
+  }, [address]);
 
   const data = [
     {
