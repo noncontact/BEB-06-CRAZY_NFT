@@ -54,6 +54,7 @@ exports.createUser = async (address, password, nickname, profileurl) => {
     return return_function("insert")
   }
   catch (err) {
+    console.log("err = ", err)
     return return_err(err)
   }
 };

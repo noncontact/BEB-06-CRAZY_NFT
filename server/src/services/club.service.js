@@ -15,6 +15,19 @@ exports.getAllClub = async () => {
   }
 };
 
+exports.getClub = async (user_id, title) {
+  try {
+    const result = await Club.findAll({
+      attributes: ["id", "title"],
+      where: { AdminId : user_id , title},
+    });
+    return return_function(result, false);
+  }  
+  catch (err) {
+    return return_err(err);
+  }
+}
+
 // 가입을 희망하는 회원리스트
 exports.getAdminInfo = async (userId, clubId) => {
   try {

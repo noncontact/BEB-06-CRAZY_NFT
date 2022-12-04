@@ -1,147 +1,150 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Button, Layout, Upload, Form, Input } from "antd";
 import {
-  Col,
-  Row,
-  Button,
-  Layout,
-  Upload,
-  Form,
-  Input,
-  Image,
-  message,
-} from "antd";
-import {
+  SketchOutlined,
+  CheckCircleTwoTone,
   PlusOutlined,
-  LoadingOutlined,
-  UserOutlined,
-  KeyOutlined,
 } from "@ant-design/icons";
-import styled from "styled-components";
-import { registerUser } from "api/user";
-import Logo from "img/logo.png";
-import rule from "util/rule.json";
-import Account from "component/common/KaikasButton";
-
-const upload = {};
-//upload.action = "https://www.mocky.io/v2/5cc8019d300000980a055e76";
-upload.action = "https://api.nft.storage/upload";
-upload.header = {
-  withCredentials: true,
-  Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-};
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result));
-  reader.readAsDataURL(img);
-};
-
-// 이미지 업로드전 이미지타입 확인
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
-};
+import Caver from "caver-js";
+import { registerUser } from "../../api/user";
+const { Sider, Content } = Layout;
 
 const SignUp = () => {
+  const formRef = useRef();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [account, setAccount] = useState({
+    isTrue: true,
+    txType: null,
+    account: "",
+    balance: 0,
+    network: null,
+  });
 
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const loadAccountInfo = async () => {
+    const { klaytn } = window;
 
-  const handleChange = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
+    if (klaytn) {
+      try {
+        await klaytn.enable();
+        setAccountInfo(klaytn);
+        setNetworkInfo();
+        klaytn.on("accountsChanged", () => setAccountInfo(klaytn));
+      } catch (error) {
+        console.log("User denied account access");
+      }
+    } else {
+      console.log(
+        "Non-Kaikas browser detected. You should consider trying Kaikas!"
+      );
     }
   };
 
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
-  const [address, setAddress] = useState("");
-
-  const onFinish = async ({ nickname, password, upload }) => {
-    //if (!!address) message.error("지갑 연결을 해주세요.");
-    let profileurl = "";
-    if (!!upload) {
-      profileurl =
-        "https://" +
-        upload.file.response.value.cid +
-        ".ipfs.nftstorage.link/" +
-        upload.file.name;
-    }
-    console.log("signup", address, nickname, password, profileurl);
-    const data = await registerUser({
-      address,
-      nickname,
-      password,
-      profileurl,
+  const setAccountInfo = async () => {
+    const { klaytn } = window;
+    if (klaytn === undefined) return;
+    const caver = new Caver(klaytn);
+    const account = klaytn.selectedAddress;
+    const balance = await caver.klay.getBalance(account);
+    await formRef.current.setFieldsValue({
+      address: account,
     });
+    setAccount({
+      account,
+      balance: caver.utils.fromPeb(balance, "KLAY"),
+      isTrue: false,
+    });
+  };
 
+  const setNetworkInfo = () => {
+    const { klaytn } = window;
+    if (klaytn === undefined) return;
+
+    setAccount({ network: klaytn.networkVersion });
+    klaytn.on("networkChanged", () => setNetworkInfo(klaytn.networkVersion));
+  };
+
+  const onFinish = async ({ address, password, upload, nickname }) => {
+    const profileurl =
+      "https://" +
+      upload.file.response.value.cid +
+      ".ipfs.nftstorage.link/" +
+      upload.file.name;
+    await registerUser({ address, password, profileurl, nickname });
     dispatch({
       type: "accountSlice/login",
-      payload: { address, nickname, profileurl },
+      payload: { address, profileurl, nickname },
     });
-    window.location.replace("/");
+    setTimeout(function () {
+      window.location.href = "/";
+    }, 1000);
   };
-
-  // const uploading = (info) => {
-  //   const { status } = info.file;
-  //   if (status === "uploading") {
-  //     setIsUploading(true);
-  //   }
-  //   if (status === "done") {
-  //     setIsUploading(false);
-  //     message.success(`${info.file.name} file uploaded successfully.`);
-  //   } else if (status === "error") {
-  //     message.error(`${info.file.name} file upload failed.`);
-  //   }
-  // };
 
   return (
     <Layout>
-      <SignUpForm onFinish={onFinish}>
-        <SignUpRow gutter={24} justify="space-around" align="middle">
-          <SignUpCol span={24}>
-            <Image src={Logo} height={400} preview={false} />
-          </SignUpCol>
-          <SignUpCol span={24}>
-            <SignUpFormItem name="address" rules={[rule.address]}>
-              <Account address={address} setAddress={setAddress} />
-            </SignUpFormItem>
-          </SignUpCol>
-          <SignUpCol span={24}>
-            <SignUpFormItem name="nickname" rules={[rule.nickname]}>
-              <SignUpInput placeholder="Nickname" prefix={<UserOutlined />} />
-            </SignUpFormItem>
-          </SignUpCol>
-          <SignUpCol span={24}>
-            <SignUpFormItem
+      <Sider align="center" style={{ height: "100vh", background: "white" }}>
+        <div onClick={() => navigate("/")}>home</div>
+      </Sider>
+      <Layout>
+        <Content style={{ border: "1px solid violet" }} align="center">
+          <Form
+            ref={formRef}
+            labelCol={{
+              span: 4,
+            }}
+            wrapperCol={{
+              span: 14,
+            }}
+            layout="horizontal"
+            onFinish={onFinish}
+          >
+            <Form.Item
+              label="Address"
+              name="address"
+              rules={[
+                {
+                  required: true,
+                  message: "Please interlock Kaikas!",
+                },
+              ]}
+            >
+              <CheckCircleTwoTone
+                twoToneColor="#52c41a"
+                hidden={account.isTrue}
+              />
+              <Button
+                onClick={loadAccountInfo}
+                type="primary"
+                shape="round"
+                icon={<SketchOutlined />}
+                style={{ minHeight: "44px", minWidth: "280px" }}
+              >
+                Kaikas
+              </Button>
+              {account.account}
+            </Form.Item>
+            <Form.Item
+              label="Nickname"
+              name="nickname"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your nickname!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Password"
               name="password"
               rules={[
-                rule.password,
+                {
+                  required: true,
+                  message: "Please input your password!",
+                },
                 () => ({
                   validator(_, value) {
                     const special_pattern = /[~!@#$%^&*()_+|<>?:{}]/;
@@ -160,81 +163,44 @@ const SignUp = () => {
                 }),
               ]}
             >
-              <SignUpInputPassword
-                placeholder="Password"
-                prefix={<KeyOutlined />}
-              />
-            </SignUpFormItem>
-          </SignUpCol>
-          <SignUpCol span={24}>
-            <SignUpFormItem name="upload">
-              <SignUpUpload
-                maxCount={1}
-                beforeUpload={beforeUpload}
-                action={upload.action}
-                headers={upload.header}
-                listType="picture-card"
-                onChange={handleChange}
-                showUploadList={false}
-              >
-                {imageUrl ? (
-                  <div style={{ overflow: "hidden", height: "100px" }}>
-                    <Image src={imageUrl} height={100} preview={true} />
-                  </div>
-                ) : (
-                  uploadButton
-                )}
-              </SignUpUpload>
-            </SignUpFormItem>
-          </SignUpCol>
-          <SignUpCol span={24}>
-            <Form.Item>
-              <ButtonWrapper type="primary" shape="round" htmlType="submit">
-                가입
-              </ButtonWrapper>
+              <Input.Password />
             </Form.Item>
-          </SignUpCol>
-        </SignUpRow>
-      </SignUpForm>
+            <Form.Item name="upload" label="Profil image">
+              <Upload
+                maxCount={1}
+                action="https://api.nft.storage/upload"
+                headers={{
+                  withCredentials: true,
+                  Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+                }}
+                listType="picture-card"
+              >
+                <div>
+                  <PlusOutlined />
+                  <div
+                    style={{
+                      marginTop: 8,
+                    }}
+                  >
+                    Upload
+                  </div>
+                </div>
+              </Upload>
+            </Form.Item>
+            <Form.Item
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
+            >
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Content>
+      </Layout>
     </Layout>
   );
 };
-
-const ButtonWrapper = styled(Button)`
-  width: 90%;
-  height: 45px;
-`;
-const SignUpForm = styled(Form)`
-  width: 60%;
-  height: 800px;
-  align-self: center;
-  background: #f1eee4;
-`;
-const SignUpRow = styled(Row)`
-  text-align: center;
-`;
-const SignUpCol = styled(Col)`
-  height: 10%;
-`;
-const SignUpFormItem = styled(Form.Item)`
-  height: 100%;
-  width: 100%;
-`;
-const SignUpUpload = styled(Upload)`
-  .ant-upload-select-picture-card {
-    width: 90%;
-    margin: 0px;
-  }
-`;
-const SignUpInput = styled(Input)`
-  height: 45px;
-  width: 90%;
-  border-radius: 5px;
-`;
-const SignUpInputPassword = styled(Input.Password)`
-  height: 45px;
-  width: 90%;
-  border-radius: 5px;
-`;
-
 export default SignUp;
