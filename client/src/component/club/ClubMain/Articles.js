@@ -46,6 +46,7 @@ const Articles = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(clubId, catagoryId);
       try {
         const result = await clubContents(clubId, catagoryId);
         const contents=result.data.data;
@@ -56,7 +57,7 @@ const Articles = () => {
     };
 
     fetchData();
-  }, [catagoryId]);
+  }, [clubId,catagoryId]);
 
   const selectArticle = (id) => {
     dispatch({ type: "clubSlice/selectPost", payload: { post_id: id } });

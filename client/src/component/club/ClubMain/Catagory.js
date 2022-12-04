@@ -39,7 +39,7 @@ const cataId = {
 const Catagory =()=>{
     const dispatch=useDispatch();
     const navigate=useNavigate();
-    const {clubName,clubId,catagory}=useSelector((state) =>{
+    const {clubName,clubId,catagory,catagoryId}=useSelector((state) =>{
       return state.club;
     });
     const {nickname,profileurl,address}=useSelector((state) =>{
@@ -57,9 +57,9 @@ const Catagory =()=>{
       }
       
     }
-    const onClick = (e) => {
-      
-      dispatch({type:"clubSlice/selectCatagory",payload:{catagory:e.key,catagoryId:cataId[e.key]}});
+    const onClick = async(e) => {
+      await dispatch({type:"clubSlice/selectCategory",payload:{category:e.key,categoryId:cataId[e.key]}});
+      console.log(catagory,catagoryId);
       navigate(`/clubmain/${clubName}`);
     };
     return (
@@ -88,7 +88,7 @@ const Catagory =()=>{
       <Menu
         onClick={onClick}
         style={{
-          background: "#ad6fff",
+          background: "#9747FF",
         }}
 
         defaultSelectedKeys={[catagory]}
