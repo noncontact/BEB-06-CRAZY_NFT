@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Menu, Input } from "antd";
 import React from "react";
-import { persistor } from "../../store/store";
+import { persistor } from "store/store";
 const { Search } = Input;
 function getItem(label, key, icon, children, type) {
   return {

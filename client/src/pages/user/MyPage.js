@@ -5,13 +5,15 @@ import {
   UserArticles,
   UserNfts,
   UserClub,
-} from "../../component";
-import React, { useState } from "react";
+} from "component";
+import React, { useState, useEffect } from "react";
+
 
 const { Header, Footer, Sider, Content } = Layout;
 
 const MyPage = () => {
   const [menu, setMenu] = useState("info");
+
   const statusIcon = {
     info: <UserInfo />,
     articles: <UserArticles />,
@@ -28,7 +30,7 @@ const MyPage = () => {
         <UserMenu selectMenu={selectMenu} />
       </Sider>
       <Layout>
-        <Header style={{ background: "white" }}>Header</Header>
+        <Header>Header</Header>
         <Content>{StatusIconComponent}</Content>
         <Footer>Footer</Footer>
       </Layout>

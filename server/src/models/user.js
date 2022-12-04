@@ -26,6 +26,11 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(255),
           allowNull: true,
         },
+        auth: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          defaultValue: 0, 
+        },
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,

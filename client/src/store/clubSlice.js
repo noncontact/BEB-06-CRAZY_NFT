@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState= { 
   clubId:undefined,
@@ -8,10 +7,11 @@ const initialState= {
   catagory:"all",
   catagoryId:0,
   post_id:undefined
+
 };
 
 const clubSlice = createSlice({
-  name: 'clubSlice',
+  name: "clubSlice",
   initialState,
   reducers: {
     selectClub: (state, action) => {
@@ -19,20 +19,19 @@ const clubSlice = createSlice({
       state.clubImg = action.payload.clubImg;
       state.clubName = action.payload.clubName;
     },
-    selectCatagory: (state, action) => {
-        state.catagory = action.payload.catagory;
-        state.catagoryId = action.payload.catagoryId;
+    selectCategory: (state, action) => {
+      state.category = action.payload.category;
+      state.categoryId = action.payload.categoryId;
     },
     selectPost: (state, action) => {
       state.post_id = action.payload.post_id;
-      
     },
-    initCata:(state)=>{
-      state.catagory="all";
-      state.catagoryId=0;
+    initCate: (state) => {
+      state.category = "all";
+      state.categoryId = 0;
     },
   },
-  
 });
 export default clubSlice;
-export const { selectClub,selectCatagory,selectPost,initCata } = clubSlice.actions;
+export const { selectClub, selectCategory, selectPost, initCate } =
+  clubSlice.actions;

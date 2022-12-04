@@ -1,37 +1,33 @@
-import React from 'react';
+import React from "react";
 
-import { imgUpload } from '../../api/nft';
-import { useSelector } from 'react-redux';
+import { imgUpload } from "../../api/nft";
+import { useSelector } from "react-redux";
 
-
-const Deploy4 =()=>{
-  const clubId=useSelector((state) => {
+const Deploy4 = () => {
+  const clubId = useSelector((state) => {
     return state.club.clubId;
   });
-    const upload = async(e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        console.log(e.target.file.files);
-        const fileList=Object.values(e.target.file.files);
-        fileList.forEach((img)=>{
-          formData.append('img', img);
-        });
-        formData.append('club_id', clubId);
-        formData.append('dir', 4); 
-        formData.append('total', 5); 
-        try {
-            imgUpload(formData)
-            .then(function (res) {
-              if(res.status===200){
-                
-                console.log(res.data,"4번")
-              }
-            })
-      }
-      catch(e) {
-          console.log(e);
-      }
-    };
+  const upload = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    console.log(e.target.file.files);
+    const fileList = Object.values(e.target.file.files);
+    fileList.forEach((img) => {
+      formData.append("img", img);
+    });
+    formData.append("club_id", clubId);
+    formData.append("dir", 4);
+    formData.append("total", 5);
+    try {
+      imgUpload(formData).then(function (res) {
+        if (res.status === 200) {
+          console.log(res.data, "4번");
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div>

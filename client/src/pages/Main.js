@@ -1,32 +1,27 @@
-import React,{useState,useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Navi } from "../component";
-import { allClubsList } from '../api/club';
-import {Layout,List,Card ,Skeleton} from 'antd';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Navi } from "component";
+import { allClubsList } from "api/club";
+import { Layout, List, Card, Skeleton } from "antd";
+import { useDispatch } from "react-redux";
 const { Header, Content } = Layout;
-const data = [
-  <Skeleton active />,
-  <Skeleton active />,
-  <Skeleton active />,
-  
-];
+const data = [<Skeleton active />, <Skeleton active />, <Skeleton active />];
 
-const Main =()=>{
-  const [clubs,setClubs]=useState(data);
-  const navigate =useNavigate();
-  const dispatch=useDispatch();
+const Main = () => {
+  const [clubs, setClubs] = useState(data);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-
     const fetchData = async () => {
-      const clublist=await allClubsList();
+      const clublist = await allClubsList();
       setClubs(clublist.data.data);
       console.log(clublist.data.data);
     };
 
     fetchData();
   }, []);
+
 
   const clickclub=(clubId,name,clubImg)=>{
       if(name){
@@ -66,5 +61,6 @@ const Main =()=>{
             
         </Layout>
     );
+
 };
 export default Main;
