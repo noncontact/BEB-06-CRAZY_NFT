@@ -316,6 +316,12 @@ exports.post_apply = async function (req, res, next) {
         data: `fail error = ${result_user.value}`
     });
 
+    //const react_chk = await club.getClubUser(result_user.value.dataValues.id, club_id);
+    //console.log(react_chk.value.dataValues.use);
+    // if (react_chk.msg === "success" && react_chk.value.dataValues.use)
+    //   return res.status(404).json({
+    //     data: "fail error = 이미 가입이된 클럽입니다."
+    //   });
 
     const result = await user.setUserClub(result_user.value.dataValues.id, club_id);
     if (result.msg !== "success")

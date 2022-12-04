@@ -29,6 +29,20 @@ exports.getClub = async (user_id, title) => {
   }
 }
 
+exports.getClubUser = async (user_id, Club_Id) => {
+  try {
+    const result = await UserClub.findOne({
+      attributes: ["use"],
+      where: { UserId : user_id , ClubId : Club_Id},
+    });
+    console.log(result);
+    return return_function(result);
+  }  
+  catch (err) {
+    return return_err(err);
+  }
+}
+
 // 가입을 희망하는 회원리스트
 exports.getAdminInfo = async (userId, clubId) => {
   try {
