@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { PURGE } from "redux-persist";
+const initialState= { 
+  clubId:undefined,
+  clubImg:"",
+  clubName:"",
+  catagory:"all",
+  catagoryId:0,
+  post_id:undefined
 
-const initialState = {
-  clubId: undefined,
-  clubName: "",
-  category: "all",
-  categoryId: 0,
-  post_id: undefined,
 };
 
 const clubSlice = createSlice({
@@ -14,11 +16,13 @@ const clubSlice = createSlice({
   reducers: {
     selectClub: (state, action) => {
       state.clubId = action.payload.clubId;
+      state.clubImg = action.payload.clubImg;
       state.clubName = action.payload.clubName;
     },
     selectCategory: (state, action) => {
-      state.category = action.payload.category;
-      state.categoryId = action.payload.categoryId;
+      state.catagory = action.payload.category;
+      state.catagoryId = action.payload.categoryId;
+      console.log();
     },
     selectPost: (state, action) => {
       state.post_id = action.payload.post_id;
@@ -27,6 +31,9 @@ const clubSlice = createSlice({
       state.category = "all";
       state.categoryId = 0;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 export default clubSlice;

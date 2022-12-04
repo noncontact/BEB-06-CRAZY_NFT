@@ -8,7 +8,6 @@ import {
 } from "component";
 import React, { useState, useEffect } from "react";
 
-
 const { Header, Footer, Sider, Content } = Layout;
 
 const MyPage = () => {

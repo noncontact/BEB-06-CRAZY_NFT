@@ -1,11 +1,12 @@
 
 import { AppstoreOutlined, UserOutlined, SolutionOutlined } from '@ant-design/icons';
-import { Button, Menu,message } from 'antd';
+import { Avatar, Card,Button, Menu,message,Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clubSignup } from '../../../api/club';
-
+const { Meta } = Card;
+const { Paragraph } = Typography;
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -38,10 +39,10 @@ const cataId = {
 const Catagory =()=>{
     const dispatch=useDispatch();
     const navigate=useNavigate();
-    const {clubName,clubId,catagory}=useSelector((state) =>{
+    const {clubName,clubId,catagory,catagoryId}=useSelector((state) =>{
       return state.club;
     });
-    const {address,isLogin}=useSelector((state) =>{
+    const {nickname,profileurl,address}=useSelector((state) =>{
       return state.account;
     });
     const entry=async()=>{
@@ -56,14 +57,34 @@ const Catagory =()=>{
       }
       
     }
-    const onClick = (e) => {
-      
-      dispatch({type:"clubSlice/selectCatagory",payload:{catagory:e.key,catagoryId:cataId[e.key]}});
+    const onClick = async(e) => {
+      await dispatch({type:"clubSlice/selectCategory",payload:{category:e.key,categoryId:cataId[e.key]}});
+      console.log(catagory,catagoryId);
       navigate(`/clubmain/${clubName}`);
     };
     return (
       <>
-      {isLogin?<Button onClick={entry}>가입신청</Button>:<div></div>}
+      <div className='side-profile'>
+      <Card
+            style={{
+              width: 203,
+              marginTop: 16,
+              background: "#F8F3FF"
+            }}
+            actions={[
+              <Button onClick={entry}>가입신청</Button>,
+              <Button onClick={()=>navigate('/nftalllist')} >클럽 nft</Button>
+            ]}
+          >
+              <Meta
+                avatar={<Avatar src={profileurl} />}
+                title={nickname}
+                description={<Paragraph ellipsis>{address}</Paragraph>}
+              />
+          </Card>
+        
+      </div>
+      
       <Menu
         onClick={onClick}
         style={{
