@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { PURGE } from "redux-persist";
 const initialState= { 
   clubId:undefined,
   clubImg:"",
@@ -20,8 +20,9 @@ const clubSlice = createSlice({
       state.clubName = action.payload.clubName;
     },
     selectCategory: (state, action) => {
-      state.category = action.payload.category;
-      state.categoryId = action.payload.categoryId;
+      state.catagory = action.payload.category;
+      state.catagoryId = action.payload.categoryId;
+      console.log();
     },
     selectPost: (state, action) => {
       state.post_id = action.payload.post_id;
@@ -30,6 +31,9 @@ const clubSlice = createSlice({
       state.category = "all";
       state.categoryId = 0;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 export default clubSlice;
