@@ -60,7 +60,7 @@ const UserInfo = () => {
         <Descriptions.Item label="닉네임">{info.nickname}</Descriptions.Item>
         <Descriptions.Item label="Address">{info.address}</Descriptions.Item>
         <Descriptions.Item label="클레이 갯수">
-          Klay: {info.klayBalance}
+          {info.klayBalance}
         </Descriptions.Item>
         <Descriptions.Item label="보유 토큰">
           토큰명 : {info.name}

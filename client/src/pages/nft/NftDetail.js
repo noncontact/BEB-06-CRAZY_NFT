@@ -1,6 +1,5 @@
 import { Image, Col, Row, message } from "antd";
 import React from "react";
-//import Caver from "caver-js";
 import { useSelector } from "react-redux";
 import { nftMint } from "api/nft";
 
@@ -41,12 +40,8 @@ const NftDetail = () => {
           <div>address: {meta.address}</div>
           <div>name: {meta.name}</div>
           <div>description: {meta.description}</div>
-          {meta.attributes.map((attribute) => {
-            return (
-              <div>
-                trait_type:{attribute.trait_type} value:{attribute.value}
-              </div>
-            );
+          {meta.attributes.map((attribute)=>{
+            return (<div key={attribute.trait_type}>trait_type:{attribute.trait_type} value:{attribute.value}</div>);
           })}
         </Col>
       </Row>
