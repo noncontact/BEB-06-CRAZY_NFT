@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input, Select,message } from "antd";
+import { Button, Form, Input, Select,message,Divider } from "antd";
 import { publishArticle } from "../../api/club";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -26,19 +26,12 @@ const CreateArticle = () => {
   };
   return (
     <div>
-    {isLogin?<Form name="nest-messages" onFinish={onFinish}>
-      <Form.Item
-        name="title"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input placeholder="제목" />
-      </Form.Item>
-      <Form.Item label="Catagory" name="category_id">
-        <Select>
+      <div style={{ fontSize: "25px",marginBottom:"10px" }}>클럽 글쓰기</div>
+      <Divider />
+    {isLogin?
+    <Form  name="nest-messages" onFinish={onFinish}>
+      <Form.Item name="category_id">
+        <Select placeholder="카테고리를 정하세요.">
           <Select.Option value={1}>공지사항</Select.Option>
           <Select.Option value={2}>Q&A</Select.Option>
           <Select.Option value={3}>자유게시판</Select.Option>
@@ -47,16 +40,25 @@ const CreateArticle = () => {
           <Select.Option value={6}>슈퍼레어글</Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item name={"content"} label="본문">
-        <Input.TextArea />
+      <Form.Item
+        name="title"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <Input placeholder="제목을 입력해 주세요" />
+      </Form.Item>
+      
+      <Form.Item name={"content"}>
+        <Input.TextArea autoSize={{minRows: 14,maxRows: 14}} placeholder="내용을 입력해 주세요"/>
       </Form.Item>
       <Form.Item
-        wrapperCol={{
-          offset: 8,
-        }}
+        
       >
         <Button type="primary" htmlType="submit">
-          Submit
+          등록
         </Button>
       </Form.Item>
     </Form>:<NoAuth />}

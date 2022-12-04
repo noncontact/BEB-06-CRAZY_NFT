@@ -28,9 +28,12 @@ const Main =()=>{
     fetchData();
   }, []);
 
-  const clickclub=(clubId,clubName)=>{
-    dispatch({type:"clubSlice/selectClub",payload:{clubId,clubName}});
-    navigate(`/clubmain/${clubName}`);
+  const clickclub=(clubId,name,clubImg)=>{
+      if(name){
+      let clubName=name.replace(/\s+/g,'');
+      dispatch({type:"clubSlice/selectClub",payload:{clubId,clubName,clubImg}});
+      navigate(`/clubmain/${clubName}`);
+    }
   };
 
     return (
@@ -55,7 +58,7 @@ const Main =()=>{
                 dataSource={clubs}
                 renderItem={(item) => (
                 <List.Item>
-                    <Card onClick={()=>clickclub(item.id,item.title)} title={item.title}>{item.createdAt?item.createdAt:item}</Card>
+                    <Card onClick={()=>clickclub(item.id,item.title,item.img)} title={item.title}>{item.createdAt?item.createdAt:item}</Card>
                 </List.Item>
                 )}
             />

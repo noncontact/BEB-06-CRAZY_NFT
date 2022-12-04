@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState= { 
   clubId:undefined,
+  clubImg:"",
   clubName:"",
   catagory:"all",
   catagoryId:0,
@@ -15,6 +16,7 @@ const clubSlice = createSlice({
   reducers: {
     selectClub: (state, action) => {
       state.clubId = action.payload.clubId;
+      state.clubImg = action.payload.clubImg;
       state.clubName = action.payload.clubName;
     },
     selectCatagory: (state, action) => {
