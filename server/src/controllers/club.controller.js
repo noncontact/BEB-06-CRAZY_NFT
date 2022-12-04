@@ -249,7 +249,15 @@ exports.post_make_club = async (req, res, next) => {
         data: `fail error = ${result_user.value}`
       });
     }
-    console.log(result_user);
+
+    const result = await club.getClub(result_user.value.dataValues.id, title);
+    console.log(result)
+    if(result.msg === "success") {
+      return res.status(404).json({
+        data: "fail error = 이미 등록된 클럽입니다.",
+      });
+    }
+
     const result_data = await club.createClub(result_user.value.dataValues.id, title, img);
     if(result_data.msg !== "success") {
       return res.status(404).json({
