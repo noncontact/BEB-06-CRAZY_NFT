@@ -7,7 +7,7 @@ exports.getMyContents = async (UserId) => {
     const result = await Post.findAll({
       where: { UserId },
     });
-    return return_function (result)
+    return return_function (result, false)
   }
   catch (err) {
     return return_err(err)
@@ -105,7 +105,7 @@ exports.getContentIndex = async (clubId, categoryId) => {
       ],
       where: { ForumId: { [Op.in]: category } },
     });
-    return return_function (result)
+    return return_function (result, false)
   }
   catch (err) {
     return return_err(err)

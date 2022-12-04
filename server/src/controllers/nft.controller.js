@@ -23,6 +23,14 @@ exports.post_nft_deploy = async (req, res, next) => {
         .status(404)
         .json({ data: "fail error = 입력정보가 부족합니다" });
 
+    // 먼저 이전에 이미 발행한 club id 의 nft 인지 확인
+    const result_check = await service_nft.checkDeploy(club_id);
+    if(result_check.msg == "success") {
+      return res
+      .status(404)
+      .json({ data: "fail error = 이미 발행된 NFT 입니다." });
+    }
+
     // 수신된 parts 이미지를 조합하여 nft 이미지를 생성하는 기능 구현
     await buildSetup();
     await startCreating(deploy_count, club_id);
@@ -52,6 +60,10 @@ exports.post_nft_deploy = async (req, res, next) => {
         deploy_count,
         result_deploy.value
       );
+
+      // 발행 후 Deploy 테이블에 이력을 남김
+      await service_nft.setDeploy(club_id, 1);
+      
       return res.status(200).json({
         data: { token_uri: `ipfs://${meta_cid}`, ca: result_deploy.value },
       });
