@@ -4,10 +4,10 @@ const { return_function, return_err } = require("#src/process/error.process.js")
 exports.getUserId = async (address) => {
   try {
     const result = await User.findOne({
-      attributes: ["id"],
+      attributes: ["id", "auth"],
       where: { address },
     });
-    return return_function(result, true)
+    return return_function(result)
   }
   catch (err) {
     return return_err(err)
@@ -18,7 +18,7 @@ exports.getUserId = async (address) => {
 exports.getUser = async (address, password) => {
   try {
     const result = await User.findOne({
-      attributes: ["id", "nickname", "profileurl", "address", "createdAt"],
+      attributes: ["id", "nickname", "auth", "profileurl", "address", "createdAt"],
       where: { address, password },
     });
     return return_function(result)
@@ -32,7 +32,7 @@ exports.getUser = async (address, password) => {
 exports.getMyDetail = async (userId) => {
   try{
     const result = await User.findOne({
-      attributes: ["id", "nickname", "profileurl", "address", "createdAt"],
+      attributes: ["id", "nickname", "auth", "profileurl", "address", "createdAt"],
       where: { id: userId },
     });
     return return_function(result)

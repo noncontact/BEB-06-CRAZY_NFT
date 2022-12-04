@@ -15,12 +15,13 @@ exports.getAllClub = async () => {
   }
 };
 
-exports.getClub = async (user_id, title) {
+exports.getClub = async (user_id, title) => {
   try {
     const result = await Club.findAll({
       attributes: ["id", "title"],
       where: { AdminId : user_id , title},
     });
+    console.log(result);
     return return_function(result, false);
   }  
   catch (err) {
@@ -78,8 +79,16 @@ exports.createClub = async (userId, title, img) => {
       img,
       AdminId: userId,
     });
-    console.log(userId, title, img)
+
     await club.addApplyUser(parseInt(userId, 10));
+
+    await User.update(
+      { auth: 1 },
+      {
+        where: { id: userId },
+      }
+    );
+
     return return_function("insert");
   }
   catch (err) {
