@@ -55,7 +55,9 @@ const ArticleDetail =()=>{
         
         
       };
-
+      const fail = (values)=>{
+        console.log(values);
+      }
     return (
         <div >
             {/*글정보 범위*/}
@@ -89,9 +91,11 @@ const ArticleDetail =()=>{
                 wrapperCol={{ span: 16 }}
                 style={{background:"#ffffff",border:"1px solid #8a1dde3d",padding:"20px 20px 0px 20px"}}
                 onFinish={onFinish}
+                onFinishFailed={fail}
                 autoComplete="off"
                 disabled={!isLogin}
             >
+                {nickname}
             <Form.Item
                 name="content"
                 rules={[
@@ -100,8 +104,6 @@ const ArticleDetail =()=>{
                 },
                 ]}
             >
-            {nickname}
-            
             <TextArea
                 showCount
                 maxLength={100}
