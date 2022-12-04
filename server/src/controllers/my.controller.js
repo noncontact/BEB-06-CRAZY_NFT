@@ -176,6 +176,10 @@ exports.get_admin_allow = async (req, res, next) => {
     if(result_user.msg !== "success")
       return res.status(404).json({ data: `fail error = ${result_user.value}` });
     console.log("가입허용", result_user.value, club_id, result_user.value.dataValues.id);
+
+    if(result_user.value.dataValues.auth === 0)
+      return res.status(404).json({ data: "fail error = 운영자가 아닙니다." });
+
     const result_data = await club.setAdminAllow(result_user.value.dataValues.id, club_id);
     if(result_data.msg !== "success")
       return res.status(404).json({ data: `fail error = ${result_data.value}` });
