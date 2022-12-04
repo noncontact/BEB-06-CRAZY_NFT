@@ -99,11 +99,13 @@ const SignUp = () => {
       password,
       profileurl,
     });
+    const accountInfo = {
+      address,
+      nickname,
+      profileurl,
+    };
 
-    dispatch({
-      type: "accountSlice/login",
-      payload: { address, nickname, profileurl },
-    });
+    dispatch({ type: "accountSlice/login", payload: accountInfo });
     window.location.replace("/");
   };
 

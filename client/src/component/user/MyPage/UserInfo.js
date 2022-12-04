@@ -37,10 +37,10 @@ const UserInfo = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const info = await myDetail(address);
-      const myInfo = info.data.data.my_info;
+      const { data } = await myDetail(address);
+      const myInfo = data.data.my_info;
       const klayBalance = await getBalance(address);
-      console.log(await getKIP7(ca));
+
       const KIP7 = await getKIP7(ca);
       setInfo({
         ...myInfo,
@@ -49,8 +49,7 @@ const UserInfo = () => {
         totalSupply: KIP7.totalSupply,
         klayBalance,
       });
-    };
-
+    }; 
     fetchData();
   }, []);
   return (
