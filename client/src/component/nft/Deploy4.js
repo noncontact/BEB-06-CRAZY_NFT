@@ -2,8 +2,8 @@ import React from "react";
 
 import { imgUpload } from "../../api/nft";
 import { useSelector } from "react-redux";
-
-const Deploy4 = () => {
+import { message } from 'antd';
+const Deploy4 = ({finishStep}) => {
   const clubId = useSelector((state) => {
     return state.club.clubId;
   });
@@ -19,11 +19,10 @@ const Deploy4 = () => {
     formData.append("dir", 4);
     formData.append("total", 5);
     try {
-      imgUpload(formData).then(function (res) {
-        if (res.status === 200) {
-          console.log(res.data, "4번");
-        }
-      });
+      message.loading('Action in progress..');
+      await imgUpload(formData);
+      message.success('Upload finished');
+      finishStep();
     } catch (e) {
       console.log(e);
     }
