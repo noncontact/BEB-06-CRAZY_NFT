@@ -16,24 +16,26 @@ function getItem(label, key, icon, children, type) {
     getItem("DEPLOY", "deploy"),
     getItem("LogOut", "logout"),
   ];
-const Navi =()=>{
-    const onSearch = (value) => console.log(value);
+const Navi =({search})=>{
     const navigate = useNavigate();
     const selectKey = {
         deploy: () => {
-          navigate("/nftmint");
+          navigate("nftmint");
         },
         logout: () => {
           persistor.purge();
           window.location.replace("/");
         },
     };
+    const onSearch = (value) => {
+      search(value);
+    };
     const onMenu = (e) => {
       selectKey[e.key]();
     };
     return (
-        <div>
-            <div style={{float: "left",width: "120px",height: "31px",margin: "16px 24px 16px 0",background: "rgba(255, 255, 255, 0.3)"}} />
+        <div className="navi">
+            <img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="logo"></img>
             
             <Search
             placeholder="input search text"
@@ -47,7 +49,7 @@ const Navi =()=>{
             
             <Menu
                 onClick={onMenu}
-                style={{display: "flex",justifyContent:"end"}}
+                style={{ minWidth: 0, flex: "auto" ,display:"flex",justifyContent:"right"}}
                 theme='dark'
                 mode="horizontal"
                 items={items}
