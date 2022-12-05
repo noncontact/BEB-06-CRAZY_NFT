@@ -1,16 +1,12 @@
 import axios from "axios";
 import { setInterceptors } from "./common/interceptors";
 
-console.log("현재 연결서버주소", process.env.REACT_APP_BASE_URL);
+console.log("현재 연결서버주소", process.env.REACT_APP_URL);
 
 // 액시오스 초기화 함수
 function createInstanceWithAuth(url, type) {
   const instance = axios.create({
-<<<<<<< HEAD
-    baseURL: `${process.env.REACT_APP_BASE_URL}/${url}`,
-=======
     baseURL: `${process.env.REACT_APP_URL}/${url}`,
->>>>>>> dev
   });
   return setInterceptors(instance, type);
 }
