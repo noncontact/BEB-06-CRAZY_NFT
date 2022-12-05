@@ -27,7 +27,8 @@ const Main = () => {
   }, []);
 
   const handleImgError = (e)=>{
-    e.target.src ='/No-image-found.jpg'
+    e.target.src ='/No-image-found.jpg';
+    e.target.onError=null;
   }
   const search = (value)=>{
     const newFilterd=clubs.filter((data)=>data.title.includes(value));
