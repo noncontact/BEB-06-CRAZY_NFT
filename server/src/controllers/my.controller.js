@@ -194,3 +194,29 @@ exports.get_admin_allow = async (req, res, next) => {
     });
   }
 };
+
+// ✅ API 19. 운영자 MyPage 에서 개설한 모든 클럽 조회 
+exports.get_admin_club = async (req, res, next) => {
+  try {
+    const { address } = req.params;
+    if (!address) return res.status(404).json({ data: "fail error = 입력정보가 부족합니다" });
+     
+    const result_user = await user.getUserId(address);
+    if(result_user.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_user.value}` });
+    console.log("운영자 MyPage 에서 개설한 모든 클럽 조회", result_user.value.dataValues.id);
+    const result_data = await club.getAdminAllClub(result_user.value.dataValues.id);
+    if(result_data.msg !== "success")
+      return res.status(404).json({ data: `fail error = ${result_data.value}` });
+    
+    return res.status(200).json({
+        data: result_data.value
+    });  
+  }
+  catch (err) {
+    console.log(err);
+    return res.status(404).json({
+      data: `fail error = ${err}`,
+    });
+  }
+}

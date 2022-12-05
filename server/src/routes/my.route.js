@@ -17,5 +17,6 @@ router.get("/content/:address", controller.get_content);
 router.get("/admin/info/:address/:club_id", controller.get_admin_info);
 // API 11. 운영자 MyPage 에서 가입 허용 
 router.get("/admin/allow/:address/:club_id", controller.get_admin_allow);
-
+// API 19. 운영자 MyPage 에서 개설한 모든 클럽 조회 
+router.get("/admin/club/:address", controller.get_admin_club);
 module.exports = router;
