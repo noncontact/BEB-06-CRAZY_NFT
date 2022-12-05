@@ -34,7 +34,7 @@ const NftAllList = () => {
         for(const nft of nfts){
           try {
             let meta=await axios(`https://ipfs.io/ipfs/${nft.token_uri}/${nft.token_id}.json`);
-            let img=meta.data.image;
+            let img=meta.data.image.replace("ipfs://","https://ipfs.io/ipfs/");
             console.log(img);
             jsondata.push({...meta.data,address:nft.address,image:img});
           } catch (err) {
