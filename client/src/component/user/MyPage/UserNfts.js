@@ -41,6 +41,7 @@ const UserNfts = () => {
   const { address } = useSelector((state) => {
     return state.account;
   });
+  
   useEffect(() => {
     const fetchData = async () => {
       const info = await myNft(address);

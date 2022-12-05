@@ -1,7 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button, message } from "antd";
-import { useDispatch } from "react-redux";
 import Icon, { CheckCircleTwoTone } from "@ant-design/icons";
 import KaikasSvg from "component/common/KaikasImage";
 

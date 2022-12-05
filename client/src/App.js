@@ -13,7 +13,6 @@ import {
   CreateClub,
 } from "./pages";
 import { Footer } from "./component";
-import "antd/dist/antd.min.css";
 
 function App() {
   return (
@@ -26,11 +25,12 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/clubmaster" element={<ClubMaster />} />
           <Route path="/clubmain/:name/*" element={<ClubMain />} />
-          <Route path="/CreateClub" element={<CreateClub />} />
+          <Route path="/createclub" element={<CreateClub />} />
+          <Route path="/nftmint" element={<NftMint />} />
           <Route path="/nftalllist/*" element={<NftAllList />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
-        <Footer></Footer>
+        <Footer />
       </BrowserRouter>
     </div>
   );

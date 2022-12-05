@@ -14,12 +14,9 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items1 = [getItem("LogIn", "login"), getItem("SignUP", "signup")];
-const items2 = [
-  getItem("MyPage", "mypage"),
-  getItem("LogOut", "logout"),
-];
+const items2 = [getItem("MyPage", "mypage"), getItem("LogOut", "logout")];
 
-const Navi = ({search}) => {
+const Navi = ({ search }) => {
   const navigate = useNavigate();
 
   const { isLogin } = useSelector((state) => {
@@ -51,7 +48,12 @@ const Navi = ({search}) => {
   };
   return (
     <div className="navi">
-      <img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="logo"></img>
+      <img
+        alt="site_name"
+        src="/crazyNFT.png"
+        onClick={() => navigate("/")}
+        className="logo"
+      ></img>
       <Search
         placeholder="input search text"
         onSearch={onSearch}
@@ -65,7 +67,12 @@ const Navi = ({search}) => {
         onClick={onMenu}
         theme="dark"
         mode="horizontal"
-        style={{ minWidth: 0, flex: "auto" ,display:"flex",justifyContent:"right"}}
+        style={{
+          minWidth: 0,
+          flex: "auto",
+          display: "flex",
+          justifyContent: "right",
+        }}
         items={isLogin ? items2 : items1}
       />
     </div>
