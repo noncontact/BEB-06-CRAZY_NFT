@@ -1,8 +1,9 @@
-import { Image, Col, Row, message } from "antd";
+import { Image, Col, Row, message, Descriptions, Tag, Button } from "antd";
 import React from "react";
 import Caver from "caver-js";
 import { useSelector } from "react-redux";
 import { nftMint } from "api/nft";
+import MenuItem from "antd/lib/menu/MenuItem";
 
 const NftDetail = () => {
   const meta = useSelector((state) => {
@@ -18,17 +19,13 @@ const NftDetail = () => {
     try {
       const { klaytn } = window;
       const caver = new Caver(klaytn);
-      const kip7Instance = await new caver.klay.KIP7(
-        "0xf854ab3a6e551389fea850f6e216b848ef3f6819"
-      );
-      let mintInfo = await kip7Instance.transfer(
-        "0x3891B161e8b21424a86F4Bce374d94e7FEb28DfF",
-        "0x1000000000000",
-        { from: klaytn.selectedAddress }
-      );
+      const kip7Instance = await new caver.klay.KIP7(ca);
+      let mintInfo = await kip7Instance.transfer(server, "0x1000000000000", {
+        from: klaytn.selectedAddress,
+      });
       const tx_hash = mintInfo.transactionHash;
       console.log("d", tx_hash);
-      const result = await nftMint({ address, club_id: "1", tx_hash });
+      const result = await nftMint({ address, club_id, tx_hash });
       message.success(result.data.data.token_uri);
     } catch (error) {
       console.log(error);
@@ -36,29 +33,43 @@ const NftDetail = () => {
   };
   return (
     <div>
-      <button onClick={() => console.log(server)}>server</button>
       <Row>
-        <Col span={6} offset={4}>
-          <Image width={200} src={""} />
+        <Col span={6} offset={2}>
+          <Image width={500} src={meta.image} />
         </Col>
-        <Col span={6} offset={4} style={{ border: "1px solid red" }}>
-          NFT 정보
-          <div>address: {meta.address}</div>
-          <div>name: {meta.name}</div>
-          <div>description: {meta.description}</div>
-          {meta.attributes.map((attribute) => {
-            return (
-              <div key={attribute.trait_type}>
-                trait_type:{attribute.trait_type} value:{attribute.value}
-              </div>
-            );
-          })}
-        </Col>
-      </Row>
-      <Row>
-        <Col span={12} offset={6} style={{ border: "1px solid red" }}>
-          거래 컴포넌트
-          <button onClick={trade}>구입</button>
+        <Col span={6} offset={5}>
+          <Descriptions
+            title={meta.name}
+            layout="vertical"
+            bordered
+            style={{ background: "#e2b6ff" }}
+          >
+            <Descriptions.Item label="Owner" span={3}>
+              {meta.address}
+            </Descriptions.Item>
+            <Descriptions.Item label="description" span={3}>
+              {meta.description}
+            </Descriptions.Item>
+            <Descriptions.Item label="attributes" span={3}>
+              {meta.attributes.map((attribute, index) => {
+                return (
+                  <Tag key={attribute.trait_type} color="#f50">
+                    {attribute.trait_type} : {attribute.value}
+                  </Tag>
+                );
+              })}
+            </Descriptions.Item>
+            <Descriptions.Item label="price" span={3}>
+              100 JQS
+            </Descriptions.Item>
+          </Descriptions>
+          <Button
+            onClick={trade}
+            type="primary"
+            style={{ width: "293px", height: "50px" }}
+          >
+            구입
+          </Button>
         </Col>
       </Row>
     </div>

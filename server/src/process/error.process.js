@@ -1,8 +1,8 @@
 exports.return_function = (result, type = true) => {
-    console.log("result = " , result)
+    //console.log("result = " , result)
     if(type) {
         if(result !== null) {
-            const data = {
+            const data = { 
                 msg : "success",
                 value : result
             }

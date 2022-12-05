@@ -19,7 +19,7 @@ const items2 = [
   getItem("LogOut", "logout"),
 ];
 
-const Navi = () => {
+const Navi = ({search}) => {
   const navigate = useNavigate();
 
   const { isLogin } = useSelector((state) => {
@@ -43,38 +43,29 @@ const Navi = () => {
       window.location.replace("/");
     },
   };
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    search(value);
+  };
   const onMenu = (e) => {
     selectKey[e.key]();
   };
   return (
-    <div>
-      <div
-        onClick={() => navigate("/")}
-        style={{
-          float: "left",
-          width: "120px",
-          height: "31px",
-          margin: "16px 24px 16px 0",
-          background: "rgba(255, 255, 255, 0.3)",
-        }}
-      ></div>
-
+    <div className="navi">
+      <img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="logo"></img>
       <Search
         placeholder="input search text"
         onSearch={onSearch}
         style={{
           width: 600,
-          float: "left",
           padding: "15px",
         }}
       />
 
       <Menu
         onClick={onMenu}
-        style={{ display: "flex", justifyContent: "end" }}
         theme="dark"
         mode="horizontal"
+        style={{ minWidth: 0, flex: "auto" ,display:"flex",justifyContent:"right"}}
         items={isLogin ? items2 : items1}
       />
     </div>

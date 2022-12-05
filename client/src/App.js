@@ -28,8 +28,6 @@ function App() {
           <Route path="/clubmain/:name/*" element={<ClubMain />} />
           <Route path="/CreateClub" element={<CreateClub />} />
           <Route path="/nftalllist/*" element={<NftAllList />} />
-
-          <Route path="/nftmint" element={<NftMint />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer></Footer>
