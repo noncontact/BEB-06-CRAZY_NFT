@@ -1,38 +1,35 @@
+import React from "react";
 
-import React from 'react';
+import { imgUpload } from "api/nft";
+import { useSelector } from "react-redux";
+import { message } from "antd";
 
-import { imgUpload } from '../../api/nft';
-import { useSelector } from 'react-redux';
-import { message } from 'antd';
-
-const Deploy2 = ({finishStep}) => {
+const Deploy2 = ({ finishStep }) => {
   const clubId = useSelector((state) => {
     return state.club.clubId;
   });
 
-    const upload = async(e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        console.log(e.target.file.files);
-        const fileList=Object.values(e.target.file.files);
-        fileList.forEach((img)=>{
-          formData.append('img', img);
-        });
-        
-        formData.append('club_id', clubId);
-        formData.append('dir', 2); 
-        formData.append('total', 5); 
-        try {
-          message.loading('Action in progress..');
-            await imgUpload(formData);
-            message.success('Upload finished');
-            finishStep();
-      }
-      catch(e) {
-          console.log(e);
-      }
-    };
+  const upload = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    console.log(e.target.file.files);
+    const fileList = Object.values(e.target.file.files);
+    fileList.forEach((img) => {
+      formData.append("img", img);
+    });
 
+    formData.append("club_id", clubId);
+    formData.append("dir", 2);
+    formData.append("total", 5);
+    try {
+      message.loading("Action in progress..");
+      await imgUpload(formData);
+      message.success("Upload finished");
+      finishStep();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div>
@@ -40,10 +37,12 @@ const Deploy2 = ({finishStep}) => {
         <div className="w-full text-center mt-4 font-bold">
           <span className="text-4xl text-red-700">
             body(두번쨰 아래 레이아웃인 이미지)를 업로드하세요!
-            <div style={{color:"red"}}>
+            <div style={{ color: "red" }}>
               <div>!주의!</div>
               <div>한번 업로드가 되면 다시 업로드 시킬수 없습니다.</div>
-              <div>다음 단계로 넘어 갈시에도 이전 단계로 되돌릴수 없습니다.</div>
+              <div>
+                다음 단계로 넘어 갈시에도 이전 단계로 되돌릴수 없습니다.
+              </div>
             </div>
           </span>
         </div>

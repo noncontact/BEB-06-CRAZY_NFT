@@ -1,9 +1,9 @@
 import React from "react";
 
-import { imgUpload } from "../../api/nft";
+import { imgUpload } from "api/nft";
 import { useSelector } from "react-redux";
-import { message } from 'antd';
-const Deploy4 = ({finishStep}) => {
+import { message } from "antd";
+const Deploy4 = ({ finishStep }) => {
   const clubId = useSelector((state) => {
     return state.club.clubId;
   });
@@ -19,9 +19,9 @@ const Deploy4 = ({finishStep}) => {
     formData.append("dir", 4);
     formData.append("total", 5);
     try {
-      message.loading('Action in progress..');
+      message.loading("Action in progress..");
       await imgUpload(formData);
-      message.success('Upload finished');
+      message.success("Upload finished");
       finishStep();
     } catch (e) {
       console.log(e);
@@ -33,11 +33,13 @@ const Deploy4 = ({finishStep}) => {
       <form encType="multipart/form-data" onSubmit={upload}>
         <div className="w-full text-center mt-4 font-bold">
           <span className="text-4xl text-red-700">
-          (네번쨰 아래 레이아웃인 이미지)를 업로드하세요!
-          <div style={{color:"red"}}>
+            (네번쨰 아래 레이아웃인 이미지)를 업로드하세요!
+            <div style={{ color: "red" }}>
               <div>!주의!</div>
               <div>한번 업로드가 되면 다시 업로드 시킬수 없습니다.</div>
-              <div>다음 단계로 넘어 갈시에도 이전 단계로 되돌릴수 없습니다.</div>
+              <div>
+                다음 단계로 넘어 갈시에도 이전 단계로 되돌릴수 없습니다.
+              </div>
             </div>
           </span>
         </div>
