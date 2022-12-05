@@ -18,6 +18,9 @@ function clubEntryList(address, club_id) {
 function clubEntry(address, club_id) {
   return my.get(`admin/allow/${address}/${club_id}`);
 }
+function myAdminClub(address) {
+  return my.get(`admin/club/${address}`);
+}
 
 /*function updateProfileUser(imgData) {
   return sign.post("signintes", imgData);
@@ -27,4 +30,12 @@ function logoutUser() {
   return sign.post("logout");
 }*/
 
-export { myDetail, myClub, myNft, myContent, clubEntryList, clubEntry };
+export {
+  myDetail,
+  myClub,
+  myNft,
+  myContent,
+  clubEntryList,
+  clubEntry,
+  myAdminClub,
+};

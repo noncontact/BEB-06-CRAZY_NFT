@@ -32,7 +32,7 @@ const props = {
 };
 
 const CreateClub = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const { address } = useSelector((state) => {
     return state.account;
   });
@@ -58,13 +58,17 @@ const CreateClub = () => {
     } catch (error) {
       message.error("생성에 실패 했습니다.");
     }
-    
   };
 
   return (
     <>
       <Layout>
-      <img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="logo"></img>
+        <img
+          alt="site_name"
+          src="/crazyNFT.png"
+          onClick={() => navigate("/")}
+          className="logo"
+        ></img>
         <Form onFinish={onFinish}>
           <h2>클럽 이름</h2>
           <Form.Item name="title">
