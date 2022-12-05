@@ -39,7 +39,7 @@ const cataId = {
   rare: 5,
   superrare: 6,
 };
-const Catagory = () => {
+const Category = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { clubName, clubId, catagory, catagoryId } = useSelector((state) => {
@@ -101,4 +101,4 @@ const Catagory = () => {
     </>
   );
 };
-export default Catagory;
+export default Category;

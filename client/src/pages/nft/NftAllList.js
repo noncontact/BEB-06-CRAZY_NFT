@@ -1,7 +1,7 @@
 import { NftNavi } from "component";
 import NftDetail from "./NftDetail";
 import NftMint from "./NftMint";
-import { Layout, List, Card, Skeleton } from "antd";
+import { Layout, List, Card } from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { getClubNfts } from "api/nft";
@@ -10,17 +10,9 @@ import axios from "axios";
 const { Header, Content } = Layout;
 const { Meta } = Card;
 
-<<<<<<< HEAD
-const data = [<Skeleton active />, <Skeleton active />, <Skeleton active />];
 const NftAllList = () => {
-  const [nftList, setNftList] = useState(data);
+  const [nftList, setNftList] = useState([]);
   const [filtered, setFiltered] = useState([]);
-=======
-
-const NftAllList = () => {
-  const [nftList,setNftList]=useState([]);
-  const [filtered,setFiltered]=useState([]);
->>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { clubId } = useSelector((state) => {
@@ -34,17 +26,15 @@ const NftAllList = () => {
         const jsondata = [];
         for (const nft of nfts) {
           try {
-<<<<<<< HEAD
             let meta = await axios(
               `https://ipfs.io/ipfs/${nft.token_uri}/${nft.token_id}.json`
             );
-            jsondata.push({ ...meta.data, address: nft.address });
-=======
-            let meta=await axios(`https://ipfs.io/ipfs/${nft.token_uri}/${nft.token_id}.json`);
-            let img=meta.data.image.replace("ipfs://","https://ipfs.io/ipfs/");
+            let img = meta.data.image.replace(
+              "ipfs://",
+              "https://ipfs.io/ipfs/"
+            );
             console.log(img);
-            jsondata.push({...meta.data,address:nft.address,image:img});
->>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
+            jsondata.push({ ...meta.data, address: nft.address, image: img });
           } catch (err) {
             console.log(err);
           }
@@ -67,9 +57,9 @@ const NftAllList = () => {
     e.target.src = "/No-image-found.jpg";
   };
   const search = (value) => {
-    const newFilterd = nftList.filter((data) => data.name.includes(value));
+    const newFilters = nftList.filter((data) => data.name.includes(value));
 
-    setFiltered(newFilterd);
+    setFiltered(newFilters);
   };
 
   return (
@@ -93,10 +83,10 @@ const NftAllList = () => {
                 dataSource={filtered.length !== 0 ? filtered : nftList}
                 renderItem={(item) => (
                   <List.Item>
-<<<<<<< HEAD
                     <Card
                       hoverable
                       onClick={item.address && (() => selectnft(item))}
+                      style={{ width: "275px" }}
                       cover={
                         <img
                           alt="example"
@@ -107,17 +97,8 @@ const NftAllList = () => {
                     >
                       <Meta
                         title={item.name}
-                        description={item.createdAt ? item.createdAt : item}
+                        description={item.image ? item.image : item}
                       />
-=======
-                    <Card 
-                    hoverable
-                    onClick={item.address&&(()=>selectnft(item))}
-                    style={{width:"275px"}}
-                    cover={<img alt="example" src={item.image} onError={handleImgError}/>}
-                    >
-                      <Meta title={item.name} description={item.image?item.image:item} />
->>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
                     </Card>
                   </List.Item>
                 )}

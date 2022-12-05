@@ -1,18 +1,13 @@
-import { Image, Col, Row,Descriptions, Tag } from "antd";
+import { Image, Col, Row, Descriptions, Tag } from "antd";
 import React from "react";
 
 import { useSelector } from "react-redux";
-<<<<<<< HEAD
-import { nftMint } from "api/nft";
-=======
-
->>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
 
 const NftDetail = () => {
   const meta = useSelector((state) => {
     return state.nft.meta;
   });
-  
+
   return (
     <div>
       <Row>

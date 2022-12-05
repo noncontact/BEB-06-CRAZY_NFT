@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { ArticleDetail, CreateArticle } from "pages";
-import { Catagory, Articles } from " component";
-import " style/club.css";
+import { Category, Articles } from "component";
+import "style/club.css";
 import { useSelector } from "react-redux";
 
 const ClubMain = () => {
@@ -10,16 +10,10 @@ const ClubMain = () => {
   const { clubImg, clubName } = useSelector((state) => {
     return state.club;
   });
-<<<<<<< HEAD
   const handleImgError = (e) => {
     e.target.src = "/No-image-found.jpg";
+    e.target.onError = null;
   };
-=======
-  const handleImgError = (e)=>{
-    e.target.src ='/No-image-found.jpg';
-    e.target.onError=null;
-  }
->>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
   return (
     <div className="main">
       <div className="head">
@@ -42,7 +36,7 @@ const ClubMain = () => {
       </div>
       <div className="row">
         <div className="side">
-          <Catagory />
+          <Category />
         </div>
         <div className="content">
           <Routes>
