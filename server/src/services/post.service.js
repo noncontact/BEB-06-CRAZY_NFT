@@ -89,7 +89,7 @@ exports.setPostLike = async (UserId, PostId) => {
 };
 
 // category id에 따라 해당 클럽의 게시글 목록
-exports.getContentIndex = async (clubId, categoryId) => {
+exports.getContentIndex = async (ClubId, categoryId) => {
   // 0일경우 전체글,
   try {
     let category =
@@ -103,7 +103,7 @@ exports.getContentIndex = async (clubId, categoryId) => {
           attributes: ["id", "nickname", "profileurl"],
         },
       ],
-      where: { ForumId: { [Op.in]: category } },
+      where: { ForumId: { [Op.in]: category },  ClubId},
     });
     return return_function (result, false)
   }
@@ -133,6 +133,7 @@ exports.setPostWrite = async (
       content,
       img,
       ForumId: categoryId,
+      ClubId : clubId
     });
     
     return return_function ("insert")
