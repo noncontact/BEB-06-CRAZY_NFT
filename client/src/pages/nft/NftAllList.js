@@ -10,14 +10,9 @@ import axios from "axios";
 const { Header, Content } = Layout;
 const { Meta } = Card;
 
-const data = [
-  <Skeleton active />,
-  <Skeleton active />,
-  <Skeleton active />,
-  
-];
+
 const NftAllList = () => {
-  const [nftList,setNftList]=useState(data);
+  const [nftList,setNftList]=useState([]);
   const [filtered,setFiltered]=useState([]);
   const navigate = useNavigate();
   const dispatch= useDispatch();
@@ -34,7 +29,7 @@ const NftAllList = () => {
         for(const nft of nfts){
           try {
             let meta=await axios(`https://ipfs.io/ipfs/${nft.token_uri}/${nft.token_id}.json`);
-            let img=meta.data.image;
+            let img=meta.data.image.replace("ipfs://","https://ipfs.io/ipfs/");
             console.log(img);
             jsondata.push({...meta.data,address:nft.address,image:img});
           } catch (err) {
@@ -85,7 +80,7 @@ const NftAllList = () => {
                 pagination={{
                   pageSize: 12,
                 }}
-                dataSource={nftList}
+                dataSource={filtered.length!==0?filtered:nftList}
                 renderItem={(item) => (
                   <List.Item>
                     <Card 
