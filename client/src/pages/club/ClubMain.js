@@ -11,7 +11,8 @@ const ClubMain = () => {
     return state.club;
   });
   const handleImgError = (e)=>{
-    e.target.src ='/No-image-found.jpg'
+    e.target.src ='/No-image-found.jpg';
+    e.target.onError=null;
   }
   return (
     <div className="main">
