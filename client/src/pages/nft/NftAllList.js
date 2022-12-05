@@ -10,10 +10,17 @@ import axios from "axios";
 const { Header, Content } = Layout;
 const { Meta } = Card;
 
+<<<<<<< HEAD
 const data = [<Skeleton active />, <Skeleton active />, <Skeleton active />];
 const NftAllList = () => {
   const [nftList, setNftList] = useState(data);
   const [filtered, setFiltered] = useState([]);
+=======
+
+const NftAllList = () => {
+  const [nftList,setNftList]=useState([]);
+  const [filtered,setFiltered]=useState([]);
+>>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { clubId } = useSelector((state) => {
@@ -27,10 +34,17 @@ const NftAllList = () => {
         const jsondata = [];
         for (const nft of nfts) {
           try {
+<<<<<<< HEAD
             let meta = await axios(
               `https://ipfs.io/ipfs/${nft.token_uri}/${nft.token_id}.json`
             );
             jsondata.push({ ...meta.data, address: nft.address });
+=======
+            let meta=await axios(`https://ipfs.io/ipfs/${nft.token_uri}/${nft.token_id}.json`);
+            let img=meta.data.image.replace("ipfs://","https://ipfs.io/ipfs/");
+            console.log(img);
+            jsondata.push({...meta.data,address:nft.address,image:img});
+>>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
           } catch (err) {
             console.log(err);
           }
@@ -79,6 +93,7 @@ const NftAllList = () => {
                 dataSource={filtered.length !== 0 ? filtered : nftList}
                 renderItem={(item) => (
                   <List.Item>
+<<<<<<< HEAD
                     <Card
                       hoverable
                       onClick={item.address && (() => selectnft(item))}
@@ -94,6 +109,15 @@ const NftAllList = () => {
                         title={item.name}
                         description={item.createdAt ? item.createdAt : item}
                       />
+=======
+                    <Card 
+                    hoverable
+                    onClick={item.address&&(()=>selectnft(item))}
+                    style={{width:"275px"}}
+                    cover={<img alt="example" src={item.image} onError={handleImgError}/>}
+                    >
+                      <Meta title={item.name} description={item.image?item.image:item} />
+>>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
                     </Card>
                   </List.Item>
                 )}

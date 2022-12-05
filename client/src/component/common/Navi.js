@@ -14,7 +14,15 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items1 = [getItem("LogIn", "login"), getItem("SignUP", "signup")];
+<<<<<<< HEAD
 const items2 = [getItem("MyPage", "mypage"), getItem("LogOut", "logout")];
+=======
+const items2 = [
+  getItem("MyPage", "mypage"),
+  getItem("CreateClub", "createclub"),
+  getItem("LogOut", "logout"),
+];
+>>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
 
 const Navi = ({ search }) => {
   const navigate = useNavigate();
@@ -34,6 +42,9 @@ const Navi = ({ search }) => {
     },
     mypage: () => {
       navigate("/mypage");
+    },
+    createclub: () => {
+      navigate("/CreateClub");
     },
     logout: () => {
       persistor.purge();

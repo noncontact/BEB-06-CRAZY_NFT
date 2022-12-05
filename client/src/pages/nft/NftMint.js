@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import { Button, Steps, Form, Input } from "antd";
+=======
+import { Button, Steps,Form,Input, message } from "antd"; //message Input
+>>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
 import { Deploy1, Deploy2, Deploy3, Deploy4, Deploy5 } from "component";
 import { nftDeploy } from "api/nft";
 import { useSelector } from "react-redux";
@@ -26,14 +30,21 @@ const NftMint = () => {
 
   const deployNft = async (value) => {
     console.log(value);
-    await nftDeploy({
-      club_id: clubId,
-      nft_name: value.nft_name,
-      nft_symbol: value.nft_symbol,
-      nft_desc: value.nft_desc,
-      nft_price: Number(value.nft_price), // 100 PCT
-      deploy_count: Number(value.deploy_count),
-    });
+    try {
+      const nfts=await nftDeploy({
+        club_id: clubId,
+        nft_name: value.nft_name,
+        nft_symbol: value.nft_symbol,
+        nft_desc: value.nft_desc,
+        nft_price: Number(value.nft_price), // 100 PCT
+        deploy_count: Number(value.deploy_count),
+      });
+      console.log(nfts);
+      message.success("발행 성공");
+    } catch (error) {
+      
+    }
+    
   };
 
   return (

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { makeClub } from "api/club";
 import { Layout, Form, Button, Input, message, Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 const { Dragger } = Upload;
 
 const props = {
@@ -31,6 +32,7 @@ const props = {
 };
 
 const CreateClub = () => {
+  const navigate=useNavigate();
   const { address } = useSelector((state) => {
     return state.account;
   });
@@ -45,18 +47,24 @@ const CreateClub = () => {
         upload.file.name;
     }
     console.log("createclub", img, upload, address);
-    const data = await makeClub({
-      address,
-      title,
-      img,
-    });
-
-    if (data === "success") window.location.replace("/");
+    try {
+      const data = await makeClub({
+        address,
+        title,
+        img,
+      });
+      message.success("생성에 성공 했습니다.");
+      window.location.replace("/");
+    } catch (error) {
+      message.error("생성에 실패 했습니다.");
+    }
+    
   };
 
   return (
     <>
       <Layout>
+      <img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="logo"></img>
         <Form onFinish={onFinish}>
           <h2>클럽 이름</h2>
           <Form.Item name="title">

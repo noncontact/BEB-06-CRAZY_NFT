@@ -10,9 +10,16 @@ const ClubMain = () => {
   const { clubImg, clubName } = useSelector((state) => {
     return state.club;
   });
+<<<<<<< HEAD
   const handleImgError = (e) => {
     e.target.src = "/No-image-found.jpg";
   };
+=======
+  const handleImgError = (e)=>{
+    e.target.src ='/No-image-found.jpg';
+    e.target.onError=null;
+  }
+>>>>>>> e8bc5e7bfa52082823bc3bb81bad7f27b54ac900
   return (
     <div className="main">
       <div className="head">
