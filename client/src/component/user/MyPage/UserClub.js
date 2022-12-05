@@ -40,7 +40,12 @@ const UserClub = () => {
         renderItem={(item) => (
           <>
             <List.Item onClick={() => clickclub(item.title)}>
-              <ClubCard hoverable cover={<img alt="club" src={item.img} />}>
+              <ClubCard
+                hoverable
+                cover={
+                  <img style={{ height: "200px" }} alt="club" src={item.img} />
+                }
+              >
                 <Meta title={item.title} description={item.createdAt} />
               </ClubCard>
             </List.Item>
@@ -67,5 +72,6 @@ const gridStyle = {
   backgroundColor: "pink",
   borderRadius: "30px",
 };*/
+
 
 export default UserClub;
