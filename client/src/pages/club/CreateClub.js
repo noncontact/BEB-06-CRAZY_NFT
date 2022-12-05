@@ -47,13 +47,18 @@ const CreateClub = () => {
         upload.file.name;
     }
     console.log("createclub", img, upload, address);
-    const data = await makeClub({
-      address,
-      title,
-      img,
-    });
-
-    if (data === "success") window.location.replace("/");
+    try {
+      const data = await makeClub({
+        address,
+        title,
+        img,
+      });
+      message.success("생성에 성공 했습니다.");
+      window.location.replace("/");
+    } catch (error) {
+      message.error("생성에 실패 했습니다.");
+    }
+    
   };
 
   return (
