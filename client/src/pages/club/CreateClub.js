@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { makeClub } from "api/club";
 import { Layout, Form, Button, Input, message, Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 const { Dragger } = Upload;
 
 const props = {
@@ -31,6 +32,7 @@ const props = {
 };
 
 const CreateClub = () => {
+  const navigate=useNavigate();
   const { address } = useSelector((state) => {
     return state.account;
   });
@@ -57,6 +59,7 @@ const CreateClub = () => {
   return (
     <>
       <Layout>
+      <img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="logo"></img>
         <Form onFinish={onFinish}>
           <h2>클럽 이름</h2>
           <Form.Item name="title">
