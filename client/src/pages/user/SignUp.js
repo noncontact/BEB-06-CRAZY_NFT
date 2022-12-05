@@ -127,7 +127,7 @@ const SignUp = () => {
       <SignUpForm onFinish={onFinish}>
         <SignUpRow gutter={24} justify="space-around" align="middle">
           <SignUpCol span={24}>
-            <Image src={Logo} height={400} preview={false} />
+            <Image src={Logo} height={300} preview={false} />
           </SignUpCol>
           <SignUpCol span={24}>
             <SignUpFormItem name="address" rules={[rule.address]}>
@@ -164,6 +164,14 @@ const SignUp = () => {
             >
               <SignUpInputPassword
                 placeholder="Password"
+                prefix={<KeyOutlined />}
+              />
+            </SignUpFormItem>
+          </SignUpCol>
+          <SignUpCol span={24}>
+            <SignUpFormItem name="password2">
+              <SignUpInputPassword
+                placeholder="Password Check"
                 prefix={<KeyOutlined />}
               />
             </SignUpFormItem>

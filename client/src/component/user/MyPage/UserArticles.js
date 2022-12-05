@@ -42,6 +42,7 @@ const UserArticles = () => {
               height: "700px",
               overflow: "auto",
               padding: "0 16px",
+              background: "white",
             }}
           >
             <InfiniteScroll
@@ -73,7 +74,6 @@ const UserArticles = () => {
                         key="list-vertical-message"
                       />,
                     ]}
-                    style={{ border: "1px solid gray" }}
                   >
                     <h1>
                       <a href={item.href}>{item.title}</a>
@@ -85,7 +85,7 @@ const UserArticles = () => {
                       description={item.createdAt}
                       style={{ textAlign: "left" }}
                     />
-                    <img alt="posting" src={item.img} />
+                    {!!item.img ? <img alt="posting" src={item.img} /> : <></>}
                     <br />
                     {item.content}
                     <br />

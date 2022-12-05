@@ -10,6 +10,7 @@ import {
   NftAllList,
   NftMint,
   ErrorPage,
+  CreateClub,
 } from "./pages";
 import { Footer } from "./component";
 import "antd/dist/antd.min.css";
@@ -25,7 +26,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/clubmaster" element={<ClubMaster />} />
           <Route path="/clubmain/:name/*" element={<ClubMain />} />
-
+          <Route path="/CreateClub" element={<CreateClub />} />
           <Route path="/nftalllist/*" element={<NftAllList />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>

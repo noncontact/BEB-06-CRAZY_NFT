@@ -44,7 +44,7 @@ const getKIP7 = async (ca) => {
   };
 };
 
-// 토큰 발행
+// 토큰 전달
 const mintKIP7 = async (ca, from, to, amount) => {
   let data = JSON.stringify({
     from,

@@ -4,7 +4,7 @@ import { Navi } from "component";
 import { allClubsList } from "api/club";
 import { Layout, List, Card, Skeleton,Carousel } from "antd";
 import { useDispatch } from "react-redux";
-import '../style/main.css'
+import 'style/main.css'
 const { Header, Content } = Layout;
 const { Meta } = Card;
 
