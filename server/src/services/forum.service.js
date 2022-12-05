@@ -1,8 +1,9 @@
 const { Forum, Post } = require("#src/models/index.js");
-
+const { return_function, return_err } = require("#src/process/error.process.js");
 // 카테고리에 따라 모든 작성글 목록 정보 가져오기
 exports.getPostIndex = async (club_id, category_id) => {
-    return await Forum.findAll({
+  try {
+    const result =  await Forum.findAll({
       where: {
         id: club_id,
       },
@@ -15,4 +16,31 @@ exports.getPostIndex = async (club_id, category_id) => {
         },
       ],
     });
-  };
+    return return_function (result, false)
+  }
+  catch (err) {
+    return return_err(err)
+  }
+};
+
+exports.getForumAll = async () => {
+  try {
+    const result = await Forum.findAll({
+      attributes: ["id"]
+    });
+    return return_function (result, false)
+  } 
+  catch (err) {
+    return return_err(err)
+  }
+}
+
+exports.setForumValue = async(title, depth, parent, ClubId) => {
+  try {
+    await Forum.create({ title, depth, parent, ClubId });
+    return return_function("insert")
+  }
+  catch (err) {
+    return return_err(err)
+  }
+}

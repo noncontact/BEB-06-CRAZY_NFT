@@ -6,7 +6,7 @@ import {
   UserNfts,
   UserClub,
   ClubEntryList,
-} from "../../component";
+} from "component";
 import React, { useState } from "react";
 
 const { Header, Footer, Sider, Content } = Layout;

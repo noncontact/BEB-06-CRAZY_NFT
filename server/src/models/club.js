@@ -7,7 +7,6 @@ module.exports = class Club extends Sequelize.Model {
         title: {
           type: Sequelize.STRING(100),
           allowNull: false,
-          unique: true,
         },
         img: {
           type: Sequelize.STRING(255),

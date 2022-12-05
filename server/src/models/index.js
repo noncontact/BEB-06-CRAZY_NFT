@@ -17,6 +17,7 @@ const Forum = require("./forum");
 const NFT = require("./nft");
 const NFTUser = require("./nftUser");
 const TranHash = require("./tranHash");
+const Deploy = require("./deploy");
 
 const db = {};
 
@@ -42,6 +43,7 @@ db.NFT = NFT;
 db.UserClub = UserClub;
 db.NFTUser = NFTUser;
 db.TranHash = TranHash;
+db.Deploy = Deploy;
 
 User.init(sequelize);
 Post.init(sequelize);
@@ -55,6 +57,7 @@ NFT.init(sequelize);
 UserClub.init(sequelize);
 NFTUser.init(sequelize);
 TranHash.init(sequelize);
+Deploy.init(sequelize);
 
 User.associate(db);
 Post.associate(db);

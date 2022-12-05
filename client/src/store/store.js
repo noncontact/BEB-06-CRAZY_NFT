@@ -1,18 +1,18 @@
-
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER, } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import accountSlice from './accountSlice';
-import { persistStore } from 'redux-persist';
-import clubSlice from './clubSlice';
-
-
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import accountSlice from "./accountSlice";
+import { persistStore } from "redux-persist";
+import clubSlice from "./clubSlice";
+import nftSlice from "./nftSlice";
 
 const persistConfig = {
   key: "root",
@@ -20,11 +20,10 @@ const persistConfig = {
 };
 
 let rootReducer = combineReducers({
-
-    account: accountSlice.reducer,
-    club: clubSlice.reducer,
-})
-
+  nft: nftSlice.reducer,
+  account: accountSlice.reducer,
+  club: clubSlice.reducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer); // redux-persist
 

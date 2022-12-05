@@ -7,6 +7,7 @@ module.exports = class TranHash extends Sequelize.Model {
         tx_hash: {
           type: Sequelize.STRING(255),
           allowNull: false,
+          unique: true,
         },
       },
       {

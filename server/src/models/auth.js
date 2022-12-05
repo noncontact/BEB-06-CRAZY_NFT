@@ -8,7 +8,6 @@ module.exports = class Auth extends Sequelize.Model {
           // 권한 등급명 (운영자, 레어, 커먼, 언커먼)
           type: Sequelize.STRING(100),
           allowNull: false,
-          unique: true,
         },
       },
       {

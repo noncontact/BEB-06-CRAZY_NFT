@@ -21,6 +21,7 @@ const items = [
   getItem("나의 글", "articles", <SolutionOutlined />),
   getItem("나의 클럽", "club", <SolutionOutlined />),
   getItem("나의 NFT", "nfts", <AppstoreOutlined />),
+  getItem("클럽 가입요청 확인", "entry", <AppstoreOutlined />),
 ];
 
 const UserMenu = ({ selectMenu }) => {
@@ -30,16 +31,18 @@ const UserMenu = ({ selectMenu }) => {
   };
   return (
     <>
-      <div
-        onClick={() => navigate("/")}
-        style={{
-          float: "left",
-          width: "120px",
-          height: "31px",
-          margin: "16px 24px 16px 0",
-          background: "rgba(255, 255, 255, 0.3)",
-        }}
-      />
+      <img 
+      alt="site_name" 
+      src="/crazyNFT.png"  
+      onClick={()=>navigate('/')}
+      style={{
+        float: "left",
+        width: "120px",
+        height: "31px",
+        margin: "16px 24px 16px 0",
+        
+      }}
+      ></img>
       <Menu
         onClick={onClick}
         style={{

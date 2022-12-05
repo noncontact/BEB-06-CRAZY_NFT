@@ -9,3 +9,5 @@ export { default as CreateArticle } from "./club/CreateArticle";
 export { default as NftAllList } from "./nft/NftAllList";
 export { default as NftDetail } from "./nft/NftDetail";
 export { default as NftMint } from "./nft/NftMint";
+export { default as ErrorPage } from "./ErrorPage";
+export { default as CreateClub } from "./club/CreateClub";

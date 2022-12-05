@@ -1,133 +1,88 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Button, Layout, Form, Input, message } from "antd";
-import { SketchOutlined, CheckCircleTwoTone } from "@ant-design/icons";
-import { loginUser } from "../../api/user";
+import { Link } from "react-router-dom";
+import { Button, Layout, Form, Input, Image, message } from "antd";
+import styled from "styled-components";
 
-const { Sider, Content } = Layout;
+import { loginUser } from "api/user";
+import { getCA } from "api/nft";
+import rule from "util/rule.json";
+import Logo from "img/logo.png";
+import Account from "component/common/KaikasButton";
+
+const LoginForm = styled(Form)`
+  width: 60%;
+  height: 800px;
+  align-self: center;
+  background: #f1eee4;
+`;
+
+const SignUpInputPassword = styled(Input.Password)`
+  height: 45px;
+  width: 90%;
+  border-radius: 5px;
+`;
+
+const ButtonWrapper = styled(Button)`
+  width: 90%;
+  height: 45px;
+`;
+
+const onFinishFailed = (errorInfo) => {
+  return console.log("Failed:", errorInfo);
+};
 
 const Login = () => {
-  const formRef = useRef();
-  const [isClick, setIsClick] = useState(true);
-  const navigate = useNavigate();
+  const [address, setAddress] = useState("");
   const dispatch = useDispatch();
 
-  const loadAccountInfo = async () => {
-    const { klaytn } = window;
+  const onFinish = async ({ password }) => {
+    console.log("login Data", address, password);
+    if (!!address && !!password) {
+      const { data } = await loginUser({ address, password });
+      const sev = await getCA();
+      const serverInfo = sev.data.data;
+      const accountInfo = {
+        ...data.data,
+        server: serverInfo.address,
+        ca: serverInfo.ca,
+      };
+      //console.log("login", accountInfo);
+      dispatch({ type: "accountSlice/login", payload: accountInfo });
 
-    if (klaytn) {
-      try {
-        await klaytn.enable();
-        setAccountInfo(klaytn);
-        klaytn.on("accountsChanged", () => setAccountInfo(klaytn));
-      } catch (error) {
-        message.error("User denied account access");
-      }
+      window.location.replace("/");
     } else {
-      message.error(
-        "Non-Kaikas browser detected. You should consider trying Kaikas!"
-      );
+      message.error("address 및 비밀번호를 입력해주세요.");
     }
   };
 
-  const setAccountInfo = async () => {
-    try {
-      const { klaytn } = window;
-      if (klaytn === undefined) return;
-
-      const account = await klaytn.selectedAddress;
-      await formRef.current.setFieldsValue({
-        address: account,
-      });
-      setIsClick(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const onFinish = async ({ address, password }) => {
-    const info = await loginUser({ address, password });
-    console.log(info.data.data);
-
-    dispatch({ type: "accountSlice/login", payload: info.data.data });
-    window.location.replace("/");
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
   return (
     <Layout>
-      <Sider align="center" style={{ height: "100vh", background: "white" }}>
-        <div onClick={() => navigate("/")}>home</div>
-      </Sider>
-      <Layout>
-        <Content align="center">
-          <Form
-            ref={formRef}
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="Address"
-              name="address"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your username!",
-                },
-              ]}
-            >
-              <CheckCircleTwoTone twoToneColor="#52c41a" hidden={isClick} />
-              <Button
-                onClick={loadAccountInfo}
-                type="primary"
-                shape="round"
-                icon={<SketchOutlined />}
-                style={{ minHeight: "44px", minWidth: "280px" }}
-              >
-                Kaikas
-              </Button>
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-
-          <Button onClick={() => navigate("/signup")}>회원가입</Button>
-        </Content>
-      </Layout>
+      <LoginForm
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="on"
+        justify="space-around"
+        align="middle"
+      >
+        <Image src={Logo} height={400} preview={false} />
+        <Form.Item rules={[rule.address]}>
+          <Account address={address} setAddress={setAddress} />
+        </Form.Item>
+        <Form.Item name="password" rules={[rule.password]}>
+          <SignUpInputPassword placeholder="Password" />
+        </Form.Item>
+        <Form.Item>
+          <ButtonWrapper type="primary" htmlType="submit">
+            Submit
+          </ButtonWrapper>
+        </Form.Item>
+        <div>
+          <span>계정이 없으신가요? </span>
+          <Link to="/signup">가입하기</Link>
+        </div>
+      </LoginForm>
     </Layout>
   );
 };
