@@ -1,5 +1,6 @@
 import { NftNavi } from "component";
 import NftDetail from "./NftDetail";
+import NftMint from "./NftMint";
 import { Layout, List, Card ,Skeleton} from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import React, { useState ,useEffect} from "react";
@@ -7,6 +8,8 @@ import { getClubNfts } from "api/nft";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 const { Header, Content } = Layout;
+const { Meta } = Card;
+
 const data = [
   <Skeleton active />,
   <Skeleton active />,
@@ -15,6 +18,7 @@ const data = [
 ];
 const NftAllList = () => {
   const [nftList,setNftList]=useState(data);
+  const [filtered,setFiltered]=useState([]);
   const navigate = useNavigate();
   const dispatch= useDispatch();
   const {clubId}=useSelector((state) =>{
@@ -51,13 +55,21 @@ const NftAllList = () => {
     dispatch({type:"nftSlice/selectNft",payload:{meta}});
     navigate(`/nftalllist/nftdetail/${meta.name}`);
   };
+  const handleImgError = (e)=>{
+    e.target.src ='/No-image-found.jpg'
+  }
+  const search = (value)=>{
+    const newFilterd=nftList.filter((data)=>data.name.includes(value));
+
+    setFiltered(newFilterd);
+  }
 
   return (
     <Layout>
       <Header>
-        <NftNavi />
+        <NftNavi search={search}/>
       </Header>
-      <Content>
+      <Content className="main-content">
         <Routes>
           <Route
             path="*"
@@ -68,16 +80,26 @@ const NftAllList = () => {
                   gutter: 16,
                   column: 4,
                 }}
-                dataSource={nftList}
+                pagination={{
+                  pageSize: 12,
+                }}
+                dataSource={filtered.length!==0?filtered:nftList}
                 renderItem={(item) => (
                   <List.Item>
-                    <Card onClick={item.address&&(()=>selectnft(item))} title={item.name}>{item.image?item.image:item}</Card>
+                    <Card 
+                    hoverable
+                    onClick={item.address&&(()=>selectnft(item))}
+                    cover={<img alt="example" src={item.image} onError={handleImgError}/>}
+                    >
+                      <Meta title={item.name} description={item.createdAt?item.createdAt:item} />
+                    </Card>
                   </List.Item>
                 )}
               />
             }
           />
           <Route path="nftdetail/:id" element={<NftDetail />} />
+          <Route path="nftmint" element={<NftMint />} />
         </Routes>
       </Content>
     </Layout>

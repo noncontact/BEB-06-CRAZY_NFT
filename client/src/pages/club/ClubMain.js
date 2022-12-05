@@ -10,13 +10,16 @@ const ClubMain = () => {
   const {clubImg,clubName} = useSelector((state) => {
     return state.club;
   });
+  const handleImgError = (e)=>{
+    e.target.src ='/No-image-found.jpg'
+  }
   return (
     <div className="main">
       <div className="head"><img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="head-text"></img></div>
       
       <div className="front">
         <div className="front-text">{clubName}</div>
-        <img alt="club_front" src={clubImg} className="front-image"></img>
+        <img alt="club_front" src={clubImg} onError={handleImgError} className="front-image"></img>
         
       </div>
         <div className="row">

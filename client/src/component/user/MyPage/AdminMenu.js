@@ -19,7 +19,7 @@ const items = [
   getItem("나의 글", "articles", <SolutionOutlined />),
   getItem("나의 클럽", "club", <SolutionOutlined />),
   getItem("나의 NFT", "nfts", <AppstoreOutlined />),
-  getItem("클럽 가입 요청", "entry", <AppstoreOutlined />),
+  getItem("클럽 가입 허용", "entry", <AppstoreOutlined />),
 ];
 
 const AdminMenu = ({ selectMenu }) => {
