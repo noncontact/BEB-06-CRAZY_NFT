@@ -11,11 +11,11 @@ const NftDetail = () => {
   
   return (
     <div>
-      <Row>
-        <Col span={6} offset={2}>
+      <Row className="row-nft">
+        <Col>
           <Image width={500} src={meta.image} />
         </Col>
-        <Col span={6} offset={5}>
+        <Col>
           <Descriptions
             title={meta.name}
             layout="vertical"

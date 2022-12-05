@@ -8,7 +8,6 @@ import {
   Main,
   ClubMain,
   NftAllList,
-  NftMint,
   ErrorPage,
   CreateClub,
 } from "./pages";

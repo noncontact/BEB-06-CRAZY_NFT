@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { myDetail } from "api/my";
 import { getBalance, getKIP7 } from "api/klaytn";
-import styled from "styled-components";
 import { AntDesignOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 const App = ({ url }) => (
@@ -51,7 +50,7 @@ const UserInfo = () => {
       });
     };
     fetchData();
-  }, []);
+  }, [address,ca]);
   return (
     <>
       <App url={info.profileurl} />

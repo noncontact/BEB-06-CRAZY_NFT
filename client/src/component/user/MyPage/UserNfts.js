@@ -56,7 +56,7 @@ const UserNfts = () => {
     setOptions(value ? searchResult(value) : []);
   };
   const onSelect = (value) => {
-    //console.log("onSelect", value);
+    console.log("onSelect", value,nfts);
   };
   const data = [
     {

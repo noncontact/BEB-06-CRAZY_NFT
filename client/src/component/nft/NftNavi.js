@@ -37,7 +37,7 @@ const Navi =({search})=>{
         const caver = new Caver(klaytn);
         console.log(ca);
         const kip7Instance = await new caver.klay.KIP7(ca);
-        
+        console.log(server);
         let mintInfo = await kip7Instance.transfer(server, 100000000000000000000, {
           from: address,
         });

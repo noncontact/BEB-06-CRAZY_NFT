@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Card, List } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { myClub } from "api/my";
 const { Meta } = Card;
@@ -55,7 +54,7 @@ const UserClub = () => {
 const ClubCard = styled(Card)`
   border-radius: 20px;
 `;
-const MakeCard = styled(Card.Grid)`
+/*const MakeCard = styled(Card.Grid)`
   width: 20%;
   text-align: center;
   background-color: pink;
@@ -67,6 +66,6 @@ const gridStyle = {
   textAlign: "center",
   backgroundColor: "pink",
   borderRadius: "30px",
-};
+};*/
 
 export default UserClub;

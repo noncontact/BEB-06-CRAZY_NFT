@@ -69,6 +69,21 @@
     order: 2;
     flex-grow: 0;
 }
+.row-nft{
+    
+    justify-content:center;
+    padding: 0px 30px;
+    gap: 10px;
+    width: 100%;
+    
+    
+    
+    /* Inside auto layout */
+    
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
 .content{
     border:1px solid #cf91ff;
     padding:20px;

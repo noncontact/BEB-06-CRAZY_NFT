@@ -1,7 +1,7 @@
 import { NftNavi } from "component";
 import NftDetail from "./NftDetail";
 import NftMint from "./NftMint";
-import { Layout, List, Card ,Skeleton} from "antd";
+import { Layout, List, Card } from "antd";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import React, { useState ,useEffect} from "react";
 import { getClubNfts } from "api/nft";
@@ -46,7 +46,7 @@ const NftAllList = () => {
     };
 
     fetchData();
-  }, []);
+  }, [clubId]);
 
   const selectnft=(meta)=>{
     dispatch({type:"nftSlice/selectNft",payload:{meta}});

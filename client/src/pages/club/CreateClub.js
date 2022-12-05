@@ -48,7 +48,7 @@ const CreateClub = () => {
     }
     console.log("createclub", img, upload, address);
     try {
-      const data = await makeClub({
+      await makeClub({
         address,
         title,
         img,

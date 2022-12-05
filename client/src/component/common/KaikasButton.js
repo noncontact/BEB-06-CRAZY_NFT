@@ -1,7 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button, message } from "antd";
-import { useDispatch } from "react-redux";
 import Icon, { CheckCircleTwoTone } from "@ant-design/icons";
 import KaikasSvg from "component/common/KaikasImage";
 
@@ -26,7 +25,7 @@ const Account = ({ address, setAddress }) => {
 
         // 지갑 변경
         klaytn.on("accountsChanged", (accounts) => {
-          console.log("accountChanged", accounts, accounts.networkVersion);
+          console.log("accountChanged", accounts, networkVersion);
           setAddress(accounts);
         });
 
