@@ -109,3 +109,17 @@ exports.createClub = async (userId, title, img) => {
     return return_err(err);
   }
 };
+
+// 운영자가 개설한 클럽 리스트
+exports.getAdminAllClub = async (userId) => {
+  try {
+    const result = await Club.findAll({
+      attributes: ["id", "title", "img", "createdAt"],
+      where: { AdminId: userId },
+    });
+    return return_function(result, false);
+  } 
+  catch (err) {
+    return return_err(err);
+  }
+};
