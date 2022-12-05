@@ -34,7 +34,9 @@ const NftAllList = () => {
         for(const nft of nfts){
           try {
             let meta=await axios(`https://ipfs.io/ipfs/${nft.token_uri}/${nft.token_id}.json`);
-            jsondata.push({...meta.data,address:nft.address});
+            let img=meta.data.image;
+            console.log(img);
+            jsondata.push({...meta.data,address:nft.address,image:img});
           } catch (err) {
             console.log(err);
           }
@@ -83,15 +85,16 @@ const NftAllList = () => {
                 pagination={{
                   pageSize: 12,
                 }}
-                dataSource={filtered.length!==0?filtered:nftList}
+                dataSource={nftList}
                 renderItem={(item) => (
                   <List.Item>
                     <Card 
                     hoverable
                     onClick={item.address&&(()=>selectnft(item))}
+                    style={{width:"275px"}}
                     cover={<img alt="example" src={item.image} onError={handleImgError}/>}
                     >
-                      <Meta title={item.name} description={item.createdAt?item.createdAt:item} />
+                      <Meta title={item.name} description={item.image?item.image:item} />
                     </Card>
                   </List.Item>
                 )}
