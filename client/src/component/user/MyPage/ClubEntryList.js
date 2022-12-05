@@ -1,7 +1,7 @@
 import { List, Avatar, message } from "antd";
 import { useSelector } from "react-redux";
-import { clubEntry, clubEntryList } from "api/my"; //
-import React, { useState, useEffect } from "react"; //,
+import { clubEntry, clubEntryList } from "api/my";
+import React, { useState, useEffect } from "react";
 
 const ClubEntryList = () => {
   const [entry, setEntry] = useState([]);
@@ -13,7 +13,7 @@ const ClubEntryList = () => {
       try {
         const contents = await clubEntryList(address, 1);
         setEntry(contents.data.data.signup_list);
-        console.log(contents.data.data.signup_list);
+        console.log("클럽승인 확인",contents.data.data.signup_list);
       } catch (error) {
         console.log(error);
       }

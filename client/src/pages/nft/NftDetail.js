@@ -1,5 +1,6 @@
 import { Image, Col, Row, message } from "antd";
 import React from "react";
+import Caver from "caver-js";
 import { useSelector } from "react-redux";
 import { nftMint } from "api/nft";
 
@@ -7,30 +8,35 @@ const NftDetail = () => {
   const meta = useSelector((state) => {
     return state.nft.meta;
   });
-  const {address,server,ca}=useSelector((state)=>{
+  const { address, server, ca } = useSelector((state) => {
     return state.account;
   });
   const club_id = useSelector((state) => {
     return state.club.clubId;
   });
   const trade = async () => {
-    // try {
-    //   const { klaytn } = window;
-    //   const caver = new Caver(klaytn);
-    //   const kip7Instance = await new caver.klay.KIP7("컨트랙트 주소");
-    //   let mintInfo = await kip7Instance.mint("서버 주소", 100000000000000000000, {
-    //     from: address,
-    //   });
-    //   const tx_hash=mintInfo.transactionHash;
-    //   const result=await nftMint({address,club_id,tx_hash});
-    //   message.success(result.data.data.token_uri);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const { klaytn } = window;
+      const caver = new Caver(klaytn);
+      const kip7Instance = await new caver.klay.KIP7(
+        "0xf854ab3a6e551389fea850f6e216b848ef3f6819"
+      );
+      let mintInfo = await kip7Instance.transfer(
+        "0x3891B161e8b21424a86F4Bce374d94e7FEb28DfF",
+        "0x1000000000000",
+        { from: klaytn.selectedAddress }
+      );
+      const tx_hash = mintInfo.transactionHash;
+      console.log("d", tx_hash);
+      const result = await nftMint({ address, club_id: "1", tx_hash });
+      message.success(result.data.data.token_uri);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>
-      <button onClick={()=>console.log(server)}>server</button>
+      <button onClick={() => console.log(server)}>server</button>
       <Row>
         <Col span={6} offset={4}>
           <Image width={200} src={""} />
@@ -40,8 +46,12 @@ const NftDetail = () => {
           <div>address: {meta.address}</div>
           <div>name: {meta.name}</div>
           <div>description: {meta.description}</div>
-          {meta.attributes.map((attribute)=>{
-            return (<div key={attribute.trait_type}>trait_type:{attribute.trait_type} value:{attribute.value}</div>);
+          {meta.attributes.map((attribute) => {
+            return (
+              <div key={attribute.trait_type}>
+                trait_type:{attribute.trait_type} value:{attribute.value}
+              </div>
+            );
           })}
         </Col>
       </Row>

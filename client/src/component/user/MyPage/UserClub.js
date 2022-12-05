@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Card, List } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -7,7 +8,8 @@ import { myClub } from "api/my";
 const { Meta } = Card;
 
 const UserClub = () => {
-  // const [clubs, setClubs] = useState([]);
+  const [clubs, setClubs] = useState([]);
+  const navigate = useNavigate();
   const { address } = useSelector((state) => {
     return state.account;
   });
@@ -15,47 +17,32 @@ const UserClub = () => {
     const fetchData = async () => {
       const contents = await myClub(address);
 
-      // setClubs(contents.data.data.my_club);
+      setClubs(contents.data.data.my_club);
       console.log(contents.data.data.my_club);
     };
 
     fetchData();
   }, [address]);
-  const data = [
-    {
-      title: "TWICE 팬클럽",
-      img: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    },
-    {
-      title: "BTS 팬클럽",
-      img: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    },
-    {
-      title: "블랙핑크 팬클럽",
-      img: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    },
-    {
-      title: "뉴진스 팬클럽",
-      img: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    },
-    {
-      title: "르세라핌 팬클럽",
-      img: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    },
-  ];
+
+  const clickclub = (name) => {
+    if (!!name) {
+      let clubName = name.replace(/\s+/g, "");
+      navigate(`/clubmain/${clubName}`);
+    }
+  };
 
   return (
     <>
       <List
         size="large"
-        grid={{ column: 5 }}
+        grid={{ column: 4 }}
         header={<h1>가입된 클럽</h1>}
-        dataSource={data}
+        dataSource={clubs}
         renderItem={(item) => (
           <>
-            <List.Item>
+            <List.Item onClick={() => clickclub(item.title)}>
               <ClubCard hoverable cover={<img alt="club" src={item.img} />}>
-                <Meta title={item.title} description="www.instagram.com" />
+                <Meta title={item.title} description={item.createdAt} />
               </ClubCard>
             </List.Item>
           </>

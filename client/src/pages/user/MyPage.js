@@ -5,6 +5,7 @@ import {
   UserArticles,
   UserNfts,
   UserClub,
+  ClubEntryList,
 } from "component";
 import React, { useState, useEffect } from "react";
 
@@ -18,6 +19,7 @@ const MyPage = () => {
     articles: <UserArticles />,
     club: <UserClub />,
     nfts: <UserNfts />,
+    entry: <ClubEntryList />,
   };
   const StatusIconComponent = statusIcon[menu];
   const selectMenu = (menu) => {
@@ -29,9 +31,9 @@ const MyPage = () => {
         <UserMenu selectMenu={selectMenu} />
       </Sider>
       <Layout>
-        <Header>Header</Header>
+        <Header />
         <Content>{StatusIconComponent}</Content>
-        <Footer>Footer</Footer>
+        <Footer />
       </Layout>
     </Layout>
   );

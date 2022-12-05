@@ -23,6 +23,9 @@ const Footer = () => {
         <Link to="/clubmain/socker/">clubmain</Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>
+        <Link to="/createclub">createClub</Link>
+      </Breadcrumb.Item>
+      <Breadcrumb.Item>
         <Link to="/clubmain/socker/articledetail/:id">articledetail</Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>
