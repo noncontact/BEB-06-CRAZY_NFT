@@ -16,6 +16,7 @@ function getItem(label, key, icon, children, type) {
 const items1 = [getItem("LogIn", "login"), getItem("SignUP", "signup")];
 const items2 = [
   getItem("MyPage", "mypage"),
+  getItem("CreateClub", "createclub"),
   getItem("LogOut", "logout"),
 ];
 
@@ -37,6 +38,9 @@ const Navi = ({search}) => {
     },
     mypage: () => {
       navigate("/mypage");
+    },
+    createclub: () => {
+      navigate("/CreateClub");
     },
     logout: () => {
       persistor.purge();

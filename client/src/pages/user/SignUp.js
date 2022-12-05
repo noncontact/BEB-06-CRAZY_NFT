@@ -22,6 +22,7 @@ import { registerUser } from "api/user";
 import Logo from "img/logo.png";
 import rule from "util/rule.json";
 import Account from "component/common/KaikasButton";
+import { getCA } from "api/nft";
 
 const upload = {};
 //upload.action = "https://www.mocky.io/v2/5cc8019d300000980a055e76";
@@ -99,10 +100,14 @@ const SignUp = () => {
       password,
       profileurl,
     });
+    const sev=await getCA();
+    const serverInfo=sev.data.data;
     const accountInfo = {
       address,
       nickname,
       profileurl,
+      server:serverInfo.address,
+      ca:serverInfo.ca
     };
 
     dispatch({ type: "accountSlice/login", payload: accountInfo });

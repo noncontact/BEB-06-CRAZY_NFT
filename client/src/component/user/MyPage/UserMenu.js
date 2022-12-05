@@ -31,16 +31,18 @@ const UserMenu = ({ selectMenu }) => {
   };
   return (
     <>
-      <div
-        onClick={() => navigate("/")}
-        style={{
-          float: "left",
-          width: "120px",
-          height: "31px",
-          margin: "16px 24px 16px 0",
-          background: "red",
-        }}
-      />
+      <img 
+      alt="site_name" 
+      src="/crazyNFT.png"  
+      onClick={()=>navigate('/')}
+      style={{
+        float: "left",
+        width: "120px",
+        height: "31px",
+        margin: "16px 24px 16px 0",
+        
+      }}
+      ></img>
       <Menu
         onClick={onClick}
         style={{
