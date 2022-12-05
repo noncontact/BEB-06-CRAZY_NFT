@@ -11,7 +11,7 @@ module.exports = class User extends Sequelize.Model {
           validate: {
             notNull: { msg: "User must have a name" },
             notEmpty: { msg: "Name must not be empty" },
-          },
+          }, 
         },
         password: {
           type: Sequelize.STRING(100),
@@ -26,6 +26,26 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(255),
           allowNull: true,
         },
+        auth: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          defaultValue: 0, 
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.fn("NOW"), //이렇게 수정!
+       },
+       updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.fn("NOW"),
+       },
+       updatedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("NOW"),
+       }
       },
       {
         sequelize,

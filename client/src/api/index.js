@@ -6,7 +6,11 @@ console.log("현재 연결서버주소", process.env.REACT_APP_BASE_URL);
 // 액시오스 초기화 함수
 function createInstanceWithAuth(url, type) {
   const instance = axios.create({
+<<<<<<< HEAD
     baseURL: `${process.env.REACT_APP_BASE_URL}/${url}`,
+=======
+    baseURL: `${process.env.REACT_APP_URL}/${url}`,
+>>>>>>> dev
   });
   return setInterceptors(instance, type);
 }
@@ -19,11 +23,14 @@ export const sign = createInstanceWithAuth("user");
 
 // // http://localhost:3005/club
 export const club = createInstanceWithAuth("club");
+
 // // http://localhost:3005/my
 export const my = createInstanceWithAuth("my");
+
 // // http://localhost:3005/nft
 export const nft = createInstanceWithAuth("nft");
 export const nftMulti = createInstanceWithAuth("nft", "multipart/form-data");
+
 // // http://localhost:3005/post
 // export const post = createInstanceWithAuth("post");
 // export const postW = createInstanceWithAuth("post", "write");

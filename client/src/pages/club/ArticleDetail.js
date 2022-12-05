@@ -1,29 +1,22 @@
 import { Button, Divider,Form, List,Input,Avatar } from 'antd';
+import { HeartTwoTone,MessageOutlined } from '@ant-design/icons';
 import React, { useState,useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDetail,getCommLike,postCommWrite } from '../../api/club';
 const { TextArea } = Input;
 const initArti={
-    result_comment:{
-        count:0,
-        rows:[],
-    },
-    result_post:{
-        User:{
-            nickname:"",
-            profileurl:"",
-            createdAt:"",
-        },
-        content:"",
-        createdAt:"",
-        id:null,
-        img:"",
-        title:"",
-    },
+    id: 0,
+    title: "",
+    content: "",
+    img: "",
+    createdAt: "",
+    user: "",
+    comment: [],
+    like_num: 0,
 };
 const ArticleDetail =()=>{
     const [article,setArticle]=useState(initArti);
-    const {address}=useSelector((state) =>{
+    const {address,nickname,isLogin}=useSelector((state) =>{
         return state.account;
     });
     const {post_id}=useSelector((state) =>{
@@ -33,6 +26,7 @@ const ArticleDetail =()=>{
         try {
             const contents=await getDetail(post_id);
             setArticle(contents.data.data);
+            console.log(contents.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -41,9 +35,11 @@ const ArticleDetail =()=>{
     useEffect(() => {
         fetchData();
     }, []);
+
     const clickLike=async()=>{
         try {
-            await getCommLike(post_id,address);
+            const like=await getCommLike(post_id,address);
+            setArticle({...article,like_num:like.data.data.like_num});
         } catch (error) {
             console.log(error);
         }
@@ -59,20 +55,25 @@ const ArticleDetail =()=>{
         
         
       };
-
+      const fail = (values)=>{
+        console.log(values);
+      }
     return (
-        <div>
+        <div >
             {/*글정보 범위*/}
-            <div>{article.result_post.title}</div>
+            <div style={{fontSize:"30px"}}>{article.title}</div>
+            <div><Avatar src={article.user.profileurl} />{article.user.nickname}</div>
+            <div>{article.createdAt}<MessageOutlined />{article.comment.length}</div>
             <Divider />
             {/*콘탠츠 범위*/}
-            <div>{article.result_post.content}</div>
-            <button onClick={clickLike}>좋아요</button>
+            <div style={{marginBottom:"20px"}}>{article.content}</div>
+            <div onClick={clickLike} style={{fontSize:"12px"}}><HeartTwoTone twoToneColor="#eb2f96" />좋아요{article.like_num}</div>
             <Divider />
             {/**댓글 범위 */}
+            <div style={{ fontSize: "17px",marginBottom:"10px",fontWeight:"bold"}}>댓글</div>
             <List
                 itemLayout="horizontal"
-                dataSource={article.result_comment.rows}
+                dataSource={article.comment}
                 renderItem={(item) => (
                 <List.Item>
                     <List.Item.Meta
@@ -83,13 +84,18 @@ const ArticleDetail =()=>{
                 </List.Item>
                 )}
             />
+            {/**댓글 작성 */}
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
+                style={{background:"#ffffff",border:"1px solid #8a1dde3d",padding:"20px 20px 0px 20px"}}
                 onFinish={onFinish}
+                onFinishFailed={fail}
                 autoComplete="off"
+                disabled={!isLogin}
             >
+                {nickname}
             <Form.Item
                 name="content"
                 rules={[
@@ -101,18 +107,15 @@ const ArticleDetail =()=>{
             <TextArea
                 showCount
                 maxLength={100}
-                placeholder="댓글 작성"
-                rows={4}
+                bordered={false}
+                style={{resize:"none",width:"870px"}}
+                placeholder="댓글을 남겨 보세요"
+                rows={2}
             />
             </Form.Item>
-            <Form.Item
-                wrapperCol={{
-                offset: 8,
-                span: 16,
-                }}
-            >
-                <Button type="primary" htmlType="submit">
-                    Submit
+            <Form.Item>
+                <Button htmlType="submit">
+                    등록
                 </Button>
             </Form.Item>
             

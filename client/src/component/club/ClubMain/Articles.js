@@ -1,7 +1,7 @@
-import { List, Button } from "antd";
+import { Table, Button,Divider } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { clubContents } from "../../../api/club";
+import { clubContents } from "api/club";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 /**User
@@ -13,6 +13,28 @@ img,
 title
 }
  */
+const columns = [
+  {
+    title: '제목',
+    dataIndex: 'title',
+    key: 'title',
+  },
+  {
+    title: '닉네임',
+    dataIndex: 'User',
+    key: 'User',
+    render:(tags) => (
+      <>
+        {tags.nickname}
+      </>
+    )
+  },
+  {
+    title: '작성일',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+  },
+];
 const Articles = () => {
   const [articles, setArticles] = useState([]);
   const curLoca = useLocation();
@@ -24,14 +46,18 @@ const Articles = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const contents = await clubContents(clubId, catagoryId);
-
-      setArticles(contents.data.data);
-      console.log(contents.data.data);
+      console.log(clubId, catagoryId);
+      try {
+        const result = await clubContents(clubId, catagoryId);
+        const contents=result.data.data;
+        setArticles(contents);
+      } catch (error) {
+        setArticles([]);
+      }
     };
 
     fetchData();
-  }, [catagoryId]);
+  }, [clubId,catagoryId]);
 
   const selectArticle = (id) => {
     dispatch({ type: "clubSlice/selectPost", payload: { post_id: id } });
@@ -39,10 +65,8 @@ const Articles = () => {
   };
 
   return (
-    <List
-      size="large"
-      header={
-        <div style={{ fontSize: "32px" }}>
+    <>
+      <div style={{ fontSize: "25px",marginBottom:"10px" }}>
           {catagory}{" "}
           <Button
             onClick={() => navigate(`/clubmain/${clubName}/createarticle`)}
@@ -50,24 +74,18 @@ const Articles = () => {
           >
             새 글 쓰기
           </Button>
-        </div>
-      }
-      pagination={{
-        onChange: (page) => {
-          console.log(page);
-        },
-        pageSize: 10,
-      }}
-      dataSource={articles}
-      renderItem={(item) => (
-        <List.Item
-          onClick={() => selectArticle(item.id)}
-          style={{ border: "1px solid gray" }}
-        >
-          title{item.title} nickname{item.User.nickname}
-        </List.Item>
-      )}
-    />
+      </div>
+      <Divider />
+      <Table onRow={(record) => {
+          return {
+            onClick: () => selectArticle(record.id), // click row
+          };
+          }}
+        columns={columns} 
+        dataSource={articles} 
+      />
+    </>
+    
   );
 };
 export default Articles;

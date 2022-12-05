@@ -1,41 +1,40 @@
 import React from "react";
-import { Layout } from "antd";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { ArticleDetail, CreateArticle } from "../../pages";
 import { Catagory, Articles } from "../../component";
-// import { useSelector } from "react-redux";
-const { Header, Sider, Content } = Layout;
+import "../../style/club.css"
+import { useSelector } from "react-redux";
 
 const ClubMain = () => {
-  // const { catagory, catagoryId } = useSelector((state) => {
-  //   return state.club;
-  // });
-  // const statusIcon = {
-  //   all: <div>{catagoryId}</div>,
-  //   notice: <div>{catagoryId}</div>,
-  //   qna: <div>{catagoryId}</div>,
-  //   free: <div>{catagoryId}</div>,
-  //   club: <div>{catagoryId}</div>,
-  //   rare: <div>{catagoryId}</div>,
-  //   superrare: <div>{catagoryId}</div>,
-  // };
-  //const StatusIconComponent = statusIcon[catagory];
+  const navigate=useNavigate();
+  const {clubImg,clubName} = useSelector((state) => {
+    return state.club;
+  });
+  const handleImgError = (e)=>{
+    e.target.src ='/No-image-found.jpg'
+  }
   return (
-    <Layout>
-      <Header>Header</Header>
-      <Layout>
-        <Sider style={{ height: "80vh", background: "#9747FF" }}>
+    <div className="main">
+      <div className="head"><img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="head-text"></img></div>
+      
+      <div className="front">
+        <div className="front-text">{clubName}</div>
+        <img alt="club_front" src={clubImg} onError={handleImgError} className="front-image"></img>
+        
+      </div>
+        <div className="row">
+        <div className="side">
           <Catagory />
-        </Sider>
-        <Content>
+        </div>
+        <div className="content">
           <Routes>
             <Route path="*" element={<Articles />} />
             <Route path="articledetail/:id" element={<ArticleDetail />} />
             <Route path="createarticle" element={<CreateArticle />} />
           </Routes>
-        </Content>
-      </Layout>
-    </Layout>
+        </div>
+        </div>
+    </div>
   );
 };
 export default ClubMain;

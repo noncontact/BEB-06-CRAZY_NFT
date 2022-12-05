@@ -1,49 +1,105 @@
-import { NftNavi } from "../../component";
+import { NftNavi } from "component";
 import NftDetail from "./NftDetail";
-import { Layout, List, Card } from "antd";
-import { Route, Routes } from "react-router-dom";
-import React from "react";
+import NftMint from "./NftMint";
+import { Layout, List, Card ,Skeleton} from "antd";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import React, { useState ,useEffect} from "react";
+import { getClubNfts } from "api/nft";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 const { Header, Content } = Layout;
+const { Meta } = Card;
+
 const data = [
-  {
-    title: "Title 1",
-  },
-  {
-    title: "Title 2",
-  },
-  {
-    title: "Title 3",
-  },
-  {
-    title: "Title 4",
-  },
+  <Skeleton active />,
+  <Skeleton active />,
+  <Skeleton active />,
+  
 ];
 const NftAllList = () => {
+  const [nftList,setNftList]=useState(data);
+  const [filtered,setFiltered]=useState([]);
+  const navigate = useNavigate();
+  const dispatch= useDispatch();
+  const {clubId}=useSelector((state) =>{
+    return state.club;
+  });
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const result = await getClubNfts(clubId);
+        const nfts = result.data.data;
+        const jsondata=[];
+        for(const nft of nfts){
+          try {
+            let meta=await axios(`https://ipfs.io/ipfs/${nft.token_uri}/${nft.token_id}.json`);
+            jsondata.push({...meta.data,address:nft.address});
+          } catch (err) {
+            console.log(err);
+          }
+          
+        }
+        setNftList(jsondata);
+        console.log(jsondata);
+      } catch (error) {
+        console.log(error);
+      }
+      
+    };
+
+    fetchData();
+  }, []);
+
+  const selectnft=(meta)=>{
+    dispatch({type:"nftSlice/selectNft",payload:{meta}});
+    navigate(`/nftalllist/nftdetail/${meta.name}`);
+  };
+  const handleImgError = (e)=>{
+    e.target.src ='/No-image-found.jpg'
+  }
+  const search = (value)=>{
+    const newFilterd=nftList.filter((data)=>data.name.includes(value));
+
+    setFiltered(newFilterd);
+  }
+
   return (
     <Layout>
       <Header>
-        <NftNavi />
+        <NftNavi search={search}/>
       </Header>
-      <Content>
+      <Content className="main-content">
         <Routes>
           <Route
             path="*"
             element={
+              
               <List
                 grid={{
                   gutter: 16,
                   column: 4,
                 }}
-                dataSource={data}
+                pagination={{
+                  pageSize: 12,
+                }}
+                dataSource={filtered.length!==0?filtered:nftList}
                 renderItem={(item) => (
                   <List.Item>
-                    <Card title={item.title}>Card content</Card>
+                    <Card 
+                    hoverable
+                    onClick={item.address&&(()=>selectnft(item))}
+                    cover={<img alt="example" src={item.image} onError={handleImgError}/>}
+                    >
+                      <Meta title={item.name} description={item.createdAt?item.createdAt:item} />
+                    </Card>
                   </List.Item>
                 )}
               />
             }
           />
           <Route path="nftdetail/:id" element={<NftDetail />} />
+          <Route path="nftmint" element={<NftMint />} />
         </Routes>
       </Content>
     </Layout>

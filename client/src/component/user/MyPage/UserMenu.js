@@ -21,6 +21,7 @@ const items = [
   getItem("나의 글", "articles", <SolutionOutlined />),
   getItem("나의 클럽", "club", <SolutionOutlined />),
   getItem("나의 NFT", "nfts", <AppstoreOutlined />),
+  getItem("클럽 가입요청 확인", "entry", <AppstoreOutlined />),
 ];
 
 const UserMenu = ({ selectMenu }) => {
@@ -37,7 +38,7 @@ const UserMenu = ({ selectMenu }) => {
           width: "120px",
           height: "31px",
           margin: "16px 24px 16px 0",
-          background: "rgba(255, 255, 255, 0.3)",
+          background: "red",
         }}
       />
       <Menu
