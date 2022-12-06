@@ -40,12 +40,7 @@ const UserClub = () => {
         renderItem={(item) => (
           <>
             <List.Item onClick={() => clickclub(item.title)}>
-              <ClubCard
-                hoverable
-                cover={
-                  <img style={{ height: "200px" }} alt="club" src={item.img} />
-                }
-              >
+              <ClubCard hoverable cover={<img alt="club" src={item.img} />}>
                 <Meta title={item.title} description={item.createdAt} />
               </ClubCard>
             </List.Item>
@@ -58,6 +53,19 @@ const UserClub = () => {
 
 const ClubCard = styled(Card)`
   border-radius: 20px;
-`; 
+`;
+/*const MakeCard = styled(Card.Grid)`
+  width: 20%;
+  text-align: center;
+  background-color: pink;
+  border-radius: 30px;
+  margin: 10px;
+`;
+const gridStyle = {
+  width: "20%",
+  textAlign: "center",
+  backgroundColor: "pink",
+  borderRadius: "30px",
+};*/
 
 export default UserClub;

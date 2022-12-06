@@ -1,20 +1,21 @@
-import { Image, Col, Row, Descriptions, Tag } from "antd";
+import { Image, Col, Row,Descriptions, Tag } from "antd";
 import React from "react";
 
 import { useSelector } from "react-redux";
+
 
 const NftDetail = () => {
   const meta = useSelector((state) => {
     return state.nft.meta;
   });
-
+  
   return (
     <div>
-      <Row>
-        <Col span={6} offset={2}>
+      <Row className="row-nft">
+        <Col>
           <Image width={500} src={meta.image} />
         </Col>
-        <Col span={6} offset={5}>
+        <Col>
           <Descriptions
             title={meta.name}
             layout="vertical"

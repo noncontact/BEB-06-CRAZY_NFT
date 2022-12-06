@@ -50,7 +50,7 @@ const UserInfo = () => {
       });
     };
     fetchData();
-  }, []);
+  }, [address,ca]);
   return (
     <>
       <App url={info.profileurl} />
