@@ -5,8 +5,8 @@ const initialState = {
   isLogin: false,
   address: null,
   profileurl: null,
-  auth: 0,
-  createdAt: "",
+  auth:0,
+  createdAt:"",
   server: "",
   ca: "",
 };
@@ -20,8 +20,7 @@ const accountSlice = createSlice({
       if (!!action.payload.nickname) state.isLogin = true;
       if (!!action.payload.address) state.address = action.payload.address;
       if (!!action.payload.auth) state.auth = action.payload.auth;
-      if (!!action.payload.createdAt)
-        state.createdAt = action.payload.createdAt;
+      if (!!action.payload.createdAt) state.createdAt = action.payload.createdAt;
       if (!!action.payload.profileurl)
         state.profileurl = action.payload.profileurl;
       if (!!action.payload.server) state.server = action.payload.server;

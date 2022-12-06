@@ -25,7 +25,7 @@ const Account = ({ address, setAddress }) => {
 
         // 지갑 변경
         klaytn.on("accountsChanged", (accounts) => {
-          console.log("accountChanged", accounts, accounts.networkVersion);
+          console.log("accountChanged", accounts, networkVersion);
           setAddress(accounts);
         });
 

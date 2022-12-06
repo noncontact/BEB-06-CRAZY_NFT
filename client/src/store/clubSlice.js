@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
-const initialState = {
-  clubId: undefined,
-  clubImg: "",
-  clubName: "",
-  catagory: "all",
-  catagoryId: 0,
-  post_id: undefined,
+const initialState= { 
+  clubId:undefined,
+  clubImg:"",
+  clubName:"",
+  catagory:"all",
+  catagoryId:0,
+  post_id:undefined
+
 };
 
 const clubSlice = createSlice({
