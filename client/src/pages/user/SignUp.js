@@ -93,21 +93,21 @@ const SignUp = () => {
         ".ipfs.nftstorage.link/" +
         upload.file.name;
     }
-    console.log("signup", address[0], nickname, password, profileurl);
-     await registerUser({
-      address:address[0],
+    console.log("signup", address, nickname, password, profileurl);
+    await registerUser({
+      address,
       nickname,
       password,
       profileurl,
     });
-    const sev=await getCA();
-    const serverInfo=sev.data.data;
+    const sev = await getCA();
+    const serverInfo = sev.data.data;
     const accountInfo = {
       address,
       nickname,
       profileurl,
-      server:serverInfo.address,
-      ca:serverInfo.ca
+      server: serverInfo.address,
+      ca: serverInfo.ca,
     };
 
     dispatch({ type: "accountSlice/login", payload: accountInfo });
