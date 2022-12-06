@@ -49,7 +49,7 @@ const UserNfts = () => {
     };
 
     fetchData();
-  }, [address]);
+  }, [address, nfts]);
 
   const [options, setOptions] = useState([]);
   const handleSearch = (value) => {

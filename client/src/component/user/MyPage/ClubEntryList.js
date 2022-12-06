@@ -2,6 +2,7 @@ import { List, Avatar, message, Collapse } from "antd";
 import { useSelector } from "react-redux";
 import { clubEntry, clubEntryList, myAdminClub } from "api/my";
 import React, { useState, useEffect } from "react";
+const { Panel } = Collapse;
 
 const ClubEntryList = () => {
   const [club, setClub] = useState([]);
