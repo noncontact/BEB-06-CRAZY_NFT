@@ -77,7 +77,7 @@ const Main = () => {
                     hoverable
                     onClick={()=>clickclub(item.id,item.title,item.img)} 
                     style={{width:"275px"}}
-                    cover={<img alt="example" src={item.img} onError={handleImgError}/>}
+                    cover={<img alt="example" src={item.img}style={{height:"290px"}} onError={handleImgError}/>}
                     >
                       <Meta title={item.title} description={item.createdAt?item.createdAt:item} />
                     </Card>

@@ -93,9 +93,9 @@ const SignUp = () => {
         ".ipfs.nftstorage.link/" +
         upload.file.name;
     }
-    console.log("signup", address[0], nickname, password, profileurl);
+    console.log("signup", address, nickname, password, profileurl);
      await registerUser({
-      address:address[0],
+      address:address,
       nickname,
       password,
       profileurl,
