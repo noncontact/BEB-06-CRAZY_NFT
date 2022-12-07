@@ -4,11 +4,13 @@ const path = require("path");
 const cors = require("cors");
 //const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+
 const dotenv = require("dotenv").config();
 if (dotenv.error) throw dotenv.error;
 require("better-module-alias")(__dirname);
 const { sequelize } = require("#src/models");
 const routes = require("#src/routes");
+
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swaggerhub.json");
 
@@ -33,6 +35,7 @@ console.log("server start-------------------");
 app.use(cors(corsOption));
 
 sequelize
+
   .sync({ alter: false }) // force:true 일경우 테이블 전부 지우고 새로 설정~!  alter
   //.authenticate ()
   .then(() => {
@@ -40,6 +43,7 @@ sequelize
     console.log(
       `✅ Server running on http://localhost:${app.get("port")}/api-docs`
     );
+
   })
   .catch((err) => {
     console.error(err);

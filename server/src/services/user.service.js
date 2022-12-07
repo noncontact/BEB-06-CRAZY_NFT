@@ -1,3 +1,4 @@
+
 const { User, Club } = require("#src/models/index.js");
 const { return_function, return_err } = require("#src/process/error.process.js");
 // 유저 Id 가져오기
@@ -100,4 +101,5 @@ exports.setUserClub = async (userId, clubId) => {
   catch (err) {
     return return_err(err)
   }
+
 };

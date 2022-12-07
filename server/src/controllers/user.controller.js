@@ -1,3 +1,4 @@
+
 //const jwt = require("jsonwebtoken");
 const { user } = require("#src/services/index"); 
 const contract = require("#src/process/contract.process");
@@ -69,4 +70,5 @@ exports.post_signup = async function (req, res, next) {
     });
   }
 };
+
 

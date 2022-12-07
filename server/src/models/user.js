@@ -4,6 +4,7 @@ module.exports = class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+
         nickname: {
           type: Sequelize.STRING(15),
           allowNull: false,
@@ -12,6 +13,7 @@ module.exports = class User extends Sequelize.Model {
             notNull: { msg: "User must have a name" },
             notEmpty: { msg: "Name must not be empty" },
           }, 
+
         },
         password: {
           type: Sequelize.STRING(100),
@@ -20,6 +22,7 @@ module.exports = class User extends Sequelize.Model {
         address: {
           type: Sequelize.STRING(100),
           allowNull: false,
+
           unique: true,
         },
         profileurl: {
@@ -46,6 +49,7 @@ module.exports = class User extends Sequelize.Model {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("NOW"),
        }
+
       },
       {
         sequelize,
@@ -53,7 +57,9 @@ module.exports = class User extends Sequelize.Model {
         underscored: false,
         modelName: "User",
         tableName: "users",
+
         paranoid: true, // 실제 삭제하지 않고 deleteAt 만들기
+
         charset: "utf8",
         collate: "utf8_general_ci",
       }
@@ -61,6 +67,7 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
+
     db.User.hasMany(db.Post, { foreignKey: "UserId" });
     db.User.hasMany(db.TranHash, { foreignKey: "UserId" });
     db.User.hasMany(db.Comment, { foreignKey: "Commenter", sourceKey: "id" });
@@ -83,5 +90,6 @@ module.exports = class User extends Sequelize.Model {
       through: "PostLike",
     });
     //db.User.hasMany(db.PostLike, { foreignKey: "LikeUserId", sourceKey: "id" });
+
   }
 };

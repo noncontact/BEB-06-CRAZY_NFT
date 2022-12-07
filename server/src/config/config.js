@@ -1,3 +1,4 @@
+
 const env = process.env;
 
 const development = {
@@ -8,6 +9,7 @@ const development = {
   port: env.MYSQL_PORT || "3306",
   dialect: "mysql",
   dialectOptions: { charset: "utf8mb4", dateStrings: true, typeCast: true }, // 날짜의 경우 문자열로 타입 변경 처리
+
   timezone: "+09:00",
   // dialectOptions: {
   //   options: {

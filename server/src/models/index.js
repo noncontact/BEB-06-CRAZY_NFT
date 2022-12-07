@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const dotenv = require("dotenv").config;
+
 if (dotenv.error) throw dotenv.error;
 
 const env = process.env.NODE_ENV || "development";
@@ -19,19 +20,23 @@ const NFTUser = require("./nftUser");
 const TranHash = require("./tranHash");
 const Deploy = require("./deploy");
 
+
 const db = {};
 
 console.log("db연결 데이터확인", config);
 
 const sequelize = new Sequelize(
+
   config.database,
   config.username,
   config.password,
   config
+
 );
 
 db.sequelize = sequelize;
 db.User = User;
+
 db.Post = Post;
 //db.PostLike = PostLike;
 db.Comment = Comment;
@@ -73,3 +78,4 @@ NFTUser.associate(db);
 TranHash.associate(db);
 
 module.exports = db;
+
