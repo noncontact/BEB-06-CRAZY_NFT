@@ -1,97 +1,105 @@
-const { db } = require("@src/models/index.js");
-const { User, Post, PostLike, Comment, CommentLike } = db;
 
-const getUserData = async (email, password) => {
-  return await User.findOne({
-    where: { email, password },
-    include: [
-      { model: User, attributes: ["id", "email", "nickname"], as: "Followers" },
-      {
-        model: User,
-        attributes: ["id", "email", "nickname"],
-        as: "Followings",
-      },
-    ],
-  });
+const { User, Club } = require("#src/models/index.js");
+const { return_function, return_err } = require("#src/process/error.process.js");
+// 유저 Id 가져오기
+exports.getUserId = async (address) => {
+  try {
+    const result = await User.findOne({
+      attributes: ["id", "auth"],
+      where: { address },
+    });
+    return return_function(result)
+  }
+  catch (err) {
+    return return_err(err)
+  }
 };
 
-const createUser = async (email, password, nickname, address) => {
-  const result = await User.create({
-    email,
-    nickname,
-    password,
-    address,
-  });
-  return result;
+// 유저 정보 가져오기
+exports.getUser = async (address, password) => {
+  try {
+    const result = await User.findOne({
+      attributes: ["id", "nickname", "auth", "profileurl", "address", "createdAt"],
+      where: { address, password },
+    });
+    return return_function(result)
+  }
+  catch (err) {
+    return return_err(err)
+  }
 };
 
-const getUserPost = async (userId) => {
-  const postList = await Post.findAll({
-    attributes: [
-      ["id", "postId"],
-      "title",
-      "content",
-      "img",
-      "createdAt",
-      "updatedAt",
-    ],
-    include: [
-      { model: User, attributes: ["email", "nickname", "profileurl"] },
-      {
-        model: PostLike,
-        // attributes: [[ sequelize.fn('COUNT', 'id'), 'postLike' ]],
-        include: [
-          { model: User, attributes: ["email", "nickname", "profileurl"] },
-        ],
-        order: [["id", "DESC"]],
-      },
-      {
-        model: Comment,
-        attributes: [
-          ["id", "commentId"],
-          "content",
-          "createdAt",
-          "updatedAt",
-          "commenter",
-          "postId",
-        ],
-        include: [
-          { model: User, attributes: ["email", "nickname", "profileurl"] },
-          {
-            model: CommentLike,
-            // attributes: [[ sequelize.fn('COUNT', 'id'), 'commentLike' ]],
-            include: [
-              { model: User, attributes: ["email", "nickname", "profileurl"] },
-            ],
-            order: [["id", "DESC"]],
+// 나의 정보 가져오기
+exports.getMyDetail = async (userId) => {
+  try{
+    const result = await User.findOne({
+      attributes: ["id", "nickname", "auth", "profileurl", "address", "createdAt"],
+      where: { id: userId },
+    });
+    return return_function(result)
+  }
+  catch (err) {
+    return return_err(err)
+  }
+};
+
+// 유저 생성하기
+exports.createUser = async (address, password, nickname, profileurl) => {
+  try {
+    await User.create({
+      address,
+      password,
+      nickname,
+      profileurl,
+    });
+    return return_function("insert")
+  }
+  catch (err) {
+    console.log("err = ", err)
+    return return_err(err)
+  }
+};
+
+// 나의 가입 Club 목록
+exports.getMyClubs = async (userId) => {
+  try {
+    const result = await User.findAll({
+      include: [
+        {
+          model: Club,
+          as: "ApplyClub",
+          attributes: ["id", "title", "img"],
+          through: {
+            attributes: ["createdAt"],
+            where: { use: true },
           },
-        ],
-        order: [["id", "DESC"]],
-      },
-    ],
-    where: { userId: userId },
-    order: [["id", "DESC"]],
-  });
-  return postList;
+        },
+      ],
+      attributes: [],
+      where: { id: userId },
+    });
+    return return_function(result, false)
+  }
+  catch (err) {
+    return return_err(err)
+  }
 };
 
-const updateUser = async (profileUrl, userId) => {
-  const update = await User.update(
-    {
-      profileurl: profileUrl,
-    },
-    {
-      where: {
-        id: userId,
-      },
+// 클럽 가입신청
+exports.setUserClub = async (userId, clubId) => {
+  try {
+    const user = await User.findOne({
+      where: { id: userId },
+    });
+
+    if (user !== null) {
+      await user.addApplyClub(parseInt(clubId, 10));
+      return_function("insert")
     }
-  );
-  return update;
-};
+    return return_function(user)
+  }
+  catch (err) {
+    return return_err(err)
+  }
 
-module.exports = {
-  getUserData,
-  createUser,
-  getUserPost,
-  updateUser,
 };

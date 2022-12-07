@@ -1,10 +1,41 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { userSlice } from "./slice";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import accountSlice from "./accountSlice";
+import { persistStore } from "redux-persist";
+import clubSlice from "./clubSlice";
+import nftSlice from "./nftSlice";
 
-const store = configureStore({
-  reducer: {
-    user: userSlice.reducer,
-  },
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+let rootReducer = combineReducers({
+  nft: nftSlice.reducer,
+  account: accountSlice.reducer,
+  club: clubSlice.reducer,
 });
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, rootReducer); // redux-persist
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+const persistor = persistStore(store);
+export { store, persistor };

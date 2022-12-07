@@ -1,14 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
-const usersRouter = require("./users.route.js");
-const postRouter = require("./post.route.js");
-const contractRouter = require("./contract.route.js");
-const commentRouter = require("./comment.route.js");
 
-router.use("/user", usersRouter);
-router.use("/post", postRouter);
-router.use("/comment", commentRouter);
-router.use("/contract", contractRouter);
+const mainRouter = require("./main.route.js");
+const userRouter = require("./user.route.js");
+const clubRouter = require("./club.route.js");
+const myRouter = require("./my.route.js");
+const nftRouter = require("./nft.route.js");
+
+router.use("/", mainRouter);
+router.use("/user", userRouter);
+router.use("/club", clubRouter);
+router.use("/my", myRouter);
+router.use("/nft", nftRouter);
+
 
 module.exports = router;

@@ -1,0 +1,38 @@
+.navi{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items:center;
+    width: 100%;
+}
+.logo{
+    
+    width: 120px;
+    height: 31px;
+}
+
+.main-content{
+    padding: 50px;
+    background: rgb(241, 232, 245);
+}
+.slide1{
+    height: 250px;
+    color: #fff;
+    line-height: 250px;
+    text-align: center;
+    background-image: url("https://news.samsungdisplay.com/wp-content/uploads/2022/03/IT_tc00480001633_final-1024x449.jpg");
+}
+.slide2{
+    height: 250px;
+    color: #fff;
+    line-height: 250px;
+    text-align: center;
+    background-image: url("https://www.lgcns.com/wp-content/uploads/2022/02/1-14.png");
+}
+.slide3{
+    height: 250px;
+    color: #fff;
+    line-height: 250px;
+    text-align: center;
+    background-image: url("https://www.nongmin.com/upload/bbs/202205/20220517093628619/20220517093628619.jpg");
+}

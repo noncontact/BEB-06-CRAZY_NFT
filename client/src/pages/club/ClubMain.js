@@ -1,30 +1,41 @@
-import { Layout } from 'antd';
-import {  Route, Routes } from 'react-router-dom';
-import {ArticleDetail,CreateArticle} from "../../pages";
-const { Header, Footer, Sider, Content } = Layout;
-const ClubMain =()=>{
+import React from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { ArticleDetail, CreateArticle } from "../../pages";
+import { Catagory, Articles } from "../../component";
+import "../../style/club.css"
+import { useSelector } from "react-redux";
 
-    return (
-        <Layout>
-            <Header>Header</Header>
-            <Layout>
-                <Sider style={{height:"80vh",background:"#9747FF"}}>
-                <li>전체글</li>
-                <li>공지사항</li>
-                <li>Q&A</li>
-                <li>자유게시판</li>
-                <li>카페활동</li>
-                <li>레어글</li>
-                <li>슈퍼레어글</li>
-                </Sider>
-                <Routes>
-                    <Route path="*" element={<Content>Content</Content>} />
-                    <Route path="articledetail/:id" element={<ArticleDetail />} />
-                    <Route path="createarticle" element={<CreateArticle />} />
-                </Routes>
-            </Layout>
-            <Footer>Footer</Footer>
-        </Layout>
-    );
+const ClubMain = () => {
+  const navigate=useNavigate();
+  const {clubImg,clubName} = useSelector((state) => {
+    return state.club;
+  });
+  const handleImgError = (e)=>{
+    e.target.src ='/No-image-found.jpg';
+    e.target.onError=null;
+  }
+  return (
+    <div className="main">
+      <div className="head"><img alt="site_name" src="/crazyNFT.png"  onClick={()=>navigate('/')} className="head-text"></img></div>
+      
+      <div className="front">
+        <div className="front-text">{clubName}</div>
+        <img alt="club_front" src={clubImg} onError={handleImgError} className="front-image"></img>
+        
+      </div>
+        <div className="row">
+        <div className="side">
+          <Catagory />
+        </div>
+        <div className="content">
+          <Routes>
+            <Route path="*" element={<Articles />} />
+            <Route path="articledetail/:id" element={<ArticleDetail />} />
+            <Route path="createarticle" element={<CreateArticle />} />
+          </Routes>
+        </div>
+        </div>
+    </div>
+  );
 };
 export default ClubMain;

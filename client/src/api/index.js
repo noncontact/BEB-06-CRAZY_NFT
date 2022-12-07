@@ -1,10 +1,11 @@
 import axios from "axios";
 import { setInterceptors } from "./common/interceptors";
 
+console.log("현재 연결서버주소", process.env.REACT_APP_URL);
 // 액시오스 초기화 함수
 function createInstanceWithAuth(url, type) {
   const instance = axios.create({
-    baseURL: `http://localhost:3005/${url}`,
+    baseURL: `${process.env.REACT_APP_URL}/${url}`,
   });
   return setInterceptors(instance, type);
 }
@@ -13,10 +14,17 @@ function createInstanceWithAuth(url, type) {
 export const instance = createInstanceWithAuth();
 
 // http://localhost:3005/users
-export const sign = createInstanceWithAuth("users");
+export const sign = createInstanceWithAuth("user");
 
-// // http://localhost:3005/comment
-// export const comment = createInstanceWithAuth("comment");
+// // http://localhost:3005/club
+export const club = createInstanceWithAuth("club");
+
+// // http://localhost:3005/my
+export const my = createInstanceWithAuth("my");
+
+// // http://localhost:3005/nft
+export const nft = createInstanceWithAuth("nft");
+export const nftMulti = createInstanceWithAuth("nft", "multipart/form-data");
 
 // // http://localhost:3005/post
 // export const post = createInstanceWithAuth("post");

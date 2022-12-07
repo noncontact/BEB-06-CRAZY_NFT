@@ -1,0 +1,14 @@
+{
+  "address": {
+    "require": true,
+    "message": "Please interlock Kaikas!"
+  },
+  "nickname": {
+    "required": true,
+    "message": "Please input your nickname!"
+  },
+  "password": {
+    "required": true,
+    "message": "Please input your password!"
+  }
+}
