@@ -19,8 +19,9 @@
 
 ### 플랫폼 모듈 구성
 
+<img width="1000" alt="image" src="https://github.com/noncontact/BEB-06-CRAZY_NFT/assets/46256604/f2204beb-d22b-4afa-9dfa-ded474d83385">
 
-https://blog.kakaocdn.net/dn/dfJpqi/btrRitcAr4c/iO42kxtSgkakQJrigp4MEk/img.png
+
 
 ### ****프로젝트 개발 설계****
 
@@ -40,7 +41,8 @@ https://blog.kakaocdn.net/dn/dfJpqi/btrRitcAr4c/iO42kxtSgkakQJrigp4MEk/img.png
 
 [시스템 구성]
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1211a715-d770-4d56-8112-fe4f0c877e1c/Untitled.png)
+![Untitled](https://github.com/noncontact/BEB-06-CRAZY_NFT/assets/46256604/88a429ab-586b-41f9-b10e-9928228fafc8)
+
 
 - 시스템은 Front와 Back 으로 개발을 하고 외부 연동으로 IPFS와 KLVM을 연동하였다.
 - KLVM은 클레이튼에서 사용하는 가상머신이다.
@@ -48,11 +50,13 @@ https://blog.kakaocdn.net/dn/dfJpqi/btrRitcAr4c/iO42kxtSgkakQJrigp4MEk/img.png
 
 [프론트 화면 구성]
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3cf94e1a-df31-436e-b721-038601838c7f/Untitled.png)
+![Untitled (1)](https://github.com/noncontact/BEB-06-CRAZY_NFT/assets/46256604/a30ad353-033f-41a9-b0b6-21999fe3052e)
+
 
 [데이터베이스 구조]
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/feeae82d-c0ac-48bd-889b-2612654f2aaf/Untitled.png)
+![Untitled (2)](https://github.com/noncontact/BEB-06-CRAZY_NFT/assets/46256604/e79b9c38-6ae7-40cb-b5ac-21294242da50)
+
 
 ### **[필수 요구사항 분석]**
 
@@ -83,12 +87,14 @@ https://blog.kakaocdn.net/dn/dfJpqi/btrRitcAr4c/iO42kxtSgkakQJrigp4MEk/img.png
 
 [주요 기능별 flow]
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f4805dba-b4c2-47d4-959c-02194d722f12/Untitled.png)
+![Untitled (3)](https://github.com/noncontact/BEB-06-CRAZY_NFT/assets/46256604/388e0e11-4709-4953-87de-dbbe3feb3ffd)
+
 
 - 클라이언트에서 회원가입을 하면 무상으로 10 Klay를 지급한다.
 - 클라이언트는 지급받은 klay로 내부 토큰을 서버에 전송할때 가스비로 사용할 수 있다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/64aa7334-6bdb-4711-92f0-2e726c7f5c93/Untitled.png)
+![Untitled (4)](https://github.com/noncontact/BEB-06-CRAZY_NFT/assets/46256604/1d5ea671-5617-42ed-8f1d-0b28ebb65ede)
+
 
 - 클라이언트에서 회원가입을 하면 무상으로 10 Klay를 지급한다.
 - 클라이언트는 지급받은 klay로 내부 토큰을 서버에 전송할때 가스비로 사용할 수 있다.
@@ -98,7 +104,8 @@ https://blog.kakaocdn.net/dn/dfJpqi/btrRitcAr4c/iO42kxtSgkakQJrigp4MEk/img.png
 - 회원은 클럽활동으로 서버로 부터 보상으로 10토큰을 받는다.
 - 그전에 서버는 시작시 내부 토큰을 발행한다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1256e521-7bec-4607-82a6-c9dcccbe37ae/Untitled.png)
+![Untitled (5)](https://github.com/noncontact/BEB-06-CRAZY_NFT/assets/46256604/65f3c506-11fb-4b4a-9ffd-2939a46b8f49)
+
 
 운영자는 서버로 Parts이미지를 전송한다.
 
@@ -107,7 +114,8 @@ https://blog.kakaocdn.net/dn/dfJpqi/btrRitcAr4c/iO42kxtSgkakQJrigp4MEk/img.png
 - 업로드되면 IPFS 로 부터 CID값을 받아 NFT Deploy한다.
 - Deploy를 하면 생성되는 Contract Address를 데이터베이스에 저장한다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/39f39a79-4af3-4ca3-a18d-41b76aaf59d4/Untitled.png)
+![Untitled (6)](https://github.com/noncontact/BEB-06-CRAZY_NFT/assets/46256604/92bfc23c-aed2-439f-be5d-f586eab48b29)
+
 
 - 회원은 클럽활동으로 인하여 보상으로 지급받은 내부 토큰이 100이상이 되면 NFT를 구매할 수 있다.
 - 회원은 서버주소로 100토큰을 보내고 서버에게 NFT 구매(민팅)요청을 한다.
