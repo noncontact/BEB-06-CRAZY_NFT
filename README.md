@@ -1,3 +1,5 @@
+### Notion
+https://www.notion.so/3-BEB-3-Crazy-NFT-9282d689a5db43d18044905300eb71a7?pvs=4
 ### 프로젝트 개요
 
 - 커뮤니티에서 NFT를 도입을 대행하여 누구나 쉽게 NFT 발행을 자동화 할 수 있는 플랫폼 서비스 개발
